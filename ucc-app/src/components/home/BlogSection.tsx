@@ -105,7 +105,8 @@ export const BlogSection = memo(({ posts }: BlogSectionProps) => {
                   backgroundColor: 'background.paper',
                   border: '1px solid',
                   borderColor: 'divider',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  transition:
+                    'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   willChange: 'transform, box-shadow',
                   '&:hover': {
                     transform: 'translateY(-6px)',

@@ -107,7 +107,8 @@ export const ContactSection = memo(({ contactInfo }: ContactSectionProps) => {
                   borderRadius: 3,
                   border: '1px solid',
                   borderColor: 'divider',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  transition:
+                    'border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
                     borderColor: 'primary.light',
                     boxShadow: '0 4px 20px rgba(90, 12, 119, 0.08)',
@@ -148,7 +149,8 @@ export const ContactSection = memo(({ contactInfo }: ContactSectionProps) => {
                   borderRadius: 3,
                   border: '1px solid',
                   borderColor: 'divider',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  transition:
+                    'border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
                     borderColor: 'primary.light',
                     boxShadow: '0 4px 20px rgba(90, 12, 119, 0.08)',
@@ -189,7 +191,8 @@ export const ContactSection = memo(({ contactInfo }: ContactSectionProps) => {
                   borderRadius: 3,
                   border: '1px solid',
                   borderColor: 'divider',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  transition:
+                    'border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
                     borderColor: 'primary.light',
                     boxShadow: '0 4px 20px rgba(90, 12, 119, 0.08)',
@@ -230,7 +233,8 @@ export const ContactSection = memo(({ contactInfo }: ContactSectionProps) => {
                   borderRadius: 3,
                   border: '1px solid',
                   borderColor: 'divider',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  transition:
+                    'border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
                     borderColor: 'primary.light',
                     boxShadow: '0 4px 20px rgba(90, 12, 119, 0.08)',

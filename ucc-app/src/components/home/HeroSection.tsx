@@ -141,7 +141,8 @@ export const HeroSection = memo(() => {
               borderRadius: 3,
               textTransform: 'none',
               boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              transition:
+                'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
                 backgroundColor: 'rgba(255, 255, 255, 1)',
                 transform: 'translateY(-2px)',
@@ -170,7 +171,8 @@ export const HeroSection = memo(() => {
               textTransform: 'none',
               backdropFilter: 'blur(10px)',
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              transition:
+                'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
                 borderColor: 'rgba(255, 255, 255, 0.8)',
                 backgroundColor: 'rgba(255, 255, 255, 0.2)',
