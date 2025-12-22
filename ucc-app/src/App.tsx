@@ -34,7 +34,7 @@ function App() {
             Unity Community Church
           </Typography>
 
-          <Typography variant="h5" color="text.secondary" paragraph>
+          <Typography variant="h5" color="text.secondary">
             Welcome to our informational MVP.
           </Typography>
 
