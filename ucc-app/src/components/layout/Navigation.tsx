@@ -111,7 +111,10 @@ export const Navigation = memo(() => {
           component={hasDropdown ? 'button' : Link}
           to={hasDropdown ? undefined : item.getPath()}
           onClick={
-            hasDropdown ? (e) => handleMenuOpen(e, item.getPath()) : undefined
+            hasDropdown
+              ? (e: MouseEvent<HTMLElement>) =>
+                  handleMenuOpen(e, item.getPath())
+              : undefined
           }
           data-testid={item.getTestId()}
           aria-label={item.getAriaLabel()}
@@ -121,19 +124,25 @@ export const Navigation = memo(() => {
             hasDropdown ? (
               <ArrowDownIcon
                 sx={{
-                  transition: 'transform 0.3s ease',
+                  transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                   transform: menuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  willChange: 'transform',
                 }}
               />
             ) : null
           }
           sx={{
-            color: isActiveRoute(item.getPath())
-              ? 'primary.light'
-              : 'rgba(255, 255, 255, 0.95)',
+            color: isScrolled
+              ? isActiveRoute(item.getPath())
+                ? 'primary.main'
+                : 'text.primary'
+              : isActiveRoute(item.getPath())
+              ? 'rgba(255, 255, 255, 1)'
+              : 'rgba(255, 255, 255, 0.85)',
             fontWeight: isActiveRoute(item.getPath()) ? 600 : 500,
             position: 'relative',
             px: 2,
+            willChange: 'color, background-color',
             '&::after': {
               content: '""',
               position: 'absolute',
@@ -142,16 +151,23 @@ export const Navigation = memo(() => {
               transform: 'translateX(-50%)',
               width: isActiveRoute(item.getPath()) ? '80%' : '0%',
               height: '2px',
-              backgroundColor: 'rgba(255, 255, 255, 0.9)',
-              transition: 'width 0.3s ease',
+              backgroundColor: isScrolled
+                ? 'primary.main'
+                : 'rgba(255, 255, 255, 1)',
+              transition:
+                'width 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              willChange: 'width',
             },
             '&:hover': {
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              backgroundColor: isScrolled
+                ? 'rgba(90, 12, 119, 0.08)'
+                : 'rgba(255, 255, 255, 0.15)',
               '&::after': {
                 width: '80%',
               },
             },
-            transition: 'all 0.2s ease',
+            transition:
+              'color 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         >
           {item.getLabel()}
@@ -198,10 +214,12 @@ export const Navigation = memo(() => {
                   backgroundColor: isActiveRoute(child.getPath())
                     ? 'rgba(90, 12, 119, 0.08)'
                     : 'transparent',
+                  willChange: 'background-color',
                   '&:hover': {
                     backgroundColor: 'rgba(90, 12, 119, 0.12)',
                   },
-                  transition: 'all 0.2s ease',
+                  transition:
+                    'background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
               >
                 {child.getLabel()}
@@ -234,10 +252,14 @@ export const Navigation = memo(() => {
             selected={isActiveRoute(item.getPath())}
             sx={{
               py: 2,
+              transition: 'background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
               '&.Mui-selected': {
                 backgroundColor: 'rgba(90, 12, 119, 0.08)',
                 borderLeft: '4px solid',
                 borderColor: 'primary.main',
+              },
+              '&:hover': {
+                backgroundColor: 'rgba(90, 12, 119, 0.04)',
               },
             }}
           >
@@ -275,8 +297,13 @@ export const Navigation = memo(() => {
                     sx={{
                       pl: 4,
                       py: 1.5,
+                      transition:
+                        'background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                       '&.Mui-selected': {
                         backgroundColor: 'rgba(90, 12, 119, 0.12)',
+                      },
+                      '&:hover': {
+                        backgroundColor: 'rgba(90, 12, 119, 0.06)',
                       },
                     }}
                   >
@@ -353,17 +380,17 @@ export const Navigation = memo(() => {
         data-testid="main-navigation"
         sx={{
           backgroundColor: isScrolled
-            ? 'rgba(255, 255, 255, 0.85)'
-            : 'rgba(90, 12, 119, 0.95)',
-          backdropFilter: isScrolled ? 'blur(20px)' : 'blur(8px)',
-          WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'blur(8px)',
+            ? 'rgba(255, 255, 255, 0.9)'
+            : 'rgba(90, 12, 119, 0.98)',
+          backdropFilter: isScrolled ? 'blur(24px)' : 'blur(10px)',
+          WebkitBackdropFilter: isScrolled ? 'blur(24px)' : 'blur(10px)',
           borderBottom: isScrolled
-            ? '1px solid rgba(90, 12, 119, 0.1)'
-            : '1px solid rgba(255, 255, 255, 0.1)',
+            ? '1px solid rgba(90, 12, 119, 0.12)'
+            : '1px solid rgba(255, 255, 255, 0.15)',
           boxShadow: isScrolled
-            ? '0 4px 30px rgba(0, 0, 0, 0.08)'
-            : '0 4px 20px rgba(90, 12, 119, 0.3)',
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+            ? '0 4px 30px rgba(0, 0, 0, 0.06)'
+            : '0 4px 20px rgba(90, 12, 119, 0.25)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
         <Container maxWidth="lg">
@@ -371,7 +398,7 @@ export const Navigation = memo(() => {
             disableGutters
             sx={{
               minHeight: isScrolled ? { xs: 56, md: 64 } : { xs: 64, md: 80 },
-              transition: 'min-height 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+              transition: 'min-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             }}
           >
             {/* Logo */}
@@ -391,8 +418,11 @@ export const Navigation = memo(() => {
                 fontSize: isScrolled
                   ? { xs: '1rem', md: '1.15rem' }
                   : { xs: '1.1rem', md: '1.35rem' },
-                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 letterSpacing: '-0.02em',
+                textShadow: isScrolled
+                  ? 'none'
+                  : '0 2px 8px rgba(0, 0, 0, 0.15)',
               }}
             >
               Unity Community Church
@@ -428,7 +458,7 @@ export const Navigation = memo(() => {
       <Toolbar
         sx={{
           minHeight: isScrolled ? { xs: 56, md: 64 } : { xs: 64, md: 80 },
-          transition: 'min-height 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          transition: 'minHeight 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       />
     </>
