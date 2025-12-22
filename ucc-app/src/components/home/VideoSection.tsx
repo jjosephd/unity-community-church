@@ -68,14 +68,15 @@ export const VideoSection = memo(
               borderRadius: 4,
               overflow: 'hidden',
               boxShadow: '0 20px 60px rgba(90, 12, 119, 0.15)',
-              backgroundColor: 'rgba(255, 255, 255, 0.8)',
-              backdropFilter: 'blur(10px)',
+              backgroundColor: 'rgba(255, 255, 255, 0.9)',
               p: { xs: 1, sm: 2 },
               transition:
-                'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+              contain: 'layout style paint',
               '&:hover': {
-                transform: 'translateY(-4px)',
+                transform: 'translate3d(0, -4px, 0)',
                 boxShadow: '0 24px 70px rgba(90, 12, 119, 0.2)',
+                willChange: 'transform, box-shadow',
               },
             }}
           >

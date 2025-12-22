@@ -81,16 +81,16 @@ export const CommunitySection = memo(({ items }: CommunitySectionProps) => {
                   flexDirection: 'column',
                   borderRadius: 4,
                   overflow: 'hidden',
-                  backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                  backdropFilter: 'blur(10px)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
                   border: '1px solid rgba(90, 12, 119, 0.08)',
                   boxShadow: '0 8px 32px rgba(90, 12, 119, 0.1)',
                   transition:
-                    'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  willChange: 'transform, box-shadow',
+                    'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                  contain: 'layout style paint',
                   '&:hover': {
-                    transform: 'translateY(-12px)',
+                    transform: 'translate3d(0, -12px, 0)',
                     boxShadow: '0 16px 48px rgba(90, 12, 119, 0.18)',
+                    willChange: 'transform, box-shadow',
                     '& .community-image': {
                       transform: 'scale(1.08)',
                     },

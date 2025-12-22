@@ -106,12 +106,13 @@ export const BlogSection = memo(({ posts }: BlogSectionProps) => {
                   border: '1px solid',
                   borderColor: 'divider',
                   transition:
-                    'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  willChange: 'transform, box-shadow',
+                    'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                  contain: 'layout style paint',
                   '&:hover': {
-                    transform: 'translateY(-6px)',
+                    transform: 'translate3d(0, -6px, 0)',
                     boxShadow: '0 12px 40px rgba(90, 12, 119, 0.12)',
                     borderColor: 'primary.light',
+                    willChange: 'transform, box-shadow',
                     '& .blog-image': {
                       transform: 'scale(1.05)',
                     },

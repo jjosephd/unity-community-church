@@ -92,16 +92,16 @@ export const AboutSection = memo(({ cards }: AboutSectionProps) => {
                     flexDirection: 'column',
                     borderRadius: 3,
                     overflow: 'hidden',
-                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                    backdropFilter: 'blur(10px)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
                     border: '1px solid rgba(90, 12, 119, 0.08)',
                     boxShadow: '0 4px 20px rgba(90, 12, 119, 0.08)',
                     transition:
-                      'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    willChange: 'transform, box-shadow',
+                      'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                    contain: 'layout style paint',
                     '&:hover': {
-                      transform: 'translateY(-8px)',
+                      transform: 'translate3d(0, -8px, 0)',
                       boxShadow: '0 12px 40px rgba(90, 12, 119, 0.15)',
+                      willChange: 'transform, box-shadow',
                       '& .card-icon': {
                         transform: 'scale(1.1) rotate(5deg)',
                         color: 'primary.main',
