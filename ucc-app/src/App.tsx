@@ -1,20 +1,16 @@
-import {
-  ThemeProvider,
-  createTheme,
-  CssBaseline,
-  Button,
-  Typography,
-  Container,
-  Box,
-} from '@mui/material';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider, CssBaseline, Box } from '@mui/material';
 import { churchTheme } from './theme/theme';
+import { Navigation } from './components/layout/Navigation';
 
 function App() {
   return (
-    <ThemeProvider theme={churchTheme}>
-      <CssBaseline />
-      <Container maxWidth="md">
+    <BrowserRouter>
+      <ThemeProvider theme={churchTheme}>
+        <CssBaseline />
+        <Navigation />
         <Box
+          component="main"
           sx={{
             minHeight: '100vh',
             display: 'flex',
@@ -22,39 +18,26 @@ function App() {
             justifyContent: 'center',
             alignItems: 'center',
             textAlign: 'center',
-            gap: 4,
+            px: 2,
           }}
         >
-          <Typography
-            variant="h2"
-            component="h1"
-            gutterBottom
-            className="text-primary font-bold"
+          <h1
+            className="text-4xl font-bold mb-4"
+            style={{ color: 'rgb(90, 12, 119)' }}
           >
             Unity Community Church
-          </Typography>
+          </h1>
+          <p className="text-lg mb-8">Welcome to our informational MVP.</p>
 
-          <Typography variant="h5" color="text.secondary">
-            Welcome to our informational MVP.
-          </Typography>
-
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button variant="contained" color="primary" size="large">
-              Join Us Sunday
-            </Button>
-            <Button variant="outlined" color="primary" size="large">
-              Learn More
-            </Button>
-          </Box>
-
-          <div className="mt-8 p-6 glass rounded-xl border border-white/20 bg-white/10 backdrop-blur-md shadow-xl">
-            <p className="text-charcoal font-medium">
-              Glassmorphism test component via Tailwind 4
+          <div className="glass p-8 rounded-xl max-w-md">
+            <p className="font-medium">
+              Navigation component is now active! Try scrolling to see the
+              glassmorphism effect.
             </p>
           </div>
         </Box>
-      </Container>
-    </ThemeProvider>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 

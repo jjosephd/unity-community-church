@@ -130,33 +130,41 @@ frontend/
 ```json
 {
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.0",
-    "@mui/material": "^5.15.0",
-    "@mui/icons-material": "^5.15.0",
-    "@emotion/react": "^11.11.0",
-    "@emotion/styled": "^11.11.0",
-    "@tanstack/react-query": "^5.0.0",
-    "axios": "^1.6.0",
-    "date-fns": "^2.30.0",
-    "react-hook-form": "^7.48.0",
-    "zod": "^3.22.0"
+    "react": "19.2.x",
+    "react-dom": "19.2.x",
+    "react-router-dom": "7.11.x",
+    "@mui/material": "7.3.x",
+    "@mui/icons-material": "7.3.x",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@tanstack/react-query": "5.90.x",
+    "axios": "^1.13.2",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.562.0",
+    "react-hook-form": "^7.69.0",
+    "zod": "^4.2.1"
   },
   "devDependencies": {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "@vitejs/plugin-react": "^4.2.0",
-    "autoprefixer": "^10.4.16",
-    "eslint": "^8.55.0",
-    "postcss": "^8.4.32",
-    "prettier": "^3.1.0",
-    "tailwindcss": "^3.4.0",
-    "typescript": "^5.3.0",
-    "vite": "^5.0.0"
+    "@types/react": "19.2.x",
+    "@types/react-dom": "19.2.x",
+    "@vitejs/plugin-react": "^5.1.1",
+    "@tailwindcss/vite": "4.1.x",
+    "eslint": "^9.39.1",
+    "tailwindcss": "4.1.x",
+    "typescript": "5.9.x",
+    "vite": "7.3.x"
   }
 }
 ```
+
+### Navigation Component Dependencies
+
+The navigation component uses:
+
+- **React Router DOM 7.11.x**: For client-side routing with enhanced features
+- **MUI Components**: AppBar, Toolbar, Drawer for responsive navigation
+- **MUI Icons**: Menu and Close icons for mobile navigation
+- **Custom Hooks**: `useScrollPosition` for optimized scroll tracking
 
 ---
 
