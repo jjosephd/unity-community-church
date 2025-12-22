@@ -31,16 +31,16 @@ A modern, mobile-first web application for **Unity Community Church** that serve
 
 ## Tech Stack
 
-| Layer          | Technology                                   | Justification                                       |
-| -------------- | -------------------------------------------- | --------------------------------------------------- |
-| **Frontend**   | React 19.2.x + TypeScript 5.9.x              | React Compiler, `<Activity>` component, type safety |
-| **Build Tool** | Vite 7.3.x                                   | New Environment API, faster builds                  |
-| **UI Library** | Material UI (MUI) 7.3.x                      | Zero-runtime CSS engine, massive perf boost         |
-| **Styling**    | TailwindCSS 4.1.x                            | Rust-based engine, CSS-first config                 |
-| **Backend**    | Django 4.2 + Python 3.11                     | Full-featured framework with built-in admin         |
-| **API**        | Django REST Framework                        | Industry-standard REST API toolkit                  |
-| **Database**   | PostgreSQL 15+                               | Robust, scalable, production-ready                  |
-| **Deployment** | Vercel (Frontend) + Railway/Render (Backend) | Optimized for each layer                            |
+| Layer          | Technology                      | Justification                                       | Phase       |
+| -------------- | ------------------------------- | --------------------------------------------------- | ----------- |
+| **Frontend**   | React 19.2.x + TypeScript 5.9.x | React Compiler, `<Activity>` component, type safety | **Phase 1** |
+| **Build Tool** | Vite 7.3.x                      | New Environment API, faster builds                  | **Phase 1** |
+| **UI Library** | Material UI (MUI) 7.3.x         | Zero-runtime CSS engine, massive perf boost         | **Phase 1** |
+| **Styling**    | TailwindCSS 4.1.x               | Rust-based engine, CSS-first config                 | **Phase 1** |
+| **Backend**    | Django 4.2 + Python 3.11        | Full-featured framework with built-in admin         | _Phase 2_   |
+| **API**        | Django REST Framework           | Industry-standard REST API toolkit                  | _Phase 2_   |
+| **Database**   | PostgreSQL 15+                  | Robust, scalable, production-ready                  | _Phase 2_   |
+| **Deployment** | Vercel (Frontend)               | Optimized for static/SPA delivery                   | **Phase 1** |
 
 > [!TIP]
 > See [TECHNICAL_ARCHITECTURE.md](./TECHNICAL_ARCHITECTURE.md) for detailed patterns and code examples.
@@ -64,25 +64,23 @@ A modern, mobile-first web application for **Unity Community Church** that serve
 
 ---
 
-## Admin Panel
+## Future Phases (Phase 2: Dynamic Content)
 
-Django Admin provides a complete, production-ready interface for church staff:
+### Admin Panel & Backend
+
+The Django Admin Panel and REST API will be integrated in Phase 2 to provide dynamic content management.
 
 - **User Management**: Roles and permissions
 - **Content Editing**: WYSIWYG rich text editor
 - **Media Management**: Upload sermons, images, documents
 - **Event Management**: Create, edit, manage registrations
-- **Ministry Management**: Add/edit ministries and leaders
 - **Form Submissions**: View contact form messages
 
-### User Roles
+#### Planned User Roles
 
-| Role               | Access Level                         |
-| ------------------ | ------------------------------------ |
-| **Super Admin**    | Full access to all features          |
-| **Content Editor** | Edit pages, events, media            |
-| **Event Manager**  | Manage events and registrations only |
-| **Viewer**         | Read-only dashboard access           |
+- **Super Admin**: Full access
+- **Content Editor**: Content management
+- **Viewer**: Read-only access
 
 ---
 
@@ -201,18 +199,18 @@ python manage.py runserver  # http://localhost:8000
 
 ## Implementation Phases
 
-| Phase | Focus                      | Duration |
-| ----- | -------------------------- | -------- |
-| 1     | Project setup, boilerplate | 1 week   |
-| 2     | Django models & admin      | 1 week   |
-| 3     | REST API endpoints         | 1 week   |
-| 4     | React pages & components   | 2 weeks  |
-| 5     | Frontend-API integration   | 1 week   |
-| 6     | Giving/payment integration | 1 week   |
-| 7     | Testing & QA               | 1 week   |
-| 8     | Deployment & training      | 1 week   |
+| Stage | Phase | Focus                     | Duration |
+| ----- | ----- | ------------------------- | -------- |
+| **1** | 1     | Project setup, Branding   | 1 week   |
+| **1** | 2     | Static Pages & Components | 1 week   |
+| **1** | 3     | Mobile Responsiveness     | 1 week   |
+| **1** | 4     | Testing & Vercel Launch   | 1 week   |
+| **2** | 5     | Backend Setup (Django)    | 1 week   |
+| **2** | 6     | API Integration           | 2 weeks  |
+| **2** | 7     | Admin Training            | 1 week   |
 
-**Estimated Total: 9 weeks**
+**Phase 1 Target (Informational): 4 weeks**
+**Total Target (Full MVP): 8 weeks**
 
 ---
 

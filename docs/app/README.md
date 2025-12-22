@@ -10,19 +10,21 @@
 
 React-based frontend application for Unity Community Church, providing a mobile-first, accessible web experience for congregation members and visitors.
 
+> [!NOTE] > **Phase 1 Architecture**: This project currently uses a **Mock Service** pattern. API calls are simulated within the `services/` layer to allow full frontend development and testing without a running backend.
+
 ---
 
 ## Tech Stack
 
 | Technology   | Version | Purpose                     |
 | ------------ | ------- | --------------------------- |
-| React        | 18.x    | UI framework                |
-| TypeScript   | 5.x     | Type safety                 |
-| Vite         | 5.x     | Build tool, dev server      |
-| Material UI  | 5.x     | Component library           |
-| TailwindCSS  | 3.x     | Utility classes for layouts |
-| React Query  | 5.x     | Data fetching & caching     |
-| React Router | 6.x     | Client-side routing         |
+| React        | 19.2.x  | UI framework                |
+| TypeScript   | 5.9.x   | Type safety                 |
+| Vite         | 7.3.x   | Build tool, dev server      |
+| Material UI  | 7.3.x   | Component library           |
+| TailwindCSS  | 4.1.x   | Utility classes for layouts |
+| React Query  | 5.90.x  | Data fetching & caching     |
+| React Router | 7.11.x  | Client-side routing         |
 
 ---
 
