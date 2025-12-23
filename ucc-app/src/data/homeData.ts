@@ -87,7 +87,7 @@ export const blogPosts: BlogPost[] = [
       "Discover how faith can anchor us through life's storms and provide unwavering hope.",
     author: 'Pastor John Smith',
     date: '2024-12-20',
-    image: '/images/blog-1.jpg',
+    image: '/images/blog/blog-1.jpg',
     category: 'Faith',
     slug: 'finding-hope-in-difficult-times',
   },

@@ -32,10 +32,8 @@ export const HeroSection = memo(() => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundImage: 'url(/images/hero-bg.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.15,
+          background:
+            'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%)',
           zIndex: 0,
         },
       }}

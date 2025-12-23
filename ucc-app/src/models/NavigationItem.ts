@@ -176,6 +176,20 @@ export class NavigationMenuBuilder {
         })
       )
       .addItem(
+        new NavigationItem('Media', '/media', {
+          testId: 'nav-media',
+          ariaLabel: 'Navigate to Media page',
+          children: [
+            new NavigationItem('Photo Gallery', '/media/gallery', {
+              testId: 'nav-media-gallery',
+            }),
+            new NavigationItem('Live Streaming', '/media/live-streaming', {
+              testId: 'nav-media-live-streaming',
+            }),
+          ],
+        })
+      )
+      .addItem(
         new NavigationItem('Contact', '/contact', {
           testId: 'nav-contact',
           ariaLabel: 'Navigate to Contact page',
