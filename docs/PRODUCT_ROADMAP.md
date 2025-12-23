@@ -6,7 +6,7 @@
 | Stage       | Theme                | Goal                                                          | Key Features                                                                                                                                             |
 | :---------- | :------------------- | :------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Stage 1** | **Digital Presence** | Establish a high-performance, mobile-first informational hub. | • Responsive Home & About pages<br>• Media Library (YouTube/Mock)<br>• Static Events Calendar<br>• Digital Giving Redirect<br>• Contact Form (Email API) |
-| **Stage 2** | **Dynamic Content**  | Empower staff to manage content without code.                 | • Django CMS Integration<br>• Dynamic Events & Registration<br>• Audio/Video Sermon Hosting<br>• Staff Directory Management<br>• COVID/Alert System      |
+| **Stage 2** | **Dynamic Content**  | Empower staff to manage content without code.                 | • Django CMS Integration<br>• Event Ticketing & Registration<br>• Audio/Video Sermon Hosting<br>• Staff Directory Management<br>• COVID/Alert System     |
 | **Stage 3** | **Community Hub**    | Deepen engagement and member connection.                      | • User Authentication<br>• Member Profiles<br>• Group Chat / Prayer Requests<br>• Event Check-in System<br>• Recurring Giving Integration                |
 
 ---

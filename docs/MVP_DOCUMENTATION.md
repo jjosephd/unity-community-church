@@ -84,6 +84,47 @@ The Django Admin Panel and REST API will be integrated in Phase 2 to provide dyn
 
 ---
 
+### Event Ticketing System
+
+A lightweight ticketing system for paid church events (retreats, conferences, dinners).
+
+#### Features
+
+| Feature                  | Description                                              |
+| ------------------------ | -------------------------------------------------------- |
+| **Event Tickets**        | Define ticket types with pricing per event               |
+| **Buyer Registration**   | Capture first name, last name, phone, email              |
+| **Cash App Integration** | Display payment instructions (no direct API integration) |
+| **Email Confirmations**  | Send to buyer and admin upon registration                |
+| **Admin Verification**   | Manual payment confirmation in Django Admin              |
+
+#### User Flow
+
+```mermaid
+flowchart TD
+    A[Visitor Views Event] --> B[Selects Ticket Quantity]
+    B --> C[Fills Buyer Form]
+    C --> D[Shown Cash App Instructions + Reference Code]
+    D --> E[Marks Payment Sent & Submits]
+    E --> F[Admin Receives Email Notification]
+    E --> G[Buyer Receives Confirmation Email]
+    F --> H[Admin Verifies Payment in Cash App]
+    H --> I[Admin Marks as Confirmed in Django]
+```
+
+#### Data Collected
+
+| Field          | Type   | Required |
+| -------------- | ------ | -------- |
+| `first_name`   | String | ✅       |
+| `last_name`    | String | ✅       |
+| `email`        | Email  | ✅       |
+| `phone`        | String | ✅       |
+| `quantity`     | Number | ✅       |
+| `payment_note` | Text   | ❌       |
+
+---
+
 ## Project Structure
 
 ```

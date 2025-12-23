@@ -841,6 +841,205 @@ erDiagram
 
 ---
 
+## Event Ticketing System
+
+### Data Schema
+
+```python
+# apps/events/models.py
+
+class TicketType(models.Model):
+    """Ticket pricing tier for an event."""
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='ticket_types')
+    name = models.CharField(max_length=100)  # e.g., "General Admission", "VIP"
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    quantity_available = models.PositiveIntegerField(default=100)
+
+    class Meta:
+        ordering = ['price']
+
+    def __str__(self):
+        return f"{self.event.title} - {self.name} (${self.price})"
+
+    def spots_remaining(self):
+        sold = self.purchases.filter(payment_status='confirmed').aggregate(
+            total=models.Sum('quantity')
+        )['total'] or 0
+        return self.quantity_available - sold
+
+
+class TicketPurchase(TimeStampedModel):
+    """A ticket purchase/registration record."""
+
+    class PaymentStatus(models.TextChoices):
+        PENDING = 'pending', 'Pending Payment'
+        SUBMITTED = 'submitted', 'Payment Submitted'
+        CONFIRMED = 'confirmed', 'Payment Confirmed'
+        CANCELLED = 'cancelled', 'Cancelled'
+
+    # Buyer Information
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+
+    # Ticket Details
+    ticket_type = models.ForeignKey(TicketType, on_delete=models.PROTECT, related_name='purchases')
+    quantity = models.PositiveIntegerField(default=1)
+
+    # Payment Tracking
+    reference_code = models.CharField(max_length=20, unique=True, editable=False)
+    payment_status = models.CharField(
+        max_length=20,
+        choices=PaymentStatus.choices,
+        default=PaymentStatus.PENDING
+    )
+    payment_note = models.TextField(blank=True, help_text="Admin notes about payment")
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.reference_code} - {self.first_name} {self.last_name}"
+
+    def save(self, *args, **kwargs):
+        if not self.reference_code:
+            self.reference_code = self._generate_reference()
+        super().save(*args, **kwargs)
+
+    def _generate_reference(self):
+        import random, string
+        return 'UCC-' + ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+
+    @property
+    def total_amount(self):
+        return self.ticket_type.price * self.quantity
+```
+
+### Email Notification Service
+
+```python
+# apps/events/services.py
+
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
+
+class TicketEmailService:
+    """Handles ticket confirmation emails."""
+
+    @staticmethod
+    def send_buyer_confirmation(purchase: TicketPurchase):
+        """Send confirmation email to the ticket buyer."""
+        context = {
+            'purchase': purchase,
+            'event': purchase.ticket_type.event,
+            'cash_app_handle': settings.CASH_APP_HANDLE,
+        }
+        html_message = render_to_string('emails/ticket_confirmation.html', context)
+
+        send_mail(
+            subject=f'Ticket Confirmation - {purchase.ticket_type.event.title}',
+            message=f'Reference: {purchase.reference_code}',
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[purchase.email],
+            html_message=html_message,
+        )
+
+    @staticmethod
+    def send_admin_notification(purchase: TicketPurchase):
+        """Notify admin of new ticket purchase."""
+        context = {
+            'purchase': purchase,
+            'event': purchase.ticket_type.event,
+        }
+        html_message = render_to_string('emails/admin_ticket_notification.html', context)
+
+        send_mail(
+            subject=f'[UCC] New Ticket: {purchase.first_name} {purchase.last_name} - {purchase.reference_code}',
+            message=f'New ticket purchase: {purchase.reference_code}',
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.ADMIN_EMAIL],
+            html_message=html_message,
+        )
+```
+
+### Admin Panel Configuration
+
+```python
+# apps/events/admin.py
+
+@admin.register(TicketType)
+class TicketTypeAdmin(admin.ModelAdmin):
+    list_display = ['event', 'name', 'price', 'quantity_available', 'spots_remaining']
+    list_filter = ['event']
+
+
+@admin.register(TicketPurchase)
+class TicketPurchaseAdmin(admin.ModelAdmin):
+    list_display = [
+        'reference_code', 'full_name', 'event_name',
+        'quantity', 'total_display', 'payment_status', 'created_at'
+    ]
+    list_filter = ['payment_status', 'ticket_type__event', 'created_at']
+    search_fields = ['first_name', 'last_name', 'email', 'phone', 'reference_code']
+    list_editable = ['payment_status']
+    readonly_fields = ['reference_code', 'created_at', 'updated_at', 'total_display']
+    date_hierarchy = 'created_at'
+
+    fieldsets = (
+        ('Buyer Information', {
+            'fields': ('first_name', 'last_name', 'email', 'phone')
+        }),
+        ('Ticket Details', {
+            'fields': ('ticket_type', 'quantity', 'total_display')
+        }),
+        ('Payment', {
+            'fields': ('reference_code', 'payment_status', 'payment_note')
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+
+    def full_name(self, obj):
+        return f'{obj.first_name} {obj.last_name}'
+    full_name.short_description = 'Buyer'
+
+    def event_name(self, obj):
+        return obj.ticket_type.event.title
+    event_name.short_description = 'Event'
+
+    def total_display(self, obj):
+        return f'${obj.total_amount:.2f}'
+    total_display.short_description = 'Total'
+```
+
+### Environment Variables
+
+```bash
+# .env (Backend)
+CASH_APP_HANDLE=$YourChurchHandle
+ADMIN_EMAIL=admin@unitycommunitychurch.org
+DEFAULT_FROM_EMAIL=noreply@unitycommunitychurch.org
+```
+
+### Updated ER Diagram
+
+```mermaid
+erDiagram
+    StaffMember ||--o{ Ministry : leads
+    StaffMember ||--o{ Sermon : speaks
+    SermonSeries ||--o{ Sermon : contains
+    Event ||--o{ Registration : has
+    Event ||--o{ TicketType : offers
+    TicketType ||--o{ TicketPurchase : sold_as
+    Ministry }o--|| StaffMember : led_by
+```
+
+---
+
 ## Security Considerations
 
 ### Django Security Features
