@@ -147,16 +147,18 @@ export const AboutSection = memo(({ cards }: AboutSectionProps) => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        color: 'text.secondary',
                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
                         transition:
-                          'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                          'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
                       }}
                     >
                       <IconComponent
                         sx={{
                           fontSize: 28,
-                          color: 'text.secondary',
-                          transition: 'color 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                          color: 'inherit',
+                          transition:
+                            'color 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
                         }}
                       />
                     </Box>
