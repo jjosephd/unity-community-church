@@ -1059,8 +1059,8 @@ erDiagram
 
 # CORS - restrict to known origins
 CORS_ALLOWED_ORIGINS = [
-    "https://unitychurch.org",
-    "https://www.unitychurch.org",
+    "https://ucc4me.org",
+    "https://www.ucc4me.org",
 ]
 
 # Rate limiting (django-ratelimit)
@@ -1091,4 +1091,4 @@ SIMPLE_JWT = {
 ---
 
 > **Document Maintained By:** Development Team  
-> **Last Updated:** December 22, 2024
+> **Last Updated:** December 22, 2025
