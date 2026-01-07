@@ -51,7 +51,7 @@ export const carouselSlides: CarouselSlide[] = [
     id: '1',
     title: 'Welcome Home',
     subtitle: 'Experience the love of Christ in a warm, welcoming community',
-    image: '/images/carousel-1.jpg',
+    image: '/images/carousel1.png',
     cta: {
       text: 'Plan Your Visit',
       link: '/visit',
@@ -61,7 +61,7 @@ export const carouselSlides: CarouselSlide[] = [
     id: '2',
     title: 'Sunday Services',
     subtitle: 'Join us every Sunday at 9:00 AM & 11:00 AM',
-    image: '/images/carousel-2.jpg',
+    image: '/images/carousel2.jpg',
     cta: {
       text: 'Service Times',
       link: '/events',
@@ -71,7 +71,7 @@ export const carouselSlides: CarouselSlide[] = [
     id: '3',
     title: 'Get Involved',
     subtitle: 'Discover ministries and opportunities to serve',
-    image: '/images/carousel-3.jpg',
+    image: '/images/carousel3.jpg',
     cta: {
       text: 'Explore Ministries',
       link: '/ministries',
@@ -121,7 +121,7 @@ export const communityItems: CommunityItem[] = [
     title: 'Youth Ministry',
     description:
       'Empowering the next generation through engaging programs, mentorship, and faith-building activities for teens and young adults.',
-    image: '/images/youth.jpg',
+    image: '/images/youth_img.png',
     stats: {
       label: 'Active Members',
       value: '150+',
@@ -132,7 +132,7 @@ export const communityItems: CommunityItem[] = [
     title: 'Community Outreach',
     description:
       "Making a tangible difference in Powhatan through food drives, homeless ministry, and local partnerships that demonstrate Christ's love.",
-    image: '/images/outreach.jpg',
+    image: '/images/outreach.png',
     stats: {
       label: 'Families Served',
       value: '500+',
