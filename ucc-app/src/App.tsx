@@ -5,6 +5,7 @@ import { Navigation } from './components/layout/Navigation';
 import { HomePage } from './pages/HomePage';
 import { LiveStreamingPage } from './pages/LiveStreamingPage';
 import { PhotoGalleryPage } from './pages/PhotoGalleryPage';
+import { GivingPage } from './pages/GivingPage';
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/media/live-streaming" element={<LiveStreamingPage />} />
           <Route path="/media/gallery" element={<PhotoGalleryPage />} />
+          <Route path="/give" element={<GivingPage />} />
+          <Route path="/give/online" element={<GivingPage />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
