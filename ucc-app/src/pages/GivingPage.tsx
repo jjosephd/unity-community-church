@@ -1,32 +1,25 @@
 /**
  * GivingPage Component
- * Main giving page that composes all giving components
+ * Main giving page with platform selector
  */
 
 import { Box } from '@mui/material';
-import { memo, useCallback } from 'react';
-import { GivingHero, GivingFormCard } from '../components/giving';
-import type { GivingFormData } from '../types/giving';
+import { memo } from 'react';
+import { GivingHero } from '../components/giving/GivingHero';
+import { GivingPlatformSelector } from '../components/giving/GivingPlatformSelector';
 
 /**
  * Giving Page
  *
  * Sections:
  * 1. Hero - Welcoming message with animated icon
- * 2. Form Card - Multi-step giving form with summary
+ * 2. Platform Selector - Choose Givelify or Cash App
  *
  * Security:
- * - No payment URLs or API endpoints stored client-side
- * - Form submission will redirect via secure backend endpoint
+ * - No payment URLs stored client-side (configured in givingData.ts for now)
+ * - In production, URLs should be served from backend
  */
 export const GivingPage = memo(() => {
-  const handleSubmit = useCallback((data: GivingFormData) => {
-    // This will be replaced with a secure backend call
-    // that handles the payment provider redirect
-    console.log('Giving form submitted:', data);
-    // TODO: Call Django backend endpoint that securely redirects to Givelify/CashApp
-  }, []);
-
   return (
     <Box
       component="main"
@@ -41,8 +34,8 @@ export const GivingPage = memo(() => {
       {/* Hero Section */}
       <GivingHero />
 
-      {/* Giving Form */}
-      <GivingFormCard onSubmit={handleSubmit} />
+      {/* Platform Selector */}
+      <GivingPlatformSelector />
     </Box>
   );
 });

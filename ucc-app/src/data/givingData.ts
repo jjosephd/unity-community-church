@@ -118,6 +118,10 @@ export const givingPageContent = {
     description:
       'Every gift, no matter the size, helps us continue our mission to serve our community and spread love. Thank you for your faithful support.',
   },
+  selector: {
+    title: 'Choose Your Giving Method',
+    subtitle: 'Select your preferred platform to make a secure donation',
+  },
   form: {
     giftTypeLabel: 'How would you like to give?',
     frequencyLabel: 'Frequency',
@@ -138,3 +142,35 @@ export const givingPageContent = {
     editButton: 'Edit',
   },
 };
+
+// ============================================
+// Giving Platforms
+// ============================================
+
+export interface GivingPlatform {
+  id: string;
+  name: string;
+  description: string;
+  color: string;
+  accentColor: string;
+  url: string | null; // null = coming soon
+}
+
+export const givingPlatforms: GivingPlatform[] = [
+  {
+    id: 'givelify',
+    name: 'Givelify',
+    description: 'Secure online giving with recurring options and tax receipts',
+    color: '#0066CC',
+    accentColor: '#0052A3',
+    url: null, // Replace with actual Givelify URL when available
+  },
+  {
+    id: 'cashapp',
+    name: 'Cash App',
+    description: 'Quick and easy giving via Cash App',
+    color: '#00D632',
+    accentColor: '#00B82B',
+    url: null, // Replace with actual Cash App $Cashtag URL when available
+  },
+];
