@@ -17,13 +17,13 @@ To bring the new church website to life with automated features, I need access t
 
 ## Requirements Summary
 
-| Feature       | What's Needed                       | Priority  | Effort After Access |
-| ------------- | ----------------------------------- | --------- | ------------------- |
-| Online Giving | Givelify page URL                   | 🔴 High   | 1 hour              |
-| Online Giving | Cash App $Cashtag                   | 🔴 High   | 30 minutes          |
-| Live Stream   | Facebook Page Admin access          | 🟡 Medium | 4-6 hours           |
-| Media Archive | YouTube channel info                | 🟡 Medium | 2-3 hours           |
-| Contact Form  | Church email for receiving messages | 🔴 High   | 1-2 hours           |
+| Feature       | What's Needed                       | Priority  | Impact                    |
+| ------------- | ----------------------------------- | --------- | ------------------------- |
+| Online Giving | Givelify page URL                   | 🔴 High   | Secure Digital Tithes     |
+| Online Giving | Cash App $Cashtag                   | 🔴 High   | Easy Mobile Giving        |
+| Live Stream   | Facebook Page Admin access          | 🟡 Medium | Automated Sunday Services |
+| Media Archive | YouTube channel info                | 🟡 Medium | Self-Updating Library     |
+| Contact Form  | Church email for receiving messages | 🔴 High   | Direct Visitor Engagement |
 
 ---
 
@@ -110,6 +110,44 @@ The website will automatically display the latest sermons from YouTube. When a n
 **How It Will Be Used:**
 When visitors fill out the "Contact Us" form on the website, their message will be delivered to this email address. The church can respond directly from their normal email.
 
+## Quick Checklist for Church Admin
+
+Please provide the following:
+
+- [ ] Givelify giving page URL
+- [ ] Cash App $Cashtag
+- [ ] Facebook Page admin access OR Page ID
+- [ ] YouTube channel link and sermon playlist
+- [ ] Email address for contact form submissions
+- [ ] GoDaddy account login OR confirmation of current plan
+- [ ] Domain name (e.g., `unitychurch.org`)
+
+---
+
+## 6. Website Hosting & Savings
+
+**Priority:** 🔴 High – Required to launch the new website
+
+The church currently pays approximately **$500/year** for GoDaddy services. We can reduce this cost significantly while improving the website's performance and security.
+
+### Recommended: Cloudflare Pages
+
+- **Cost: $0** (Free forever for our needs)
+- **Reliability:** Enterprise-grade reliability used by major global corporations.
+- **Security:** Built-in protection against web attacks and includes a free security certificate (SSL).
+- **Performance:** Optimized to load the website instantly on any device.
+
+### Alternative: GoDaddy Shared Hosting
+
+- **Cost: ~$150/year**
+- **Why use it:** Best if you prefer to keep your website and church email with the same familiar provider. This still provides a **$350/year savings**.
+
+**My Recommendation:** I recommend switching to **Cloudflare Pages** for hosting. We can keep your domain and email at GoDaddy (or move email to Google Workspace) to maximize savings and reliability.
+
+**Potential Annual Savings: ~$425.00**
+
+> _Detailed technical comparisons, including technical hosting options and future growth plans, have been moved to the **Appendix** at the end of this document._
+
 ---
 
 ## What Happens Next
@@ -122,6 +160,7 @@ Once I receive these items, here's the timeline:
 | **Week 2** | Contact form activated                              |
 | **Week 3** | Facebook live stream automation (if access granted) |
 | **Week 4** | YouTube sermon archive automation                   |
+| **Week 5** | Full website launch on new hosting                  |
 
 ---
 
@@ -134,12 +173,31 @@ If you have any questions about what this access is used for or concerns about s
 
 ---
 
-## Quick Checklist for Church Admin
+## Appendix: Technical Hosting & Growth Details
 
-Please provide the following:
+### Current Hosting Analysis
 
-- [ ] Givelify giving page URL
-- [ ] Cash App $Cashtag
-- [ ] Facebook Page admin access OR Page ID
-- [ ] YouTube channel link and sermon playlist
-- [ ] Email address for contact form submissions
+The current **$500/year** cost suggests the church is on a high-tier Website Builder or VPS plan.
+
+| Possible Current Plan      | Typical Annual Cost | Notes                                     |
+| :------------------------- | :------------------ | :---------------------------------------- |
+| Website Builder (Commerce) | ~$325–$445/year     | Closed system; limits customization       |
+| VPS Hosting (Technical)    | ~$400–$550/year     | Overly complex for a standard church site |
+| Bundled Plan               | ~$400–$600/year     | Includes domain, SSL, and email extras    |
+
+### Full Deployment Comparison
+
+| Option               | Cost      | Performance | Tech Stack   | Notes                                 |
+| :------------------- | :-------- | :---------- | :----------- | :------------------------------------ |
+| **Cloudflare Pages** | **$0**    | ⭐⭐⭐⭐⭐  | Global Edge  | Fastest, free, and highly secure.     |
+| **DigitalOcean**     | $60/yr    | ⭐⭐⭐⭐    | App Platform | Simple, scalable, developer-friendly. |
+| **AWS Amplify**      | ~$0-60/yr | ⭐⭐⭐⭐⭐  | AWS Cloud    | Enterprise-grade, used by giants.     |
+| **GoDaddy Shared**   | ~$180/yr  | ⭐⭐⭐      | cPanel/FTP   | Familiar, includes basic email.       |
+
+### Future Growth (Backend Features)
+
+If we later decide to add features like member directories or event registrations, these services integrate seamlessly with our current build:
+
+- **Supabase:** Secure database and member logins.
+- **SendGrid:** Reliable automated emails for forms.
+- **Mailchimp:** Professional newsletter management.
