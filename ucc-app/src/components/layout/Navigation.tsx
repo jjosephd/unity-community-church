@@ -13,7 +13,6 @@ import {
   ListItemText,
   useMediaQuery,
   useTheme,
-  Typography,
   Menu,
   MenuItem,
   Collapse,
@@ -47,7 +46,7 @@ export const Navigation = memo(() => {
     [key: string]: HTMLElement | null;
   }>({});
   const [mobileExpandedItems, setMobileExpandedItems] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
   const isScrolled = useScrollPosition(50);
   const theme = useTheme();
@@ -137,8 +136,8 @@ export const Navigation = memo(() => {
                 ? 'primary.main'
                 : 'text.primary'
               : isActiveRoute(item.getPath())
-              ? 'rgba(255, 255, 255, 1)'
-              : 'rgba(255, 255, 255, 0.85)',
+                ? 'rgba(255, 255, 255, 1)'
+                : 'rgba(255, 255, 255, 0.85)',
             fontWeight: isActiveRoute(item.getPath()) ? 600 : 500,
             position: 'relative',
             px: 2,
@@ -402,31 +401,33 @@ export const Navigation = memo(() => {
             }}
           >
             {/* Logo */}
-            <Typography
-              variant="h6"
+            <Box
               component={Link}
               to="/"
               data-testid="nav-logo"
               aria-label="Unity Community Church - Home"
               sx={{
                 flexGrow: 1,
-                fontWeight: 700,
-                color: isScrolled
-                  ? 'primary.main'
-                  : 'rgba(255, 255, 255, 0.98)',
+                display: 'flex',
+                alignItems: 'center',
                 textDecoration: 'none',
-                fontSize: isScrolled
-                  ? { xs: '1rem', md: '1.15rem' }
-                  : { xs: '1.1rem', md: '1.35rem' },
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                letterSpacing: '-0.02em',
-                textShadow: isScrolled
-                  ? 'none'
-                  : '0 2px 8px rgba(0, 0, 0, 0.15)',
               }}
             >
-              Unity Community Church
-            </Typography>
+              <Box
+                component="img"
+                src={
+                  isScrolled
+                    ? '/images/logo/logo_primary.png'
+                    : '/images/logo/logo_purple.png'
+                }
+                alt="Unity Community Church"
+                sx={{
+                  height: isScrolled ? { xs: 50, md: 80 } : { xs: 60, md: 80 },
+                  width: 'auto',
+                  transition: 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
+              />
+            </Box>
 
             {/* Desktop Navigation */}
             {desktopNav}

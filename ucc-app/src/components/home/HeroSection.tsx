@@ -73,9 +73,7 @@ export const HeroSection = memo(() => {
                 letterSpacing: '-0.02em',
               }}
             >
-              Where there is unity,
-              <br />
-              there's always{' '}
+              Where there's unity, there's always{' '}
               <Box
                 component="span"
                 sx={{
