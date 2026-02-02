@@ -26,17 +26,17 @@ export const LocationFooter = memo(
         }}
       >
         <Container maxWidth="md">
-          <Stack spacing={2} alignItems="center" textAlign="center">
-            <Typography
-              variant="h4"
-              component="h2"
+          <Stack spacing={0} alignItems="center" textAlign="center">
+            <Box
+              component="img"
+              src={'/images/logo/logo_purple.png'}
+              alt="Unity Community Church"
               sx={{
-                fontWeight: 700,
-                fontSize: { xs: '1.5rem', md: '2rem' },
+                height: { xs: 50, md: 100 },
+                width: 'auto',
+                transition: 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               }}
-            >
-              Visit Us
-            </Typography>
+            />
 
             {/* Address */}
             <Stack direction="row" spacing={1.5} alignItems="center">
