@@ -20,13 +20,13 @@ export const LocationFooter = memo(
         component="footer"
         data-testid="location-footer"
         sx={{
-          py: { xs: 6, md: 8 },
+          py: { xs: 4, md: 2 },
           backgroundColor: 'primary.main',
           color: 'white',
         }}
       >
         <Container maxWidth="md">
-          <Stack spacing={4} alignItems="center" textAlign="center">
+          <Stack spacing={2} alignItems="center" textAlign="center">
             <Typography
               variant="h4"
               component="h2"
