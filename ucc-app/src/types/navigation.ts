@@ -49,9 +49,9 @@ export const NAV_LINKS: readonly NavLink[] = [
     ariaLabel: 'Navigate to giving page',
   },
   {
-    label: 'Contact',
-    path: '/contact',
-    testId: 'nav-link-contact',
-    ariaLabel: 'Navigate to contact page',
+    label: 'Connect',
+    path: '/connect',
+    testId: 'nav-link-connect',
+    ariaLabel: 'Navigate to connect page',
   },
 ] as const;

@@ -6,6 +6,7 @@ import { HomePage } from './pages/HomePage';
 import { LiveStreamingPage } from './pages/LiveStreamingPage';
 import { PhotoGalleryPage } from './pages/PhotoGalleryPage';
 import { GivingPage } from './pages/GivingPage';
+import { ConnectPage } from './pages/ConnectPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/media/gallery" element={<PhotoGalleryPage />} />
           <Route path="/give" element={<GivingPage />} />
           <Route path="/give/online" element={<GivingPage />} />
+          <Route path="/connect" element={<ConnectPage />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

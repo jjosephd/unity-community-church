@@ -29,7 +29,7 @@ export class NavigationItem implements INavigationItem {
       ariaLabel?: string;
       children?: NavigationItem[];
       icon?: string;
-    }
+    },
   ) {
     this.label = label;
     this.path = path;
@@ -93,7 +93,7 @@ export class NavigationMenuBuilder {
         new NavigationItem('Home', '/', {
           testId: 'nav-home',
           ariaLabel: 'Navigate to Home page',
-        })
+        }),
       )
       .addItem(
         new NavigationItem('About', '/about', {
@@ -113,7 +113,7 @@ export class NavigationMenuBuilder {
               testId: 'nav-about-beliefs',
             }),
           ],
-        })
+        }),
       )
       .addItem(
         new NavigationItem('Ministries', '/ministries', {
@@ -136,7 +136,7 @@ export class NavigationMenuBuilder {
               testId: 'nav-ministries-groups',
             }),
           ],
-        })
+        }),
       )
       .addItem(
         new NavigationItem('Events', '/events', {
@@ -156,7 +156,7 @@ export class NavigationMenuBuilder {
               testId: 'nav-events-calendar',
             }),
           ],
-        })
+        }),
       )
       .addItem(
         new NavigationItem('Give', '/give', {
@@ -173,7 +173,7 @@ export class NavigationMenuBuilder {
               testId: 'nav-give-impact',
             }),
           ],
-        })
+        }),
       )
       .addItem(
         new NavigationItem('Media', '/media', {
@@ -187,13 +187,13 @@ export class NavigationMenuBuilder {
               testId: 'nav-media-live-streaming',
             }),
           ],
-        })
+        }),
       )
       .addItem(
-        new NavigationItem('Contact', '/contact', {
-          testId: 'nav-contact',
-          ariaLabel: 'Navigate to Contact page',
-        })
+        new NavigationItem('Connect', '/connect', {
+          testId: 'nav-connect',
+          ariaLabel: 'Navigate to Connect page',
+        }),
       )
       .build();
   }
