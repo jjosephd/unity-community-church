@@ -21,11 +21,13 @@ export const ConnectHero = memo(() => {
           variant="h1"
           component="h1"
           data-testid="connect-hero-title"
+          className=""
           sx={{
+            fontFamily: '"Ultra", serif',
             fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
-            fontWeight: 800,
+            fontWeight: 600,
             lineHeight: 1.1,
-            letterSpacing: '-0.02em',
+            letterSpacing: '-0.01em',
             mb: 3,
           }}
         >
@@ -33,7 +35,7 @@ export const ConnectHero = memo(() => {
           <Box
             component="span"
             sx={{
-              background: 'linear-gradient(90deg, #5A0C77 0%, #8B2FC9 100%)',
+              background: 'linear-gradient(90deg, #8B2FC9 0%, #8B2FC9 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
