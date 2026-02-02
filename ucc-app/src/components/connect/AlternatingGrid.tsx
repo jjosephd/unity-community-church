@@ -78,9 +78,11 @@ export const AlternatingGrid = memo(({ items }: AlternatingGridProps) => {
               <Typography
                 variant="h3"
                 component="h2"
+                className="uppercase"
                 sx={{
+                  fontFamily: '"Ultra", serif',
                   fontSize: { xs: '1.75rem', md: '2.25rem' },
-                  fontWeight: 700,
+                  fontWeight: 400,
                   color: 'text.primary',
                   mb: 2,
                   px: { xs: '1.75rem', md: '2.25rem' },
@@ -93,7 +95,7 @@ export const AlternatingGrid = memo(({ items }: AlternatingGridProps) => {
                 sx={{
                   fontSize: { xs: '1rem', md: '1.1rem' },
                   color: 'text.secondary',
-                  lineHeight: 1.7,
+                  lineHeight: 1.4,
                   px: { xs: '1.75rem', md: '2.25rem' },
                 }}
               >
