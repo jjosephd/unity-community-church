@@ -160,10 +160,10 @@ export const givingPlatforms: GivingPlatform[] = [
   {
     id: 'givelify',
     name: 'Givelify',
-    description: 'Secure online giving with recurring options and tax receipts',
+    description: 'Secure online & mobile giving — our primary giving platform',
     color: '#0066CC',
     accentColor: '#0052A3',
-    url: null, // Replace with actual Givelify URL when available
+    url: null, // URL served from /giving-config.json at runtime
   },
   {
     id: 'cashapp',

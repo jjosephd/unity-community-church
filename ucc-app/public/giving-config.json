@@ -1,0 +1,13 @@
+{
+  "platforms": {
+    "givelify": {
+      "url": "https://giv.li/jrc4w0",
+      "enabled": true
+    },
+    "cashapp": {
+      "url": null,
+      "enabled": false
+    }
+  },
+  "updatedAt": "2026-02-16"
+}

@@ -1,13 +1,27 @@
 /**
  * GivingPlatformSelector Component
  * Sleek Linktree-style platform selection
+ *
+ * Platform URLs are loaded at runtime from /giving-config.json
+ * so admins can update giving links without a rebuild.
  */
 
 import { Box, Container, Typography, Paper } from '@mui/material';
 import { CurrencyExchange } from '@mui/icons-material';
-import { memo, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { PlatformButton } from './PlatformButton';
 import { givingPlatforms, givingPageContent } from '../../data/givingData';
+
+// --- Types for runtime giving config ---
+interface PlatformConfig {
+  url: string | null;
+  enabled: boolean;
+}
+
+interface GivingConfig {
+  platforms: Record<string, PlatformConfig>;
+  updatedAt: string;
+}
 
 // Givelify icon
 const GivelifyIcon = () => (
@@ -34,18 +48,29 @@ const iconMap = {
   cashapp: CashAppIcon,
 };
 
-export const GivingPlatformSelector = memo(() => {
-  const handlePlatformClick = useCallback((platformId: string) => {
+export const GivingPlatformSelector = () => {
+  // Fetch giving config at mount (runtime, not bundled)
+  const [givingConfig, setGivingConfig] = useState<GivingConfig | null>(null);
+
+  useEffect(() => {
+    fetch('/giving-config.json')
+      .then((res) => res.json())
+      .then(setGivingConfig)
+      .catch(() => console.error('Failed to load giving configuration'));
+  }, []);
+
+  const handlePlatformClick = (platformId: string) => {
     const platform = givingPlatforms.find((p) => p.id === platformId);
-    if (platform?.url) {
-      console.log(`Opening ${platform.name}:`, platform.url);
-      window.open(platform.url, '_blank', 'noopener,noreferrer');
+    const config = givingConfig?.platforms[platformId];
+
+    if (config?.enabled && config?.url) {
+      window.open(config.url, '_blank', 'noopener,noreferrer');
     } else {
       alert(
         `${platform?.name || 'Platform'} integration coming soon! Please contact the church office for giving options.`,
       );
     }
-  }, []);
+  };
 
   return (
     <Container maxWidth="sm" sx={{ py: { xs: 3, md: 5 } }}>
@@ -119,6 +144,4 @@ export const GivingPlatformSelector = memo(() => {
       </Paper>
     </Container>
   );
-});
-
-GivingPlatformSelector.displayName = 'GivingPlatformSelector';
+};
