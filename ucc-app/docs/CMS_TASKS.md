@@ -6,6 +6,38 @@
 
 ---
 
+## Architecture — How Sanity Communicates With the Frontend
+
+The system has **3 independent parts** that never share a runtime:
+
+```
+┌──────────────────┐       ┌─────────────────────┐       ┌─────────────────────┐
+│  Sanity Studio   │       │   Sanity Cloud API  │       │  Vite Frontend      │
+│  (Editor UI)     │──────▶│   (Hosted by Sanity) │◀──────│  (Hosted on Vercel) │
+│                  │ write │                     │ read  │                     │
+│  ucc-studio.     │       │  api.sanity.io      │       │  yoursite.vercel.app│
+│  sanity.studio   │       │  cdn.sanity.io      │       │                     │
+└──────────────────┘       └─────────────────────┘       └─────────────────────┘
+```
+
+| Component            | Hosted where                               | Purpose                                         | Auth                                   |
+| -------------------- | ------------------------------------------ | ----------------------------------------------- | -------------------------------------- |
+| **Sanity Studio**    | `ucc-studio.sanity.studio` (Sanity-hosted) | Editors create/edit content                     | Login via Sanity account               |
+| **Sanity Cloud API** | `api.sanity.io` / `cdn.sanity.io`          | Stores & serves content via GROQ queries        | Public read (CDN), authenticated write |
+| **Vite Frontend**    | Vercel (`yoursite.vercel.app`)             | Fetches content at runtime via `@sanity/client` | No auth needed — reads from public CDN |
+
+**Data flow:**
+
+1. Editor logs into Studio → creates/edits content → Sanity Cloud stores it
+2. Frontend calls `cdn.sanity.io` with a GROQ query → gets JSON response → renders it
+3. No server, no middleware, no webhook — just HTTP GET requests from browser to CDN
+
+**What connects them:** The `projectId` (`hwaszqf8`) and `dataset` (`production`). Both Studio and Frontend point to the same project/dataset. The Frontend reads what Studio writes.
+
+**Security model:** The CDN endpoint is public-read by default (Sanity free tier). No API token is needed for fetching published content. Write operations require authentication (handled by Studio).
+
+---
+
 ## Phase 1 — Sanity Project, Schemas & Permissions
 
 **Goal:** A working Sanity Studio with 4 content schemas, singleton enforcement, and a documented permissions model.
@@ -20,6 +52,10 @@
 - [ ] Initialize Studio in `/ucc-app/sanity/` via `npm create sanity@latest`
 - [ ] Verify `sanity.config.ts` and `sanity.cli.ts` exist with correct project ID
 - [ ] Add `sanity/` to root `.gitignore` for `node_modules` and build output only (Studio source is committed)
+
+> **Implementation note:** Studio was scaffolded manually instead of using `sanity init` because the CLI requires browser-based login (`sanity login`). The manual approach gives identical results with full architectural control. You will need to run `sanity login` from the `sanity/` directory before deploying in Task 4.1.
+>
+> **Running the dev server:** Always run from the `sanity/` directory — use `npm run dev` (or `npm run dev --prefix sanity` from the project root). Do **not** use `npx sanity dev` from the project root, as it will attempt to download a separate Sanity installation.
 
 **Success Metrics:**
 | Metric | How to verify |
@@ -244,7 +280,19 @@ export interface SiteSettings {
 | Preview (future) | `staging`    | Safe testing dataset     |
 | Production       | `production` | Live site                |
 
-- [ ] Add `VITE_SANITY_PROJECT_ID` and `VITE_SANITY_DATASET` to Vercel project settings (deployment checklist)
+- [ ] Add env vars to Vercel (deployment checklist):
+  1. Go to [vercel.com/dashboard](https://vercel.com/dashboard) → select the UCC project
+  2. Navigate to **Settings → Environment Variables**
+  3. Add `VITE_SANITY_PROJECT_ID` = `hwaszqf8` (apply to Production, Preview, Development)
+  4. Add `VITE_SANITY_DATASET` = `production` (apply to Production, Preview, Development)
+  5. Click **Save**
+  6. Trigger a redeploy: **Deployments → ⋮ → Redeploy** (env vars take effect on next build)
+- [ ] Create `.env` locally for development:
+  ```
+  VITE_SANITY_PROJECT_ID=hwaszqf8
+  VITE_SANITY_DATASET=production
+  ```
+  > This file is gitignored. Each developer creates their own copy from `.env.example`.
 
 **Success Metrics:**
 | Metric | How to verify |
@@ -254,6 +302,7 @@ export interface SiteSettings {
 | Project ID not hardcoded | `grep` for project ID in source → only in `.env` |
 | `.env.example` exists | File present with both vars documented |
 | Dataset is configurable | Change `VITE_SANITY_DATASET=staging` → client uses staging |
+| Vercel env vars set | Vercel dashboard → Settings → Env Vars → both present |
 
 ---
 
@@ -491,24 +540,86 @@ export interface SiteSettings {
 
 **Goal:** Sanity Studio is live at a public URL. A non-technical editor can publish content without developer help.
 
-### Task 4.1 — Deploy Sanity Studio
+### Task 4.1 — Deploy Sanity Studio & Verify Frontend Connection
 
 **Alignment:** Phase 4 → Studio Deployment
 
-- [ ] Run `npx sanity deploy` from `sanity/` directory
-- [ ] Choose a hostname (e.g., `ucc-studio`)
-- [ ] Confirm Studio is accessible at `https://ucc-studio.sanity.studio`
-- [ ] Verify login works for both Administrator and Editor roles
-- [ ] Bookmark URL for church staff
-- [ ] **`[GAP 6 FIX]`** Confirm `VITE_SANITY_PROJECT_ID` and `VITE_SANITY_DATASET` are set in Vercel project settings
+**Prerequisites:**
+
+- [ ] All Phase 1–3 tasks complete
+- [ ] Vercel env vars set (from Task 2.3 checklist)
+
+**Step 1 — Authenticate the Sanity CLI:**
+
+```bash
+cd sanity
+npx sanity login
+```
+
+> This opens a browser window. Log in with the same account used to create the project at `sanity.io/manage`. This is a **one-time setup** per machine.
+
+**Step 2 — Configure CORS (allow frontend to read from Sanity):**
+
+Sanity blocks cross-origin requests by default. Your Vercel frontend needs permission to call `cdn.sanity.io`.
+
+1. Go to [sanity.io/manage](https://sanity.io/manage) → select project `hwaszqf8`
+2. Navigate to **API → CORS origins**
+3. Add the following origins:
+
+| Origin                                           | Allow credentials |
+| ------------------------------------------------ | ----------------- |
+| `http://localhost:5173`                          | No                |
+| `https://your-vercel-domain.vercel.app`          | No                |
+| `https://your-custom-domain.com` (if applicable) | No                |
+
+> **Why "No" for credentials?** The frontend only performs public CDN reads — no authentication token is sent. "Allow credentials" is only needed for authenticated mutations, which only Studio performs.
+
+> **`localhost:5173`** is Vite's default dev port. Add it so local development works.
+
+**Step 3 — Deploy the Studio:**
+
+```bash
+cd sanity
+npx sanity deploy
+```
+
+- When prompted for hostname, enter: `ucc-studio`
+- Studio will be built and deployed to: `https://ucc-studio.sanity.studio`
+
+**Step 4 — Verify the full connection end-to-end:**
+
+| Check                           | How to verify                                                | Expected result                              |
+| ------------------------------- | ------------------------------------------------------------ | -------------------------------------------- |
+| Studio is live                  | Navigate to `https://ucc-studio.sanity.studio`               | Studio login page loads                      |
+| Admin can log in                | Log in with Administrator account                            | Full access to all content + settings        |
+| Editor can log in               | Log in with Editor account                                   | Can create/edit content, no project settings |
+| Content created in Studio       | Create a test sermon in Studio                               | Document saves without error                 |
+| Frontend reads content          | Run `npm run dev` in project root, visit `/sermons`          | Test sermon appears on page                  |
+| Vercel production reads content | Push to `main`, wait for Vercel deploy, visit `/sermons`     | Test sermon appears on live site             |
+| CORS not blocking               | Open browser DevTools → Network tab while loading `/sermons` | No CORS errors on `cdn.sanity.io` requests   |
+
+**Step 5 — Bookmark & share with church staff:**
+
+- [ ] Share `https://ucc-studio.sanity.studio` with all editors
+- [ ] Confirm each editor can log in and see the content types (sermons, events, announcements, site settings)
+
+**Step 6 — Confirm Vercel env vars (final check):**
+
+1. Go to [vercel.com/dashboard](https://vercel.com/dashboard) → select UCC project
+2. **Settings → Environment Variables**
+3. Confirm `VITE_SANITY_PROJECT_ID` = `hwaszqf8` and `VITE_SANITY_DATASET` = `production` are present
+4. If missing, add them and trigger a redeploy
 
 **Success Metrics:**
 | Metric | How to verify |
-| ------------------------------ | ---------------------------------------------------------------- |
-| Studio live at public URL | Navigate to `https://<name>.sanity.studio` in browser |
+| ---------------------------------------- | --------------------------------------------------------------------- |
+| Studio live at public URL | `https://ucc-studio.sanity.studio` loads in browser |
 | Admin can log in | Log in with Administrator credentials → full access |
 | Editor can log in | Log in with Editor credentials → content editing only |
-| Vercel env vars configured | Vercel dashboard shows both vars set for production |
+| CORS origins configured | `sanity.io/manage` → API → CORS origins shows all 3 origins |
+| Frontend reads from Sanity | `/sermons` page shows content created in Studio |
+| No CORS errors in browser | DevTools Network tab → no blocked requests to `cdn.sanity.io` |
+| Vercel env vars configured | Vercel dashboard shows both vars set for Production |
 
 ---
 
