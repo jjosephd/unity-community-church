@@ -16,6 +16,7 @@
 
 - [ ] Create a free Sanity project at [sanity.io/manage](https://sanity.io/manage)
 - [ ] Record the `projectId` and default dataset name (`production`)
+- **Project ID:** `hwaszqf8`
 - [ ] Initialize Studio in `/ucc-app/sanity/` via `npm create sanity@latest`
 - [ ] Verify `sanity.config.ts` and `sanity.cli.ts` exist with correct project ID
 - [ ] Add `sanity/` to root `.gitignore` for `node_modules` and build output only (Studio source is committed)

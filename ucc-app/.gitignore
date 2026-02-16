@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Sanity Studio
+sanity/dist/
+.env
+.env.local
