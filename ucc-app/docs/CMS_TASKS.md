@@ -152,7 +152,7 @@ The system has **3 independent parts** that never share a runtime:
 
 **Alignment:** Phase 1 → Permissions & Role Model
 
-- [ ] Document the role assignments in this file (no code — convention-based):
+- [x] Document the role assignments in this file (no code — convention-based):
 
 | Person             | Sanity Role   | Scope (convention)                                         |
 | ------------------ | ------------- | ---------------------------------------------------------- |

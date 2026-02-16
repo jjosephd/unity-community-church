@@ -1,0 +1,65 @@
+%% UCC CMS Permissions Model — Mermaid Diagram
+%% Render with any Mermaid-compatible viewer (GitHub, VS Code extension, mermaid.live)
+
+graph TD
+    %% ── Project Root ──
+    PROJECT["🏛️ Sanity Project<br/>hwaszqf8 · production"]
+
+    %% ── Roles ──
+    PROJECT --> ADMIN["👑 Administrator<br/>Jordan"]
+    PROJECT --> EDITOR_GROUP["📝 Editor Role"]
+
+    EDITOR_GROUP --> PASTOR["🎤 Pastor<br/>Scope: Sermons"]
+    EDITOR_GROUP --> VOLUNTEER["🤝 Volunteer<br/>Scope: Announcements"]
+    EDITOR_GROUP --> MEDIA["📸 Media Team<br/>Scope: Photos · Phase 2"]
+
+    %% ── Admin Capabilities ──
+    ADMIN --> ADMIN_CONTENT["Content Management<br/>All schemas"]
+    ADMIN --> ADMIN_SETTINGS["Project Settings<br/>API · CORS · Members"]
+    ADMIN --> ADMIN_DEPLOY["Studio Deployment<br/>sanity deploy"]
+    ADMIN --> ADMIN_DANGER["⚠️ Destructive Actions<br/>Delete project"]
+
+    %% ── Editor Capabilities ──
+    PASTOR --> SERMON_OPS["Create / Edit / Publish<br/>sermon documents"]
+    VOLUNTEER --> ANNOUNCE_OPS["Create / Edit / Publish<br/>announcement documents"]
+    MEDIA --> MEDIA_OPS["Upload / Edit<br/>images on sermons & events"]
+
+    %% ── Blocked for Editors ──
+    EDITOR_GROUP -. "❌ BLOCKED" .-> BLOCKED_SETTINGS["Project Settings"]
+    EDITOR_GROUP -. "❌ BLOCKED" .-> BLOCKED_MEMBERS["Member Management"]
+    EDITOR_GROUP -. "❌ BLOCKED" .-> BLOCKED_DEPLOY["Studio Deployment"]
+    EDITOR_GROUP -. "❌ BLOCKED" .-> BLOCKED_DELETE["Delete Project"]
+
+    %% ── Content Types ──
+    subgraph SCHEMAS ["Content Schemas"]
+        S1["📖 sermon"]
+        S2["📅 event"]
+        S3["📢 announcement"]
+        S4["⚙️ siteSettings · singleton"]
+    end
+
+    ADMIN_CONTENT --> SCHEMAS
+
+    %% ── Styling ──
+    style PROJECT fill:#264653,color:#fff,stroke:#2a9d8f
+    style ADMIN fill:#2d6a4f,color:#fff,stroke:#40916c
+    style EDITOR_GROUP fill:#1d3557,color:#fff,stroke:#457b9d
+    style PASTOR fill:#457b9d,color:#fff
+    style VOLUNTEER fill:#457b9d,color:#fff
+    style MEDIA fill:#457b9d,color:#fff
+    style ADMIN_CONTENT fill:#40916c,color:#fff
+    style ADMIN_SETTINGS fill:#40916c,color:#fff
+    style ADMIN_DEPLOY fill:#40916c,color:#fff
+    style ADMIN_DANGER fill:#e76f51,color:#fff
+    style SERMON_OPS fill:#2a9d8f,color:#fff
+    style ANNOUNCE_OPS fill:#2a9d8f,color:#fff
+    style MEDIA_OPS fill:#2a9d8f,color:#fff
+    style BLOCKED_SETTINGS fill:#e63946,color:#fff
+    style BLOCKED_MEMBERS fill:#e63946,color:#fff
+    style BLOCKED_DEPLOY fill:#e63946,color:#fff
+    style BLOCKED_DELETE fill:#e63946,color:#fff
+    style SCHEMAS fill:#f4a261,color:#264653,stroke:#e76f51
+    style S1 fill:#e9c46a,color:#264653
+    style S2 fill:#e9c46a,color:#264653
+    style S3 fill:#e9c46a,color:#264653
+    style S4 fill:#e9c46a,color:#264653
