@@ -1,7 +1,7 @@
 import { defineType, defineField } from 'sanity';
 
 /**
- * Announcement schema for United Community Church.
+ * Announcement schema for Unity Community Church.
  *
  * Stores announcements displayed on the homepage.
  * Required fields: title, publishDate.

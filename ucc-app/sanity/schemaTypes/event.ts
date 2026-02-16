@@ -1,7 +1,7 @@
 import { defineType, defineField } from 'sanity';
 
 /**
- * Event schema for United Community Church.
+ * Event schema for Unity Community Church.
  *
  * Stores event information for display on the Events page.
  * Required fields: title, date.

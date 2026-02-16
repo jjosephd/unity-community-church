@@ -1,7 +1,7 @@
 import { defineType, defineField } from 'sanity';
 
 /**
- * Site Settings schema for United Community Church.
+ * Site Settings schema for Unity Community Church.
  *
  * This is a SINGLETON document — only one instance should exist.
  * Singleton enforcement is handled in sanity.config.ts via the

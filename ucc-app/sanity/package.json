@@ -2,7 +2,7 @@
   "name": "ucc-studio",
   "private": true,
   "version": "1.0.0",
-  "description": "Sanity Studio for United Community Church",
+  "description": "Sanity Studio for Unity Community Church",
   "type": "module",
   "scripts": {
     "dev": "sanity dev",

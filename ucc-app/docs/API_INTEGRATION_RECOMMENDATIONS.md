@@ -1,6 +1,6 @@
 # API Integration Recommendations
 
-> Optimal and seamless API integrations for United Community Church
+> Optimal and seamless API integrations for Unity Community Church
 
 ---
 

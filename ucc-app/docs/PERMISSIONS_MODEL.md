@@ -1,4 +1,4 @@
-# Permissions Model — United Community Church CMS
+# Permissions Model — Unity Community Church CMS
 
 > Convention-based role assignments for Sanity Studio.
 > Sanity's free plan provides two built-in roles: **Administrator** and **Editor**. Granular per-schema permissions require a paid Team plan — this model uses **training and convention** to scope each Editor to their content area.

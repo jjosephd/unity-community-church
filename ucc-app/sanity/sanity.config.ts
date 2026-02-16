@@ -43,7 +43,7 @@ const structure = (S: StructureBuilder) =>
     ]);
 
 /**
- * Sanity Studio configuration for United Community Church.
+ * Sanity Studio configuration for Unity Community Church.
  *
  * Project ID and dataset are the only environment-specific values.
  * All schema types are registered via the schemaTypes barrel export,
@@ -52,7 +52,7 @@ const structure = (S: StructureBuilder) =>
  */
 export default defineConfig({
   name: 'ucc-studio',
-  title: 'United Community Church',
+  title: 'Unity Community Church',
 
   projectId: 'hwaszqf8',
   dataset: 'production',

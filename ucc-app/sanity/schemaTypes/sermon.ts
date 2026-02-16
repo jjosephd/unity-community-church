@@ -1,7 +1,7 @@
 import { defineType, defineField } from 'sanity';
 
 /**
- * Sermon schema for United Community Church.
+ * Sermon schema for Unity Community Church.
  *
  * Stores sermon metadata for display on the Sermons page.
  * Required fields: title, date, speaker.
