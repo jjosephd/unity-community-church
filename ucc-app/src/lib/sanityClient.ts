@@ -8,9 +8,18 @@
  */
 import { createClient } from '@sanity/client';
 
+const projectId = import.meta.env.VITE_SANITY_PROJECT_ID;
+const dataset = import.meta.env.VITE_SANITY_DATASET || 'production';
+
+if (!projectId) {
+  console.error(
+    'Sanity Project ID is not set. Check your environment variables.',
+  );
+}
+
 export const client = createClient({
-  projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
-  dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
+  projectId,
+  dataset,
   apiVersion: '2026-02-17',
   useCdn: true,
 });
