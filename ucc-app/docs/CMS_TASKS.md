@@ -268,19 +268,19 @@ export interface SiteSettings {
 **Alignment:** Phase 2 → `[NEW] src/lib/sanityClient.ts`  
 **`[GAP 6 FIX]`** — Full environment variable support with dataset override.
 
-- [ ] Create `src/lib/sanityClient.ts`
-- [ ] Configure with:
+- [x] Create `src/lib/sanityClient.ts`
+- [x] Configure with:
   - `projectId` from `VITE_SANITY_PROJECT_ID`
   - `dataset` from `VITE_SANITY_DATASET` (default: `"production"`)
-  - `apiVersion` (today's date)
+  - `apiVersion` (`2026-02-17`)
   - `useCdn: true`
-- [ ] Export typed `client` instance
-- [ ] Create `.env.example` with all required vars:
+- [x] Export typed `client` instance
+- [x] Create `.env.example` with all required vars:
   ```
   VITE_SANITY_PROJECT_ID=your-project-id
   VITE_SANITY_DATASET=production
   ```
-- [ ] Document environment strategy:
+- [x] Document environment strategy:
 
 | Environment      | Dataset      | Notes                    |
 | ---------------- | ------------ | ------------------------ |
@@ -295,12 +295,17 @@ export interface SiteSettings {
   4. Add `VITE_SANITY_DATASET` = `production` (apply to Production, Preview, Development)
   5. Click **Save**
   6. Trigger a redeploy: **Deployments → ⋮ → Redeploy** (env vars take effect on next build)
-- [ ] Create `.env` locally for development:
+     > ⚠️ **Manual step** — complete when ready to deploy (Phase 4, Task 4.1)
+- [x] Create `.env` locally for development:
   ```
   VITE_SANITY_PROJECT_ID=hwaszqf8
   VITE_SANITY_DATASET=production
   ```
   > This file is gitignored. Each developer creates their own copy from `.env.example`.
+
+> **Benchmark (2026-02-17):** `npx tsc --noEmit` exit 0. `npm run build` exit 0 (built in 39s). `npm run lint` exit 0. `grep -r "hwaszqf8" src/` — 0 matches (project ID not hardcoded).
+>
+> **Integration strategy:** See [PHASE_2_INTEGRATION_STRATEGY.md](tasks/PHASE_2_INTEGRATION_STRATEGY.md)
 
 **Success Metrics:**
 | Metric | How to verify |

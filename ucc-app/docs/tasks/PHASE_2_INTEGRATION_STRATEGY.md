@@ -66,3 +66,53 @@ src/pages/*Page.tsx         → useSanityData<Sermon[]>(…) → typed rendering
 | `npm run lint`                | Exit 0                                                              | ✅     |
 | Zero `: any` in sanity.ts     | Confirmed (0 matches)                                               | ✅     |
 | 5 interfaces exported         | `SanityDocument`, `Sermon`, `Event`, `Announcement`, `SiteSettings` | ✅     |
+
+---
+
+## Task 2.3 — Sanity Client & Environment Config
+
+### Client Module (`src/lib/sanityClient.ts`)
+
+A configured `@sanity/client` instance exported as `client`:
+
+- `projectId` from `VITE_SANITY_PROJECT_ID`
+- `dataset` from `VITE_SANITY_DATASET` (defaults to `"production"`)
+- `apiVersion` pinned to `2026-02-17`
+- `useCdn: true` — public read-only, no auth token
+
+Vite exposes `VITE_`-prefixed env vars via `import.meta.env` automatically. The `tsconfig.app.json` includes `"types": ["vite/client"]` for full typing.
+
+### Environment Strategy
+
+| Environment      | Dataset      | Notes                    |
+| ---------------- | ------------ | ------------------------ |
+| Local            | `production` | Dev against real content |
+| Preview (future) | `staging`    | Safe testing dataset     |
+| Production       | `production` | Live site                |
+
+### Files
+
+| File           | Committed | Purpose                            |
+| -------------- | --------- | ---------------------------------- |
+| `.env.example` | Yes       | Template — documents required vars |
+| `.env`         | No        | Local dev values (gitignored)      |
+
+### Vercel Deployment Checklist
+
+1. Go to **vercel.com/dashboard** → select UCC project
+2. **Settings → Environment Variables**
+3. Add `VITE_SANITY_PROJECT_ID` = `hwaszqf8` (Production, Preview, Development)
+4. Add `VITE_SANITY_DATASET` = `production` (Production, Preview, Development)
+5. **Save** → **Deployments → ⋮ → Redeploy**
+
+### Benchmarks (Task 2.3)
+
+| Metric                             | Result                   | Status |
+| ---------------------------------- | ------------------------ | ------ |
+| `src/lib/sanityClient.ts` exists   | Typed client exported    | ✅     |
+| `.env.example` exists              | Both vars documented     | ✅     |
+| `.env` gitignored                  | `.gitignore` lines 28–29 | ✅     |
+| Project ID not hardcoded in source | Only in `.env`           | ✅     |
+| `npx tsc --noEmit`                 | Exit 0                   | ✅     |
+| `npm run build`                    | Exit 0 (built in 39s)    | ✅     |
+| `npm run lint`                     | Exit 0                   | ✅     |
