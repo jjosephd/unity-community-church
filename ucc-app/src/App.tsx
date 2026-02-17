@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { churchTheme } from './theme/theme';
 import { Navigation } from './components/layout/Navigation';
 import { HomePage } from './pages/HomePage';
+import { SermonsPage } from './pages/SermonsPage';
+import { EventsPage } from './pages/EventsPage';
 import { LiveStreamingPage } from './pages/LiveStreamingPage';
 import { PhotoGalleryPage } from './pages/PhotoGalleryPage';
 import { GivingPage } from './pages/GivingPage';
@@ -22,6 +24,8 @@ function App() {
           <Navigation />
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/sermons" element={<SermonsPage />} />
+            <Route path="/events" element={<EventsPage />} />
             <Route
               path="/media/live-streaming"
               element={<LiveStreamingPage />}

@@ -96,6 +96,12 @@ export class NavigationMenuBuilder {
         }),
       )
       .addItem(
+        new NavigationItem('Sermons', '/sermons', {
+          testId: 'nav-sermons',
+          ariaLabel: 'Navigate to Sermons page',
+        }),
+      )
+      .addItem(
         new NavigationItem('About', '/about', {
           testId: 'nav-about',
           ariaLabel: 'Navigate to About page',
@@ -142,20 +148,6 @@ export class NavigationMenuBuilder {
         new NavigationItem('Events', '/events', {
           testId: 'nav-events',
           ariaLabel: 'Navigate to Events page',
-          children: [
-            new NavigationItem('Upcoming Events', '/events/upcoming', {
-              testId: 'nav-events-upcoming',
-            }),
-            new NavigationItem('Weekly Services', '/events/services', {
-              testId: 'nav-events-services',
-            }),
-            new NavigationItem('Special Events', '/events/special', {
-              testId: 'nav-events-special',
-            }),
-            new NavigationItem('Calendar', '/events/calendar', {
-              testId: 'nav-events-calendar',
-            }),
-          ],
         }),
       )
       .addItem(
@@ -180,6 +172,9 @@ export class NavigationMenuBuilder {
           testId: 'nav-media',
           ariaLabel: 'Navigate to Media page',
           children: [
+            new NavigationItem('Sermons', '/sermons', {
+              testId: 'nav-media-sermons',
+            }),
             new NavigationItem('Photo Gallery', '/media/gallery', {
               testId: 'nav-media-gallery',
             }),

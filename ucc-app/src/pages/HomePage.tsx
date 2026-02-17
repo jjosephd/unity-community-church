@@ -5,6 +5,7 @@ import { VideoSection } from '../components/home/VideoSection';
 import { AboutSection } from '../components/home/AboutSection';
 import { CarouselSection } from '../components/home/CarouselSection';
 import { BlogSection } from '../components/home/BlogSection';
+import { AnnouncementsSection } from '../components/home/AnnouncementsSection';
 import { CommunitySection } from '../components/home/CommunitySection';
 import { ContactSection } from '../components/home/ContactSection';
 import { MapSection } from '../components/home/MapSection';
@@ -24,7 +25,7 @@ import {
  * 2. Video - YouTube embed
  * 3. About - 4-column grid of cards
  * 4. Carousel - Unity Community Church showcase
- * 5. Blog - Latest posts
+ * 5. Announcements/Blog - Sanity announcements (falls back to hardcoded blog posts)
  * 6. Community - 2-column impact grid
  * 7. Contact - Contact form and info
  * 8. Map - Google Maps integration
@@ -57,8 +58,8 @@ export const HomePage = memo(() => {
       {/* Carousel Section */}
       <CarouselSection slides={carouselSlides} autoPlayInterval={5000} />
 
-      {/* Blog Section */}
-      <BlogSection posts={blogPosts} />
+      {/* Announcements — falls back to hardcoded blog posts on error/empty */}
+      <AnnouncementsSection fallback={<BlogSection posts={blogPosts} />} />
 
       {/* Community Section */}
       <CommunitySection items={communityItems} />
