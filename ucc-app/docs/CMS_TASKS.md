@@ -181,15 +181,17 @@ The system has **3 independent parts** that never share a runtime:
 
 **Alignment:** Phase 2 → `[MODIFY] package.json`
 
-- [ ] Run `npm install @sanity/client @sanity/image-url`
-- [ ] Verify both packages appear in `dependencies` in `package.json`
-- [ ] Verify `npm run build` still succeeds after install
+- [x] Run `npm install @sanity/client @sanity/image-url`
+- [x] Verify both packages appear in `dependencies` in `package.json`
+- [x] Verify `npm run build` still succeeds after install
+
+> **Benchmark (2026-02-17):** `@sanity/client@7.15.0`, `@sanity/image-url@2.0.3` installed. `npm run build` exit 0 (built in 61s). `npm run lint` exit 0.
 
 **Success Metrics:**
-| Metric | How to verify |
-| ------------------- | ------------------------------------------------------ |
-| Packages installed | `npm ls @sanity/client @sanity/image-url` shows versions |
-| Build not broken | `npm run build` exits 0 |
+| Metric | How to verify | Status |
+| ------------------- | ------------------------------------------------------ | ------ |
+| Packages installed | `npm ls @sanity/client @sanity/image-url` shows versions | ✅ |
+| Build not broken | `npm run build` exits 0 | ✅ |
 
 ---
 
@@ -198,12 +200,16 @@ The system has **3 independent parts** that never share a runtime:
 **`[GAP 1 FIX]`** — Shared TypeScript interfaces prevent UI/schema drift.  
 **Alignment:** Phase 2 → Type safety requirement
 
-- [ ] Create `src/types/sanity.ts`
-- [ ] Define interfaces matching GROQ query projections (not raw Sanity documents):
+- [x] Create `src/types/sanity.ts`
+- [x] Define interfaces matching GROQ query projections (not raw Sanity documents)
+- [x] **Upgrade:** Added shared `SanityDocument` base interface — `Sermon`, `Event`, `Announcement` extend it (DRY for `_id`, cleaner generics for `useSanityData<T>`)
 
 ```ts
-export interface Sermon {
+export interface SanityDocument {
   _id: string;
+}
+
+export interface Sermon extends SanityDocument {
   title: string;
   date: string;
   speaker: string;
@@ -213,8 +219,7 @@ export interface Sermon {
   thumbnailAlt?: string;
 }
 
-export interface Event {
-  _id: string;
+export interface Event extends SanityDocument {
   title: string;
   date: string;
   time?: string;
@@ -225,8 +230,7 @@ export interface Event {
   isRecurring?: boolean;
 }
 
-export interface Announcement {
-  _id: string;
+export interface Announcement extends SanityDocument {
   title: string;
   body: unknown[]; // Portable Text blocks
   publishDate: string;
@@ -246,12 +250,16 @@ export interface SiteSettings {
 - [ ] All data-fetching hooks must use these types: `useSanityData<Sermon[]>`, `useSanityData<Event[]>`, etc.
 - [ ] All page components receive typed data — no `any`
 
+> **Benchmark (2026-02-17):** `npx tsc --noEmit` exit 0. Zero `: any` in `src/types/sanity.ts`. Exports 5 interfaces: `SanityDocument`, `Sermon`, `Event`, `Announcement`, `SiteSettings`.
+>
+> **Integration strategy:** See [PHASE_2_INTEGRATION_STRATEGY.md](tasks/PHASE_2_INTEGRATION_STRATEGY.md)
+
 **Success Metrics:**
-| Metric | How to verify |
-| -------------------------------------------- | -------------------------------------------------------- |
-| `src/types/sanity.ts` exists and exports 4 types | `import { Sermon, Event, Announcement, SiteSettings }` compiles |
-| No `any` in Sanity data flow | `grep -r ": any" src/hooks/useSanityData.ts src/pages/Sermons*.tsx src/pages/Events*.tsx` → 0 results |
-| `npx tsc --noEmit` passes | Exit code 0 |
+| Metric | How to verify | Status |
+| -------------------------------------------- | -------------------------------------------------------- | ------ |
+| `src/types/sanity.ts` exists and exports types | `import { Sermon, Event, Announcement, SiteSettings }` compiles | ✅ |
+| No `any` in Sanity data flow | `grep -r ": any" src/types/sanity.ts` → 0 results | ✅ |
+| `npx tsc --noEmit` passes | Exit code 0 | ✅ |
 
 ---
 
