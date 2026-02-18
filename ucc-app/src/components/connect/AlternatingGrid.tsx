@@ -23,11 +23,7 @@ const ROW_HEIGHT = { xs: 'auto', md: 300 };
  */
 export const AlternatingGrid = memo(({ items }: AlternatingGridProps) => {
   return (
-    <Box
-      component="section"
-      data-testid="alternating-grid"
-      sx={{ mb: { xs: 4, md: 6 } }}
-    >
+    <Box component="section" data-testid="alternating-grid" sx={{ mb: 0 }}>
       {items.map((item, index) => {
         const isImageLeft = index % 2 === 0;
 
@@ -78,11 +74,11 @@ export const AlternatingGrid = memo(({ items }: AlternatingGridProps) => {
               <Typography
                 variant="h3"
                 component="h2"
-                className="uppercase"
+                className="font-alfa uppercase"
                 sx={{
-                  fontFamily: '"Ultra", serif',
                   fontSize: { xs: '1.75rem', md: '2.25rem' },
                   fontWeight: 400,
+                  letterSpacing: '0.05em',
                   color: 'text.primary',
                   mb: 2,
                   px: { xs: '1.75rem', md: '2.25rem' },

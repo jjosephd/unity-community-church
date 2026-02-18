@@ -127,9 +127,6 @@ export class NavigationMenuBuilder {
             new NavigationItem('Community Outreach', '/ministries/outreach', {
               testId: 'nav-ministries-outreach',
             }),
-            new NavigationItem('Small Groups', '/ministries/groups', {
-              testId: 'nav-ministries-groups',
-            }),
           ],
         }),
       )

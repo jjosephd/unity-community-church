@@ -104,7 +104,7 @@ export const AboutStoryPage = () => {
               component="h1"
               sx={{
                 fontFamily: '"Alfa Slab One", serif',
-                fontSize: { xs: '3rem', md: '5rem' },
+                fontSize: { xs: '3rem', md: '4rem' },
                 lineHeight: 1.1,
                 mb: 3,
                 textTransform: 'uppercase',
@@ -118,16 +118,16 @@ export const AboutStoryPage = () => {
               </Box>
             </Typography>
             <Typography
-              variant="h5"
+              variant="h6"
               sx={{
-                maxWidth: '600px',
+                maxWidth: '800px',
                 opacity: 0.9,
                 fontWeight: 300,
                 lineHeight: 1.6,
               }}
             >
-              Where there's Unity, there's always Victory! Join us as we grow
-              together in Christ.
+              Where there's Unity, there's always Victory! <br /> Join us as we
+              grow together in Christ.
             </Typography>
           </Box>
         </Container>
@@ -298,12 +298,12 @@ export const AboutStoryPage = () => {
                 align="left"
                 sx={{
                   fontFamily: '"Alfa Slab One", serif',
-                  fontSize: { xs: '2.5rem', md: '3.5rem' },
+                  fontSize: { xs: '2.5rem', md: '3rem' },
                   color: 'primary.main',
                   mb: 4,
                 }}
               >
-                Hi, I'm Pastor Cavell.
+                Pastor Cavell.
               </Typography>
 
               <Box

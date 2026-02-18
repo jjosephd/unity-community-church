@@ -28,6 +28,18 @@ body {
     sans-serif;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Alfa Slab One', serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 @utility glass {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px);
@@ -35,4 +47,8 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(90, 12, 119, 0.1);
+}
+
+@utility font-alfa {
+  font-family: 'Alfa Slab One', serif;
 }

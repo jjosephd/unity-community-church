@@ -3,7 +3,7 @@ import { memo } from 'react';
 
 /**
  * Connect Hero Section
- * Simple hero with "Let's Connect" gradient heading
+ * Simple hero with "Let's Connect" heading
  */
 export const ConnectHero = memo(() => {
   return (
@@ -21,28 +21,17 @@ export const ConnectHero = memo(() => {
           variant="h1"
           component="h1"
           data-testid="connect-hero-title"
-          className=""
+          className="font-alfa uppercase"
           sx={{
-            fontFamily: '"Ultra", serif',
             fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
-            fontWeight: 600,
+            fontWeight: 400,
             lineHeight: 1.1,
-            letterSpacing: '-0.01em',
+            letterSpacing: '0.05em',
             mb: 3,
+            color: 'primary.main',
           }}
         >
-          Let's{' '}
-          <Box
-            component="span"
-            sx={{
-              background: 'linear-gradient(90deg, #8B2FC9 0%, #8B2FC9 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            Connect
-          </Box>
+          Let's Connect
         </Typography>
         <Typography
           variant="h5"

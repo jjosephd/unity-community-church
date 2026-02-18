@@ -14,8 +14,42 @@ export const churchTheme = createTheme({
   },
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    h1: { fontWeight: 700 },
-    h2: { fontWeight: 700 },
+    h1: {
+      fontFamily: '"Alfa Slab One", serif',
+      fontWeight: 400,
+      textTransform: 'uppercase',
+      letterSpacing: '0.05em',
+    },
+    h2: {
+      fontFamily: '"Alfa Slab One", serif',
+      fontWeight: 400,
+      textTransform: 'uppercase',
+      letterSpacing: '0.05em',
+    },
+    h3: {
+      fontFamily: '"Alfa Slab One", serif',
+      fontWeight: 400,
+      textTransform: 'uppercase',
+      letterSpacing: '0.05em',
+    },
+    h4: {
+      fontFamily: '"Alfa Slab One", serif',
+      fontWeight: 400,
+      textTransform: 'uppercase',
+      letterSpacing: '0.05em',
+    },
+    h5: {
+      fontFamily: '"Alfa Slab One", serif',
+      fontWeight: 400,
+      textTransform: 'uppercase',
+      letterSpacing: '0.05em',
+    },
+    h6: {
+      fontFamily: '"Alfa Slab One", serif',
+      fontWeight: 400,
+      textTransform: 'uppercase',
+      letterSpacing: '0.05em',
+    },
     button: { textTransform: 'none' },
   },
   shape: {
