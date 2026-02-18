@@ -95,12 +95,7 @@ export class NavigationMenuBuilder {
           ariaLabel: 'Navigate to Home page',
         }),
       )
-      .addItem(
-        new NavigationItem('Sermons', '/sermons', {
-          testId: 'nav-sermons',
-          ariaLabel: 'Navigate to Sermons page',
-        }),
-      )
+
       .addItem(
         new NavigationItem('About', '/about', {
           testId: 'nav-about',
@@ -109,14 +104,8 @@ export class NavigationMenuBuilder {
             new NavigationItem('Our Story', '/about/story', {
               testId: 'nav-about-story',
             }),
-            new NavigationItem('Our Mission', '/about/mission', {
-              testId: 'nav-about-mission',
-            }),
             new NavigationItem('Leadership', '/about/leadership', {
               testId: 'nav-about-leadership',
-            }),
-            new NavigationItem('Beliefs', '/about/beliefs', {
-              testId: 'nav-about-beliefs',
             }),
           ],
         }),
@@ -157,9 +146,6 @@ export class NavigationMenuBuilder {
           children: [
             new NavigationItem('Online Giving', '/give/online', {
               testId: 'nav-give-online',
-            }),
-            new NavigationItem('Ways to Give', '/give/ways', {
-              testId: 'nav-give-ways',
             }),
             new NavigationItem('Impact Stories', '/give/impact', {
               testId: 'nav-give-impact',
