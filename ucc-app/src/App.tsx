@@ -6,6 +6,7 @@ import { Navigation } from './components/layout/Navigation';
 import { HomePage } from './pages/HomePage';
 import { SermonsPage } from './pages/SermonsPage';
 import { EventsPage } from './pages/EventsPage';
+import { AboutStoryPage } from './pages/AboutStoryPage';
 import { LiveStreamingPage } from './pages/LiveStreamingPage';
 import { PhotoGalleryPage } from './pages/PhotoGalleryPage';
 import { GivingPage } from './pages/GivingPage';
@@ -26,6 +27,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/sermons" element={<SermonsPage />} />
             <Route path="/events" element={<EventsPage />} />
+            <Route path="/about/story" element={<AboutStoryPage />} />
             <Route
               path="/media/live-streaming"
               element={<LiveStreamingPage />}
