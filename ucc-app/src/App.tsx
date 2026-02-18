@@ -7,11 +7,13 @@ import { HomePage } from './pages/HomePage';
 import { SermonsPage } from './pages/SermonsPage';
 import { EventsPage } from './pages/EventsPage';
 import { AboutStoryPage } from './pages/AboutStoryPage';
+import { LeadershipPage } from './pages/LeadershipPage';
 import { LiveStreamingPage } from './pages/LiveStreamingPage';
 import { PhotoGalleryPage } from './pages/PhotoGalleryPage';
 import { GivingPage } from './pages/GivingPage';
 import { ConnectPage } from './pages/ConnectPage';
 import { ImpactStoriesPage } from './pages/ImpactStoriesPage';
+import { OutreachPage } from './pages/OutreachPage';
 
 /** Shared query client — lives at module scope so it survives re-renders. */
 const queryClient = new QueryClient();
@@ -28,6 +30,7 @@ function App() {
             <Route path="/sermons" element={<SermonsPage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/about/story" element={<AboutStoryPage />} />
+            <Route path="/about/leadership" element={<LeadershipPage />} />
             <Route
               path="/media/live-streaming"
               element={<LiveStreamingPage />}
@@ -36,6 +39,7 @@ function App() {
             <Route path="/give" element={<GivingPage />} />
             <Route path="/give/online" element={<GivingPage />} />
             <Route path="/give/impact" element={<ImpactStoriesPage />} />
+            <Route path="/ministries/outreach" element={<OutreachPage />} />
             <Route path="/connect" element={<ConnectPage />} />
           </Routes>
         </ThemeProvider>
