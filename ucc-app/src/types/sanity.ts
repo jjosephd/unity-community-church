@@ -33,8 +33,13 @@ export interface Event extends SanityDocument {
   time?: string;
   location?: string;
   description?: string;
-  imageUrl?: string;
-  imageAlt?: string;
+  image?: {
+    asset: {
+      _ref: string;
+      _type: string;
+    };
+    alt?: string;
+  };
   isRecurring?: boolean;
 }
 

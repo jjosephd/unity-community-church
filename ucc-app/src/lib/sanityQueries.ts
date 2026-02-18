@@ -42,8 +42,8 @@ export const EVENTS_QUERY = `
     time,
     location,
     description,
-    "imageUrl": image.asset->url,
-    "imageAlt": image.alt,
+    description,
+    image,
     isRecurring
   }
 `;

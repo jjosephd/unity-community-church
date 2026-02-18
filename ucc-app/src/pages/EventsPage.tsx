@@ -18,7 +18,7 @@ import { memo } from 'react';
 import { format } from 'date-fns';
 import { useSanityData } from '../hooks/useSanityData';
 import { EVENTS_QUERY } from '../lib/sanityQueries';
-import { DEFAULT_EVENT_IMAGE } from '../lib/sanityImageUrl';
+import { DEFAULT_EVENT_IMAGE, urlFor } from '../lib/sanityImageUrl';
 import { ContentFallbackBanner } from '../components/common/ContentFallbackBanner';
 import type { Event } from '../types/sanity';
 
@@ -34,13 +34,13 @@ function EventSkeleton() {
   return (
     <Card
       sx={{
-        borderRadius: 3,
+        borderRadius: 2,
         overflow: 'hidden',
         border: '1px solid',
         borderColor: 'divider',
       }}
     >
-      <Skeleton variant="rectangular" height={220} animation="wave" />
+      <Skeleton variant="rectangular" height={120} animation="wave" />
       <CardContent>
         <Skeleton width="70%" height={28} />
         <Skeleton width="50%" height={20} sx={{ mt: 1 }} />
@@ -68,7 +68,7 @@ function EventCard({ event }: { event: Event }) {
   return (
     <Card
       sx={{
-        borderRadius: 3,
+        borderRadius: 2,
         overflow: 'hidden',
         border: '1px solid',
         borderColor: 'divider',
@@ -81,9 +81,13 @@ function EventCard({ event }: { event: Event }) {
     >
       <CardMedia
         component="img"
-        height={220}
-        image={event.imageUrl || DEFAULT_EVENT_IMAGE}
-        alt={event.imageAlt || event.title}
+        height={120}
+        image={
+          event.image
+            ? urlFor(event.image).height(120).fit('crop').url()
+            : DEFAULT_EVENT_IMAGE
+        }
+        alt={event.image?.alt || event.title}
         sx={{ objectFit: 'cover' }}
       />
       <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -99,7 +103,7 @@ function EventCard({ event }: { event: Event }) {
           <Typography
             variant="h6"
             component="h2"
-            sx={{ fontWeight: 600, lineHeight: 1.3 }}
+            sx={{ fontWeight: 600, lineHeight: 1.3, color: 'primary.main' }}
           >
             {event.title}
           </Typography>
@@ -255,7 +259,8 @@ export const EventsPage = memo(() => {
         {!isLoading && !error && events && events.length > 0 && (
           <Box
             sx={{
-              display: 'grid',
+              display: events.length === 1 ? 'flex' : 'grid',
+              justifyContent: events.length === 1 ? 'center' : 'unset',
               gridTemplateColumns: {
                 xs: '1fr',
                 sm: 'repeat(2, 1fr)',
@@ -264,7 +269,15 @@ export const EventsPage = memo(() => {
             }}
           >
             {events.map((event) => (
-              <EventCard key={event._id} event={event} />
+              <Box
+                key={event._id}
+                sx={{
+                  width: '100%',
+                  maxWidth: events.length === 1 ? '600px' : 'none',
+                }}
+              >
+                <EventCard event={event} />
+              </Box>
             ))}
           </Box>
         )}
