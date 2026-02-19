@@ -42,7 +42,6 @@ export const EVENTS_QUERY = `
     time,
     location,
     description,
-    description,
     image,
     isRecurring
   }

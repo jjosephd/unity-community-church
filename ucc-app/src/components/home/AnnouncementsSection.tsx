@@ -27,6 +27,7 @@ import {
 import { CalendarToday } from '@mui/icons-material';
 import { useSanityData } from '../../hooks/useSanityData';
 import { ANNOUNCEMENTS_QUERY } from '../../lib/sanityQueries';
+import { formatLocalDate } from '../../lib/dateUtils';
 import type { Announcement } from '../../types/sanity';
 
 /* ── Helpers ───────────────────────────────────────────────────── */
@@ -152,11 +153,7 @@ const AnnouncementCard = memo(
           >
             <CalendarToday fontSize="small" />
             <Typography variant="caption">
-              {new Date(announcement.publishDate).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}
+              {formatLocalDate(announcement.publishDate, 'MMM d, yyyy')}
             </Typography>
           </Box>
         </CardContent>

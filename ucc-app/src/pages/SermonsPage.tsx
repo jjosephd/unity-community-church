@@ -17,10 +17,10 @@ import {
 } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { memo, useState, useMemo } from 'react';
-import { format } from 'date-fns';
 import { useSanityData } from '../hooks/useSanityData';
 import { SERMONS_QUERY } from '../lib/sanityQueries';
 import { DEFAULT_SERMON_THUMBNAIL } from '../lib/sanityImageUrl';
+import { formatLocalDate } from '../lib/dateUtils';
 import { ContentFallbackBanner } from '../components/common/ContentFallbackBanner';
 import type { Sermon } from '../types/sanity';
 
@@ -112,7 +112,7 @@ function SermonCard({
           {sermon.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {format(new Date(sermon.date), 'MMMM d, yyyy')}
+          {formatLocalDate(sermon.date, 'MMMM d, yyyy')}
         </Typography>
         <Chip
           label={sermon.speaker}
@@ -202,7 +202,7 @@ function SermonDetailDialog({
           </Typography>
           <Typography variant="body1">
             <strong>Date:</strong>{' '}
-            {format(new Date(sermon.date), 'MMMM d, yyyy')}
+            {formatLocalDate(sermon.date, 'MMMM d, yyyy')}
           </Typography>
           {sermon.scripture && (
             <Typography variant="body1">
