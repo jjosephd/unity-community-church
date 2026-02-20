@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ultra&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+
 @import 'tailwindcss';
 
 @theme {
@@ -8,6 +8,8 @@
   --color-cream: #fdf8f3;
   --color-black: #0d0d0d;
   --color-charcoal: #1a1a1a;
+  --font-headline: 'Montserrat', sans-serif;
+  --font-subtext: 'Open Sans', sans-serif;
 }
 
 :root {
@@ -22,6 +24,7 @@ body {
   background-color: var(--color-cream);
   color: var(--color-charcoal);
   font-family:
+    'Open Sans',
     'Inter',
     system-ui,
     -apple-system,
@@ -34,10 +37,9 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Alfa Slab One', serif;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 @utility glass {
@@ -49,6 +51,11 @@ h6 {
   box-shadow: 0 8px 32px rgba(90, 12, 119, 0.1);
 }
 
-@utility font-alfa {
-  font-family: 'Alfa Slab One', serif;
+@utility font-headline {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+}
+
+@utility font-subtext {
+  font-family: 'Open Sans', sans-serif;
 }

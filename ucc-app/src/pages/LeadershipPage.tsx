@@ -40,7 +40,7 @@ const LeadershipSection = ({ group }: { group: LeadershipGroup }) => {
           variant="h4"
           component="h2"
           sx={{
-            fontFamily: '"Alfa Slab One", serif',
+            fontFamily: '"Montserrat", sans-serif',
             color: 'primary.main',
             mb: 1,
             textTransform: 'uppercase',
@@ -196,7 +196,7 @@ export const LeadershipPage = () => {
               variant="h1"
               component="h1"
               sx={{
-                fontFamily: '"Alfa Slab One", serif',
+                fontFamily: '"Montserrat", sans-serif',
                 fontSize: { xs: '2.5rem', md: '4rem' },
                 mb: 2,
                 textTransform: 'uppercase',

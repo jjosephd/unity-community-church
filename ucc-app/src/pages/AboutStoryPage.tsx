@@ -103,7 +103,7 @@ export const AboutStoryPage = () => {
               variant="h1"
               component="h1"
               sx={{
-                fontFamily: '"Alfa Slab One", serif',
+                fontFamily: '"Montserrat", sans-serif',
                 fontSize: { xs: '3rem', md: '4rem' },
                 lineHeight: 1.1,
                 mb: 3,
@@ -176,7 +176,7 @@ export const AboutStoryPage = () => {
                 fontWeight=""
                 sx={{
                   mt: 1,
-                  fontFamily: '"Alfa Slab One", serif',
+                  fontFamily: '"Montserrat", sans-serif',
                   textTransform: 'uppercase',
                   color: 'primary.main',
                 }}
@@ -297,7 +297,7 @@ export const AboutStoryPage = () => {
                 variant="h2"
                 align="left"
                 sx={{
-                  fontFamily: '"Alfa Slab One", serif',
+                  fontFamily: '"Montserrat", sans-serif',
                   fontSize: { xs: '2.5rem', md: '3rem' },
                   color: 'primary.main',
                   mb: 4,
@@ -379,7 +379,7 @@ export const AboutStoryPage = () => {
             sx={{
               mt: 1,
               textTransform: 'uppercase',
-              fontFamily: '"Alfa Slab One", serif',
+              fontFamily: '"Montserrat", sans-serif',
               color: 'primary.main',
               letterSpacing: '0.025em',
             }}

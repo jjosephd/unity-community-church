@@ -89,7 +89,7 @@ const TeamSection = ({
           variant="h4"
           component="h2"
           sx={{
-            fontFamily: '"Alfa Slab One", serif',
+            fontFamily: '"Montserrat", sans-serif',
             color: 'primary.main',
             mb: 1,
             textTransform: 'uppercase',
@@ -193,7 +193,7 @@ export const OutreachPage = () => {
             variant="h1"
             component="h1"
             sx={{
-              fontFamily: '"Alfa Slab One", serif',
+              fontFamily: '"Montserrat", sans-serif',
               fontSize: { xs: '2.5rem', md: '4.5rem' },
               mb: 2,
               textTransform: 'uppercase',
@@ -242,7 +242,7 @@ export const OutreachPage = () => {
               <Typography
                 variant="h3"
                 sx={{
-                  fontFamily: '"Alfa Slab One", serif',
+                  fontFamily: '"Montserrat", sans-serif',
                   fontSize: { xs: '2rem', md: '2.5rem' },
                   mb: 3,
                   textTransform: 'uppercase',

@@ -31,7 +31,7 @@ const GivelifyIcon = () => (
       fontSize: 24,
       fontWeight: 800,
       color: 'white',
-      fontFamily: '"Inter", sans-serif',
+      fontFamily: '"Montserrat", sans-serif',
     }}
   >
     G
