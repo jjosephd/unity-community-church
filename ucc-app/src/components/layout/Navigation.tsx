@@ -29,6 +29,7 @@ import {
   NavigationMenuBuilder,
   NavigationItem,
 } from '../../models/NavigationItem';
+import { SocialMediaLinks } from '../common/SocialMediaLinks';
 
 /**
  * Main navigation component with glassmorphism effects and dropdown menus
@@ -335,11 +336,18 @@ export const Navigation = memo(() => {
     <Box
       sx={{
         display: { xs: 'none', md: 'flex' },
-        gap: 0.5,
+        gap: { md: 0.5, lg: 1 },
         alignItems: 'center',
       }}
     >
       {navItems.map(renderDesktopNavItem)}
+      <Box sx={{ ml: 2, display: 'flex', alignItems: 'center' }}>
+        <SocialMediaLinks
+          color={isScrolled ? 'text.secondary' : 'rgba(255, 255, 255, 0.85)'}
+          size="medium"
+          gap={0.5}
+        />
+      </Box>
     </Box>
   );
 
@@ -367,7 +375,12 @@ export const Navigation = memo(() => {
           <CloseIcon />
         </IconButton>
       </Box>
-      <List>{navItems.map(renderMobileNavItem)}</List>
+      <List sx={{ flexGrow: 1 }}>{navItems.map(renderMobileNavItem)}</List>
+
+      {/* Mobile Social Links Footer */}
+      <Box sx={{ p: 3, borderTop: '1px solid rgba(90, 12, 119, 0.1)' }}>
+        <SocialMediaLinks color="text.secondary" gap={1.5} size="large" />
+      </Box>
     </Drawer>
   );
 
