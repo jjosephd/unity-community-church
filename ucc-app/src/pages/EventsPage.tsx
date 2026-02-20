@@ -102,18 +102,26 @@ function FeaturedEventCard({ event }: { event: Event }) {
         },
       }}
     >
-      <Box sx={{ position: 'relative', overflow: 'hidden' }}>
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          aspectRatio: '16 / 9', // 🔥 consistent shape
+          overflow: 'hidden',
+        }}
+      >
         <CardMedia
           component="img"
           image={
             event.image
-              ? urlFor(event.image).height(400).width(800).fit('crop').url()
+              ? urlFor(event.image).width(1200).height(675).fit('crop').url()
               : DEFAULT_EVENT_IMAGE
           }
           alt={event.image?.alt || event.title}
           className="featured-image"
           sx={{
-            height: { xs: 240, md: 400 },
+            width: '100%',
+            height: '100%',
             objectFit: 'cover',
             transition: 'transform 0.5s ease',
           }}
@@ -219,6 +227,7 @@ function SidebarEventCard({
         transition: 'all 0.2s ease',
         cursor: 'pointer',
         position: 'relative',
+        p: 0,
         '&:hover': {
           transform: 'translateX(4px)',
           boxShadow: '0 4px 20px rgba(0,0,0,0.08)',

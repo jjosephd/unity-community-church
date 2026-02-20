@@ -22,8 +22,13 @@ export interface Sermon extends SanityDocument {
   speaker: string;
   scripture?: string;
   videoUrl?: string;
-  thumbnailUrl?: string;
-  thumbnailAlt?: string;
+  thumbnail?: {
+    asset: {
+      _ref: string;
+      _type: string;
+    };
+    alt?: string;
+  };
 }
 
 /** An event record as projected by EVENTS_QUERY. */

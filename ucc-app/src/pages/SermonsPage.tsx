@@ -19,7 +19,7 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { memo, useState, useMemo } from 'react';
 import { useSanityData } from '../hooks/useSanityData';
 import { SERMONS_QUERY } from '../lib/sanityQueries';
-import { DEFAULT_SERMON_THUMBNAIL } from '../lib/sanityImageUrl';
+import { urlFor, DEFAULT_SERMON_THUMBNAIL } from '../lib/sanityImageUrl';
 import { formatLocalDate } from '../lib/dateUtils';
 import { ContentFallbackBanner } from '../components/common/ContentFallbackBanner';
 import type { Sermon } from '../types/sanity';
@@ -62,7 +62,11 @@ function SermonSkeleton() {
         borderColor: 'divider',
       }}
     >
-      <Skeleton variant="rectangular" height={200} animation="wave" />
+      <Skeleton
+        variant="rectangular"
+        sx={{ width: '100%', paddingTop: '56.25%' }} // 16:9 aspect ratio
+        animation="wave"
+      />
       <CardContent>
         <Skeleton width="80%" height={28} />
         <Skeleton width="50%" height={20} sx={{ mt: 1 }} />
@@ -96,13 +100,33 @@ function SermonCard({
         },
       }}
     >
-      <CardMedia
-        component="img"
-        height={200}
-        image={sermon.thumbnailUrl || DEFAULT_SERMON_THUMBNAIL}
-        alt={sermon.thumbnailAlt || sermon.title}
-        sx={{ objectFit: 'cover' }}
-      />
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          aspectRatio: '16 / 9', // 🔥 consistent shape
+          overflow: 'hidden',
+        }}
+      >
+        <CardMedia
+          component="img"
+          image={
+            sermon.thumbnail
+              ? urlFor(sermon.thumbnail)
+                  .width(1200)
+                  .height(675)
+                  .fit('crop')
+                  .url()
+              : DEFAULT_SERMON_THUMBNAIL
+          }
+          alt={sermon.thumbnail?.alt || sermon.title}
+          sx={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+      </Box>
       <CardContent>
         <Typography
           variant="h6"

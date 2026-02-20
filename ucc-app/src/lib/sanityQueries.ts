@@ -24,8 +24,7 @@ export const SERMONS_QUERY = `
     speaker,
     scripture,
     videoUrl,
-    "thumbnailUrl": thumbnail.asset->url,
-    "thumbnailAlt": thumbnail.alt
+    thumbnail
   }
 `;
 
