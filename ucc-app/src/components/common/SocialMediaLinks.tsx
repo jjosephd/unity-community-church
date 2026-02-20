@@ -19,7 +19,9 @@ interface SocialMediaLinksProps {
     youtube?: boolean;
   };
 }
-
+const DEFAULT_LINKS = {
+  facebook: 'https://www.facebook.com/profile.php?id=100064909292003',
+};
 /**
  * A reusable, standalone social media links component containing
  * Facebook, Instagram, and YouTube circular icon buttons.
@@ -27,23 +29,31 @@ interface SocialMediaLinksProps {
 export const SocialMediaLinks = ({
   color,
   gap = 1,
-  size = 'medium',
+  size = 'small',
   show = { facebook: true, instagram: true, youtube: true },
 }: SocialMediaLinksProps) => {
-  const iconStyle = color
-    ? { color, transition: 'color 0.2s ease-in-out' }
-    : {};
+  const baseIconStyle = {
+    color: color || 'inherit',
+    transition: 'all 0.2s ease-in-out',
+    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    '&:hover': {
+      backgroundColor: 'rgba(205, 182, 214, 0.15)', // #cdb6d6 with 15% opacity
+      color: '#cdb6d6',
+      transform: 'translateY(-2px)',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    },
+  };
 
   return (
     <Box sx={{ display: 'flex', gap, alignItems: 'center' }}>
       {show.facebook !== false && (
         <IconButton
           aria-label="Visit our Facebook page"
-          href="https://www.facebook.com/search/top?q=ucc4me" //
+          href={DEFAULT_LINKS.facebook}
           target="_blank"
           rel="noopener noreferrer"
           size={size}
-          sx={iconStyle}
+          sx={baseIconStyle}
         >
           <FacebookIcon fontSize="inherit" />
         </IconButton>
@@ -56,7 +66,7 @@ export const SocialMediaLinks = ({
           target="_blank"
           rel="noopener noreferrer"
           size={size}
-          sx={iconStyle}
+          sx={baseIconStyle}
         >
           <InstagramIcon fontSize="inherit" />
         </IconButton>
@@ -69,7 +79,7 @@ export const SocialMediaLinks = ({
           target="_blank"
           rel="noopener noreferrer"
           size={size}
-          sx={iconStyle}
+          sx={baseIconStyle}
         >
           <YouTubeIcon fontSize="inherit" />
         </IconButton>
