@@ -7,7 +7,12 @@ import {
   CardContent,
   Avatar,
   Divider,
+  CircularProgress,
 } from '@mui/material';
+
+import { useSanityData } from '../hooks/useSanityData';
+import { LEADERSHIP_GROUPS_QUERY } from '../lib/sanityQueries';
+import { ContentFallbackBanner } from '../components/common/ContentFallbackBanner';
 
 // --- Types & Interfaces ---
 
@@ -24,52 +29,6 @@ interface LeadershipGroup {
   description: string; // The role description provided in the requirements
   members: Leader[];
 }
-
-// --- Mock Data ---
-
-const leadershipGroups: LeadershipGroup[] = [
-  {
-    id: 'pastors-elders',
-    title: 'Pastors, Elders & Overseers',
-    description:
-      'Responsible for spiritual guidance, preaching, and shepherding the congregation.',
-    members: [
-      {
-        name: 'Dr. Cavell W. Phillips',
-        role: 'Senior Pastor',
-        image: '/images/pastor01.jpg',
-      },
-    ], // Placeholder members
-  },
-  {
-    id: 'deacons',
-    title: 'Deacons',
-    description:
-      'Focus on practical, tangible needs of the church and community.',
-    members: [],
-  },
-  {
-    id: 'board-council',
-    title: 'Board / Council',
-    description:
-      'Provides oversight, sets strategic direction, and ensures accountability for the senior leader.',
-    members: [],
-  },
-  {
-    id: 'staff',
-    title: 'Staff',
-    description:
-      'Handles daily operations, administration, and ministry management.',
-    members: [],
-  },
-  {
-    id: 'ministry-leaders',
-    title: 'Ministry Leaders & Volunteers',
-    description:
-      'Coordinate specific areas like worship, outreach, or small groups.',
-    members: [],
-  },
-];
 
 // --- Components ---
 
@@ -113,9 +72,9 @@ const LeadershipSection = ({ group }: { group: LeadershipGroup }) => {
         />
       </Box>
 
-      {group.members.length > 0 ? (
+      {(group.members || []).length > 0 ? (
         <Grid container spacing={4}>
-          {group.members.map((member, index) => (
+          {(group.members || []).map((member, index) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
               <Card
                 elevation={0}
@@ -197,6 +156,15 @@ const LeadershipSection = ({ group }: { group: LeadershipGroup }) => {
 };
 
 export const LeadershipPage = () => {
+  const {
+    data: leadershipGroups,
+    isLoading,
+    error,
+  } = useSanityData<LeadershipGroup[]>(
+    'leadershipGroups',
+    LEADERSHIP_GROUPS_QUERY,
+  );
+
   return (
     <Box>
       {/* Hero Section */}
@@ -283,9 +251,30 @@ export const LeadershipPage = () => {
 
       {/* Main Content */}
       <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>
-        {leadershipGroups.map((group) => (
-          <LeadershipSection key={group.id} group={group} />
-        ))}
+        {isLoading && (
+          <Box sx={{ display: 'flex', justifyContent: 'center', my: 8 }}>
+            <CircularProgress aria-label="Loading leadership data" />
+          </Box>
+        )}
+
+        {error && <ContentFallbackBanner />}
+
+        {!isLoading &&
+          !error &&
+          (!leadershipGroups || leadershipGroups.length === 0) && (
+            <Box sx={{ textAlign: 'center', py: 8 }}>
+              <Typography variant="body1" color="text.secondary">
+                Check back soon for leadership updates.
+              </Typography>
+            </Box>
+          )}
+
+        {!isLoading &&
+          !error &&
+          leadershipGroups &&
+          leadershipGroups.map((group) => (
+            <LeadershipSection key={group.id} group={group} />
+          ))}
       </Container>
     </Box>
   );

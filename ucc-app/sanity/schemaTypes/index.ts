@@ -16,5 +16,14 @@ import { sermon } from './sermon';
 import { event } from './event';
 import { announcement } from './announcement';
 import { siteSettings } from './siteSettings';
+import { leader } from './leader';
+import { leadershipGroup } from './leadershipGroup';
 
-export const schemaTypes = [sermon, event, announcement, siteSettings];
+export const schemaTypes = [
+  sermon,
+  event,
+  announcement,
+  siteSettings,
+  leader,
+  leadershipGroup,
+];

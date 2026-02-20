@@ -81,3 +81,22 @@ export const SITE_SETTINGS_QUERY = `
     }
   }
 `;
+
+/**
+ * Fetches all leadership groups, ordered by their display order.
+ * Projects member profile images to direct URLs.
+ */
+export const LEADERSHIP_GROUPS_QUERY = `
+  *[_type == "leadershipGroup"] | order(order asc) {
+    _id,
+    title,
+    description,
+    "id": _id,
+    members[] {
+      name,
+      role,
+      "image": image.asset->url,
+      bio
+    }
+  }
+`;
