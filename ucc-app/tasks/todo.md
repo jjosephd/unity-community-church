@@ -1,17 +1,20 @@
-# Social Media Links Component Implementation
+# Plan: Cash App Link Integration
 
-## Goals
+## Objective
 
-- Create a DRY, KISS reusable component for social media circular buttons (`SocialMediaLinks`).
-- Include Facebook, Instagram, and YouTube icons from `@mui/icons-material`.
-- Integrate the component into the existing NavBar.
+Enable the Cash App giving platform and direct it to the `$Cavellwphilips` Cashtag.
 
 ## Tasks
 
-- [x] Investigate existing `NavBar` or `Navigation` components to understand styling and layout.
-- [x] Create `SocialMediaLinks.tsx` component in the appropriate `components` folder.
-- [x] Add `@mui/icons-material` icons (Facebook, Instagram, YouTube) to the component.
-- [x] Style the buttons to be circular and fit neatly in the navbar.
-- [/] Integrate `SocialMediaLinks` into the `NavBar` component.
-- [ ] Review and test the component visually in the context of the running app.
-- [ ] Document lessons and check if it follows KISS and DRY.
+- [ ] 1. Update `public/giving-config.json`
+  - Set `cashapp.url` to `"https://cash.app/$Cavellwphilips"`.
+  - Set `cashapp.enabled` to `true`.
+- [ ] 2. Update `src/data/givingData.ts` (if necessary)
+  - Verify that the `cashapp` platform correctly interprets the configuration (it's currently fetching from `giving-config.json` at runtime). The text hints "Replace with actual Cash App $Cashtag URL when available", so we may want to update that comment but the dynamic fetch is the key.
+- [ ] 3. Examine `src/components/giving/GivingPlatformSelector.tsx`
+  - Ensure the Cash App button renders correctly when `giving-config.json` enables it. It should open the link in a new tab securely (`target="_blank"`, `rel="noopener noreferrer"`).
+- [ ] 4. Test the implementation
+  - Start the app with `npm run dev` and navigate to the Giving section.
+  - Verify the platform selector shows Cash App with the correct link and styling.
+
+Please review this plan. Once approved, I will proceed with execution.

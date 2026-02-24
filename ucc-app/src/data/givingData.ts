@@ -171,6 +171,6 @@ export const givingPlatforms: GivingPlatform[] = [
     description: 'Quick and easy giving via Cash App',
     color: '#00D632',
     accentColor: '#00B82B',
-    url: null, // Replace with actual Cash App $Cashtag URL when available
+    url: null, // URL served from /giving-config.json at runtime
   },
 ];

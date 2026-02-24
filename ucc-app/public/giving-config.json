@@ -5,9 +5,9 @@
       "enabled": true
     },
     "cashapp": {
-      "url": null,
-      "enabled": false
+      "url": "https://cash.app/$Cavellwphilips",
+      "enabled": true
     }
   },
-  "updatedAt": "2026-02-16"
+  "updatedAt": "2026-02-24"
 }
