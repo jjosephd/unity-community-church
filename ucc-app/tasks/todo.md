@@ -16,11 +16,11 @@
 - [ ] 4. New Ministries
   - [ ] Create structures in Sanity for Kingdom Komers, Project 133, Daughters of The King, Men That Bend.
   - [ ] Update navlinks for these ministries.
-- [ ] 5. Navigation & Links
-  - [ ] Omit "Live Streaming" page (remove from routing/navigation).
-  - [ ] Update Instagram link/handle to `UCC4Me`.
+- [x] 5. Navigation & Links
+  - [x] Omit "Live Streaming" page (remove from routing/navigation).
+  - [x] Update Instagram link/handle to `UCC4Me`.
 - [ ] 6. Community Page Updates
-  - [ ] Implement a Calendar view with before/after month navigation.
+  - [ ] Implement a Calendar view with before/after month navigation. Setup using google calendar API.
   - [ ] Add intro text: "the heartbeat of Unity Community Church. Upcoming events, recurring workshops, and special moments. Stay connected!"
   - [ ] Change on connect page CTA:"Join our community"-> "Join Our Family".
   - [ ] Add Person/Type of Contact section to connect page under Join Our Family -> "Call 804-256-4411". Should be a neat badge

@@ -8,7 +8,6 @@ import { SermonsPage } from './pages/SermonsPage';
 import { EventsPage } from './pages/EventsPage';
 import { AboutStoryPage } from './pages/AboutStoryPage';
 import { LeadershipPage } from './pages/LeadershipPage';
-import { LiveStreamingPage } from './pages/LiveStreamingPage';
 import { PhotoGalleryPage } from './pages/PhotoGalleryPage';
 import { GivingPage } from './pages/GivingPage';
 import { ConnectPage } from './pages/ConnectPage';
@@ -31,10 +30,6 @@ function App() {
             <Route path="/events" element={<EventsPage />} />
             <Route path="/about/story" element={<AboutStoryPage />} />
             <Route path="/about/leadership" element={<LeadershipPage />} />
-            <Route
-              path="/media/live-streaming"
-              element={<LiveStreamingPage />}
-            />
             <Route path="/media/gallery" element={<PhotoGalleryPage />} />
             <Route path="/give" element={<GivingPage />} />
             <Route path="/give/online" element={<GivingPage />} />

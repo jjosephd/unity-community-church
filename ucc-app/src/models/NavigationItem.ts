@@ -161,9 +161,6 @@ export class NavigationMenuBuilder {
             new NavigationItem('Photo Gallery', '/media/gallery', {
               testId: 'nav-media-gallery',
             }),
-            new NavigationItem('Live Streaming', '/media/live-streaming', {
-              testId: 'nav-media-live-streaming',
-            }),
           ],
         }),
       )

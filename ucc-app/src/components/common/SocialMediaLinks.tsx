@@ -62,7 +62,7 @@ export const SocialMediaLinks = ({
       {show.instagram !== false && (
         <IconButton
           aria-label="Visit our Instagram page"
-          href="https://instagram.com" // Replace with actual URL
+          href="https://instagram.com/UCC4Me"
           target="_blank"
           rel="noopener noreferrer"
           size={size}
