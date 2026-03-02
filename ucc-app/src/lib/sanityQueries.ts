@@ -99,3 +99,31 @@ export const LEADERSHIP_GROUPS_QUERY = `
     }
   }
 `;
+
+/**
+ * Fetches the singleton homepage document by its fixed ID.
+ */
+export const HOME_PAGE_QUERY = `
+  *[_id == "homePage"][0] {
+    "carouselItems": carouselItems[] {
+      "id": _key,
+      title,
+      subtitle,
+      "image": image.asset->url,
+      "cta": {
+        "text": ctaText,
+        "link": ctaLink
+      }
+    },
+    praiseTeamVideoUrl
+  }
+`;
+
+/**
+ * Fetches the singleton aboutPage document by its fixed ID.
+ */
+export const ABOUT_PAGE_QUERY = `
+  *[_id == "aboutPage"][0] {
+    "slideshowImages": slideshowImages[].asset->url
+  }
+`;

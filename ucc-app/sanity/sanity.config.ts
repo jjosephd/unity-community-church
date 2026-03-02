@@ -10,7 +10,7 @@ import { schemaTypes } from './schemaTypes';
  *   *[_id == "siteSettings"][0]
  */
 const SINGLETON_ID = 'siteSettings';
-const SINGLETON_TYPES = new Set(['siteSettings']);
+const SINGLETON_TYPES = new Set(['siteSettings', 'homePage', 'aboutPage']);
 
 /**
  * Custom desk structure that enforces the Site Settings singleton pattern:
@@ -34,6 +34,24 @@ const structure = (S: StructureBuilder) =>
             .schemaType('siteSettings')
             .documentId(SINGLETON_ID)
             .title('Site Settings'),
+        ),
+      S.listItem()
+        .title('Homepage')
+        .id('homePage')
+        .child(
+          S.document()
+            .schemaType('homePage')
+            .documentId('homePage')
+            .title('Homepage Content'),
+        ),
+      S.listItem()
+        .title('About Page')
+        .id('aboutPage')
+        .child(
+          S.document()
+            .schemaType('aboutPage')
+            .documentId('aboutPage')
+            .title('About Page Content'),
         ),
       S.divider(),
       // All other document types — standard list views

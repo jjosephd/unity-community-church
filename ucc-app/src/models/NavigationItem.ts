@@ -127,6 +127,22 @@ export class NavigationMenuBuilder {
             new NavigationItem('Community Outreach', '/ministries/outreach', {
               testId: 'nav-ministries-outreach',
             }),
+            new NavigationItem('Kingdom Komers', '/ministries/kingdom-komers', {
+              testId: 'nav-ministries-kingdom-komers',
+            }),
+            new NavigationItem('Project 133', '/ministries/project-133', {
+              testId: 'nav-ministries-project-133',
+            }),
+            new NavigationItem(
+              'Daughters of The King',
+              '/ministries/daughters-of-the-king',
+              {
+                testId: 'nav-ministries-daughters-of-the-king',
+              },
+            ),
+            new NavigationItem('Men That Bend', '/ministries/men-that-bend', {
+              testId: 'nav-ministries-men-that-bend',
+            }),
           ],
         }),
       )

@@ -40,7 +40,7 @@ export const aboutCards: AboutCard[] = [
     id: '4',
     title: 'Connect & Belong',
     description:
-      'Find your place in our church family through ministries, events, and meaningful relationships.',
+      "What we're doing in the community through ministries, events, and meaningful relationships.",
     image: '/images/connect.jpg',
     icon: 'people',
   },
@@ -142,7 +142,7 @@ export const communityItems: CommunityItem[] = [
 
 export const contactInfo: ContactInfo = {
   address: '123 Unity Way, Powhatan, VA 23139',
-  phone: '(804) 555-1234',
+  phone: '(804) 256-4411',
   email: 'info@unitycommunitychurch.org',
   hours: [
     { day: 'Sunday', time: '9:00 AM - 12:00 PM' },

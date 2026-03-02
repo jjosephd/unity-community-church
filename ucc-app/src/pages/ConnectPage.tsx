@@ -1,4 +1,5 @@
-import { Box } from '@mui/material';
+import { Box, Chip } from '@mui/material';
+import PhoneIcon from '@mui/icons-material/Phone';
 import { memo } from 'react';
 import {
   ConnectHero,
@@ -13,10 +14,28 @@ import {
  */
 const connectGridItems: GridItem[] = [
   {
-    title: 'Join Our Community',
+    title: 'Join Our Family',
     description:
       "Whether you're new to faith or have been walking with Christ for years, there's a place for you here. Our doors are open every Sunday, and we'd love to welcome you into our family.",
     image: '/images/connect.jpg',
+    action: (
+      <Chip
+        icon={<PhoneIcon />}
+        label="Call 804-256-4411"
+        color="primary"
+        variant="filled"
+        component="a"
+        href="tel:804-256-4411"
+        clickable
+        sx={{
+          fontSize: '1rem',
+          py: 2.5,
+          px: 1,
+          borderRadius: 8,
+          fontWeight: 'bold',
+        }}
+      />
+    ),
   },
   {
     title: 'Get Involved',
@@ -28,7 +47,7 @@ const connectGridItems: GridItem[] = [
 
 const churchInfo = {
   address: '3660 Old Buckingham Rd, Powhatan, VA 23139',
-  phone: '(804) 598-4520',
+  phone: '(804) 256-4411',
   email: 'info@unitypow.org',
   mapUrl: 'https://maps.google.com/?q=3660+Old+Buckingham+Rd+Powhatan+VA+23139',
 };

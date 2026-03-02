@@ -1,10 +1,11 @@
 import { Box, Typography } from '@mui/material';
-import { memo } from 'react';
+import React, { memo } from 'react';
 
 export interface GridItem {
   title: string;
   description: string;
   image: string;
+  action?: React.ReactNode;
 }
 
 interface AlternatingGridProps {
@@ -97,6 +98,11 @@ export const AlternatingGrid = memo(({ items }: AlternatingGridProps) => {
               >
                 {item.description}
               </Typography>
+              {item.action && (
+                <Box sx={{ mt: 3, px: { xs: '1.75rem', md: '2.25rem' } }}>
+                  {item.action}
+                </Box>
+              )}
             </Box>
           </Box>
         );

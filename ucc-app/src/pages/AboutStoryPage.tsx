@@ -11,7 +11,10 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { useState, useEffect } from 'react';
 import { LocationFooter } from '../components/connect/LocationFooter';
+import { useSanityData } from '../hooks/useSanityData';
+import { ABOUT_PAGE_QUERY } from '../lib/sanityQueries';
 
 const StatementOfBeliefs = () => {
   const beliefs = [
@@ -69,10 +72,35 @@ const StatementOfBeliefs = () => {
   );
 };
 
+interface AboutPageData {
+  slideshowImages?: string[];
+}
+
 export const AboutStoryPage = () => {
+  const { data: aboutData } = useSanityData<AboutPageData>(
+    'aboutPage',
+    ABOUT_PAGE_QUERY,
+  );
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const images = aboutData?.slideshowImages;
+    if (!isPlaying || !images?.length) return;
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isPlaying, aboutData?.slideshowImages]);
+
+  const currentImage =
+    aboutData?.slideshowImages && aboutData.slideshowImages.length > 0
+      ? aboutData.slideshowImages[currentImageIndex]
+      : '/images/connect.jpg';
+
   const churchInfo = {
     address: '3660 Old Buckingham Rd, Powhatan, VA 23139',
-    phone: '(804) 598-4520',
+    phone: '(804) 256-4411',
     email: 'info@unitypow.org',
     mapUrl:
       'https://maps.google.com/?q=3660+Old+Buckingham+Rd+Powhatan+VA+23139',
@@ -227,12 +255,13 @@ export const AboutStoryPage = () => {
                   left: 0,
                   width: '100%',
                   height: '100%',
-                  backgroundImage: 'url(/images/connect.jpg)', // Use existing image as placeholder bg
+                  backgroundImage: `url(${currentImage})`, // Use existing image as placeholder bg
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  transition: 'background-image 0.5s ease-in-out',
                   '&::before': {
                     content: '""',
                     position: 'absolute',
@@ -240,27 +269,31 @@ export const AboutStoryPage = () => {
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    bgcolor: 'rgba(0,0,0,0.4)',
+                    bgcolor: isPlaying ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.4)',
+                    transition: 'background-color 0.5s ease-in-out',
                   },
                 }}
               >
-                <IconButton
-                  size="large"
-                  sx={{
-                    width: 80,
-                    height: 80,
-                    bgcolor: 'white',
-                    color: 'primary.main',
-                    zIndex: 2,
-                    '&:hover': {
-                      bgcolor: 'rgba(255,255,255,0.9)',
-                      transform: 'scale(1.05)',
-                    },
-                    transition: 'all 0.2s',
-                  }}
-                >
-                  <PlayArrowIcon sx={{ fontSize: 40 }} />
-                </IconButton>
+                {!isPlaying && (
+                  <IconButton
+                    size="large"
+                    onClick={() => setIsPlaying(true)}
+                    sx={{
+                      width: 80,
+                      height: 80,
+                      bgcolor: 'white',
+                      color: 'primary.main',
+                      zIndex: 2,
+                      '&:hover': {
+                        bgcolor: 'rgba(255,255,255,0.9)',
+                        transform: 'scale(1.05)',
+                      },
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    <PlayArrowIcon sx={{ fontSize: 40 }} />
+                  </IconButton>
+                )}
               </Box>
             </Box>
           </Grid>
@@ -340,13 +373,12 @@ export const AboutStoryPage = () => {
                     variant="h5"
                     component="p"
                     sx={{
-                      fontFamily: '"Satisfy", cursive',
-                      fontStyle: 'italic',
+                      fontFamily: '"Inter", sans-serif',
                       color: 'primary.main',
                       fontWeight: 'bold',
                     }}
                   >
-                    - Dr. Cavell W. Phillips
+                    - Dr Cavell W Phillips
                   </Typography>
                   <Typography
                     variant="overline"

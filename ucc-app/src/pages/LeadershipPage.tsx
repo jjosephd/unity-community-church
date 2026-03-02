@@ -188,6 +188,7 @@ export const LeadershipPage = () => {
                 opacity: 0.8,
                 display: 'block',
                 mb: 1,
+                fontSize: { xs: '1rem', md: '1.2rem' },
               }}
             >
               Team UCC

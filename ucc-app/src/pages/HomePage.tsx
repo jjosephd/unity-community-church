@@ -16,6 +16,15 @@ import {
   communityItems,
   contactInfo,
 } from '../data/homeData';
+import { useSanityData } from '../hooks/useSanityData';
+import { HOME_PAGE_QUERY } from '../lib/sanityQueries';
+
+const getYoutubeId = (url?: string) => {
+  if (!url) return undefined;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[2].length === 11 ? match[2] : undefined;
+};
 
 /**
  * Home Page Component
@@ -32,7 +41,22 @@ import {
  *
  * All sections are mobile-friendly and follow the technical architecture
  */
+interface HomePageData {
+  carouselItems: typeof carouselSlides;
+  praiseTeamVideoUrl?: string;
+}
+
 export const HomePage = memo(() => {
+  const { data: homeData } = useSanityData<HomePageData>(
+    'homePage',
+    HOME_PAGE_QUERY,
+  );
+
+  const slides =
+    homeData?.carouselItems && homeData.carouselItems.length > 0
+      ? homeData.carouselItems
+      : carouselSlides;
+  const videoId = getYoutubeId(homeData?.praiseTeamVideoUrl) || '5_iob6lOUOI';
   return (
     <Box
       component="main"
@@ -47,7 +71,7 @@ export const HomePage = memo(() => {
 
       {/* Video Section */}
       <VideoSection
-        youtubeId="5_iob6lOUOI"
+        youtubeId={videoId}
         title="Watch Our Latest Message"
         description="Experience powerful worship and life-changing messages from our recent services."
       />
@@ -56,7 +80,7 @@ export const HomePage = memo(() => {
       <AboutSection cards={aboutCards} />
 
       {/* Carousel Section */}
-      <CarouselSection slides={carouselSlides} autoPlayInterval={5000} />
+      <CarouselSection slides={slides} autoPlayInterval={5000} />
 
       {/* Announcements — falls back to hardcoded blog posts on error/empty */}
       <AnnouncementsSection fallback={<BlogSection posts={blogPosts} />} />
