@@ -21,7 +21,7 @@ const StatementOfBeliefs = () => {
         'We believe the Bible to be the inspired, the only infallible, authoritative Word of God.',
     },
     {
-      title: 'The Trinity',
+      title: 'The Godhead',
       content:
         'We believe that there is one God, eternally existent in three persons: Father, Son, and Holy Spirit.',
     },
@@ -297,13 +297,13 @@ export const AboutStoryPage = () => {
                 variant="h2"
                 align="left"
                 sx={{
-                  fontFamily: '"Montserrat", sans-serif',
+                  fontFamily: '"Inter", sans-serif',
                   fontSize: { xs: '2.5rem', md: '3rem' },
                   color: 'primary.main',
                   mb: 4,
                 }}
               >
-                Pastor Cavell.
+                Pastor Cavell
               </Typography>
 
               <Box

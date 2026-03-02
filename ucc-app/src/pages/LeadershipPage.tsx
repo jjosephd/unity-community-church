@@ -190,14 +190,14 @@ export const LeadershipPage = () => {
                 mb: 1,
               }}
             >
-              Our Team
+              Team UCC
             </Typography>
             <Typography
               variant="h1"
               component="h1"
               sx={{
-                fontFamily: '"Montserrat", sans-serif',
-                fontSize: { xs: '2.5rem', md: '4rem' },
+                fontFamily: '"Inter", sans-serif',
+                fontSize: { xs: '3rem', md: '5rem' },
                 mb: 2,
                 textTransform: 'uppercase',
               }}

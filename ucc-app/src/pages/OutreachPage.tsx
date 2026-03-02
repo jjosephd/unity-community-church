@@ -249,7 +249,7 @@ export const OutreachPage = () => {
                   lineHeight: 1.2,
                 }}
               >
-                Find Your Place
+                What we're doing in the community
               </Typography>
               <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
                 Whether you have a heart for kids, a talent for technology, or

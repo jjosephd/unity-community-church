@@ -1,20 +1,34 @@
-# Plan: Cash App Link Integration
+# Plan: Cash App Link Integration & Immediate Updates
 
-## Objective
+## Immediate To Work On
 
-Enable the Cash App giving platform and direct it to the `$Cavellwphilips` Cashtag.
+- [ ] 1. Text Replacements & Styling
+  - [ ] Change "Our team" to "Team UCC" and increase font size.
+  - [ ] Replace "The Trinity" with "The Godhead".
+  - [ ] Change "Find Your Place" to "What we're doing in the community".
+  - [ ] Change font to Inter for "Dr. Cavell Phillips" and remove "." after his name.
+- [ ] 2. Homepage Updates
+  - [ ] Add field in Sanity CMS for the praise team singing video.
+  - [ ] Make homepage carousel editable via Sanity.
+- [ ] 3. About Page Slideshow
+  - [ ] Make slideshow photos manageable from Sanity.
+  - [ ] Integrate slideshow with existing "video" shell (play button starts it on click).
+- [ ] 4. New Ministries
+  - [ ] Create structures in Sanity for Kingdom Komers, Project 133, Daughters of The King, Men That Bend.
+  - [ ] Update navlinks for these ministries.
+- [ ] 5. Navigation & Links
+  - [ ] Omit "Live Streaming" page (remove from routing/navigation).
+  - [ ] Update Instagram link/handle to `UCC4Me`.
+- [ ] 6. Community Page Updates
+  - [ ] Implement a Calendar view with before/after month navigation.
+  - [ ] Add intro text: "the heartbeat of Unity Community Church. Upcoming events, recurring workshops, and special moments. Stay connected!"
+  - [ ] Change on connect page CTA:"Join our community"-> "Join Our Family".
+  - [ ] Add Person/Type of Contact section to connect page under Join Our Family -> "Call 804-256-4411". Should be a neat badge
+  - [ ] Implement google calendar API for events page instead of current feed setup
 
-## Tasks
+## Cash App Integration
 
 - [ ] 1. Update `public/giving-config.json`
-  - Set `cashapp.url` to `"https://cash.app/$Cavellwphilips"`.
-  - Set `cashapp.enabled` to `true`.
 - [ ] 2. Update `src/data/givingData.ts` (if necessary)
-  - Verify that the `cashapp` platform correctly interprets the configuration (it's currently fetching from `giving-config.json` at runtime). The text hints "Replace with actual Cash App $Cashtag URL when available", so we may want to update that comment but the dynamic fetch is the key.
 - [ ] 3. Examine `src/components/giving/GivingPlatformSelector.tsx`
-  - Ensure the Cash App button renders correctly when `giving-config.json` enables it. It should open the link in a new tab securely (`target="_blank"`, `rel="noopener noreferrer"`).
 - [ ] 4. Test the implementation
-  - Start the app with `npm run dev` and navigate to the Giving section.
-  - Verify the platform selector shows Cash App with the correct link and styling.
-
-Please review this plan. Once approved, I will proceed with execution.
