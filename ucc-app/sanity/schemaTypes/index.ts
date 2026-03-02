@@ -18,6 +18,9 @@ import { announcement } from './announcement';
 import { siteSettings } from './siteSettings';
 import { leader } from './leader';
 import { leadershipGroup } from './leadershipGroup';
+import { homePage } from './homePage';
+import { aboutPage } from './aboutPage';
+import { ministry } from './ministry';
 
 export const schemaTypes = [
   sermon,
@@ -26,4 +29,7 @@ export const schemaTypes = [
   siteSettings,
   leader,
   leadershipGroup,
+  homePage,
+  aboutPage,
+  ministry,
 ];
