@@ -99,11 +99,12 @@ export const AboutStoryPage = () => {
       : '/images/connect.jpg';
 
   const churchInfo = {
-    address: '3660 Old Buckingham Rd, Powhatan, VA 23139',
+    address:
+      'Powhatan Village Building, 3910 Old Buckingham Road, Powhatan, VA 23139',
     phone: '(804) 256-4411',
     email: 'info@unitypow.org',
     mapUrl:
-      'https://maps.google.com/?q=3660+Old+Buckingham+Rd+Powhatan+VA+23139',
+      'https://maps.google.com/?q=3910+Old+Buckingham+Road+Powhatan+VA+23139',
   };
 
   return (

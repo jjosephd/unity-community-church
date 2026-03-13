@@ -141,13 +141,31 @@ export const communityItems: CommunityItem[] = [
 ];
 
 export const contactInfo: ContactInfo = {
-  address: '123 Unity Way, Powhatan, VA 23139',
+  address:
+    'Powhatan Village Building, 3910 Old Buckingham Road, Powhatan, VA 23139',
   phone: '(804) 256-4411',
   email: 'info@unitycommunitychurch.org',
   hours: [
-    { day: 'Sunday', time: '9:00 AM - 12:00 PM' },
-    { day: 'Wednesday', time: '6:30 PM - 8:00 PM' },
-    { day: 'Office Hours', time: 'Mon-Fri: 9:00 AM - 4:00 PM' },
+    {
+      day: 'Sunday',
+      time: '11:00 AM',
+      details: 'Adoration Service',
+    },
+    {
+      day: 'Wednesday',
+      time: '12:00 PM',
+      details: '@ The Table',
+      extraInfo: {
+        label: 'View Warm-line & Address',
+        content: 'Phone: 605-313-6129 | Access: 328384# | Address: 3910 Old Buckingham Rd, Powhatan, VA',
+      },
+    },
+    {
+      day: 'Wednesday',
+      time: '6:30 PM',
+      details: '60 Minute Warm Up',
+      link: '#', // Placeholder for the virtual link mentioned
+    },
   ],
 };
 

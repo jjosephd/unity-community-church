@@ -26,6 +26,15 @@
   - [x] Add Person/Type of Contact section to connect page under Join Our Family -> "Call 804-256-4411". Should be a neat badge
   - [x] Implement google calendar API for events page instead of current feed setup
 
+## Address & Location Updates
+
+- [x] 1. Update address in `src/pages/AboutStoryPage.tsx`
+- [x] 2. Update address in `src/pages/ConnectPage.tsx`
+- [x] 3. Update address in `src/data/homeData.ts` (Remove "Powhatan Village Building")
+- [x] 4. Verify all map URLs point to the new location: `3910 Old Buckingham Road, Powhatan, VA 23139`
+- [x] 5. Update church hours in `src/data/homeData.ts` with service times and virtual/phone details.
+
+
 ## Cash App Integration
 
 - [ ] 1. Update `public/giving-config.json`

@@ -50,6 +50,12 @@ export interface ContactInfo {
   hours: {
     day: string;
     time: string;
+    details?: string;
+    link?: string;
+    extraInfo?: {
+      label: string;
+      content: string;
+    };
   }[];
 }
 

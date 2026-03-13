@@ -13,6 +13,7 @@ import {
   LocationOn,
   AccessTime,
   Send,
+  ExpandMore,
 } from '@mui/icons-material';
 import { memo, useState, type FormEvent } from 'react';
 import type { ContactInfo } from '../../types/home';
@@ -21,13 +22,141 @@ interface ContactSectionProps {
   contactInfo: ContactInfo;
 }
 
+const HourRow = ({ hour }: { hour: ContactInfo['hours'][0] }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Box
+      sx={{
+        mb: 2,
+        '&:last-child': { mb: 0 },
+        transition: 'transform 0.2s ease-in-out',
+        '&:hover .details-text': {
+          fontSize: { md: '0.8rem' },
+          color: { md: 'text.primary' },
+        },
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          mb: 0.25,
+          flexWrap: 'wrap',
+          gap: 1,
+        }}
+      >
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: 600,
+            color: 'text.primary',
+          }}
+        >
+          {hour.day}
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: 700,
+            color: 'primary.main',
+          }}
+        >
+          {hour.time}
+        </Typography>
+      </Box>
+      {hour.details && (
+        <Typography
+          variant="caption"
+          className="details-text"
+          color="text.secondary"
+          display="block"
+          sx={{
+            lineHeight: 1.4,
+            fontStyle: 'italic',
+            mt: 0.5,
+            transition: 'font-size 0.2s ease-in-out, color 0.2s ease-in-out',
+          }}
+        >
+          {hour.details}
+        </Typography>
+      )}
+      {hour.link && (
+        <Typography
+          component="a"
+          href={hour.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="caption"
+          sx={{
+            color: 'primary.main',
+            textDecoration: 'underline',
+            display: 'inline-block',
+            mt: 0.5,
+            fontWeight: 600,
+            '&:hover': {
+              color: 'primary.dark',
+            },
+          }}
+        >
+          Join Virtually →
+        </Typography>
+      )}
+      {hour.extraInfo && (
+        <Box sx={{ mt: 1 }}>
+          <Button
+            size="small"
+            onClick={() => setIsOpen(!isOpen)}
+            endIcon={
+              <ExpandMore
+                sx={{
+                  transform: isOpen ? 'rotate(180deg)' : 'none',
+                  transition: 'transform 0.2s',
+                  fontSize: '1rem !important',
+                }}
+              />
+            }
+            sx={{
+              p: 0,
+              minWidth: 0,
+              fontSize: '0.75rem',
+              textTransform: 'none',
+              color: 'primary.main',
+              fontWeight: 600,
+              '&:hover': { background: 'none', textDecoration: 'underline' },
+            }}
+          >
+            {hour.extraInfo.label}
+          </Button>
+          {isOpen && (
+            <Paper
+              elevation={0}
+              sx={{
+                mt: 1,
+                p: 1.5,
+                bgcolor: 'rgba(90, 12, 119, 0.04)',
+                borderRadius: 2,
+                borderLeft: '3px solid',
+                borderColor: 'primary.main',
+              }}
+            >
+              <Typography
+                variant="caption"
+                sx={{ color: 'text.secondary', fontWeight: 500 }}
+              >
+                {hour.extraInfo.content}
+              </Typography>
+            </Paper>
+          )}
+        </Box>
+      )}
+    </Box>
+  );
+};
+
 /**
  * Contact Section Component
- * Features:
- * - Grid layout for contact info and form
- * - Contact form with validation
- * - Icon-based contact details
- * - Responsive design
  */
 export const ContactSection = memo(({ contactInfo }: ContactSectionProps) => {
   const [formData, setFormData] = useState({
@@ -39,7 +168,6 @@ export const ContactSection = memo(({ contactInfo }: ContactSectionProps) => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // TODO: Implement form submission to Django API
     console.log('Form submitted:', formData);
   };
 
@@ -261,25 +389,7 @@ export const ContactSection = memo(({ contactInfo }: ContactSectionProps) => {
                       Hours
                     </Typography>
                     {contactInfo.hours.map((hour, index) => (
-                      <Box
-                        key={index}
-                        sx={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          mb: 0.5,
-                        }}
-                      >
-                        <Typography variant="body2" color="text.secondary">
-                          {hour.day}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{ fontWeight: 500 }}
-                        >
-                          {hour.time}
-                        </Typography>
-                      </Box>
+                      <HourRow key={index} hour={hour} />
                     ))}
                   </Box>
                 </Box>
