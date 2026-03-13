@@ -4,7 +4,7 @@ import { HeroSection } from '../components/home/HeroSection';
 import { VideoSection } from '../components/home/VideoSection';
 import { AboutSection } from '../components/home/AboutSection';
 import { CarouselSection } from '../components/home/CarouselSection';
-import { BlogSection } from '../components/home/BlogSection';
+//import { BlogSection } from '../components/home/BlogSection';
 import { AnnouncementsSection } from '../components/home/AnnouncementsSection';
 import { CommunitySection } from '../components/home/CommunitySection';
 import { ContactSection } from '../components/home/ContactSection';
@@ -12,7 +12,7 @@ import { MapSection } from '../components/home/MapSection';
 import {
   aboutCards,
   carouselSlides,
-  blogPosts,
+  // blogPosts,
   communityItems,
   contactInfo,
 } from '../data/homeData';
@@ -83,7 +83,8 @@ export const HomePage = memo(() => {
       <CarouselSection slides={slides} autoPlayInterval={5000} />
 
       {/* Announcements — falls back to hardcoded blog posts on error/empty */}
-      <AnnouncementsSection fallback={<BlogSection posts={blogPosts} />} />
+      <AnnouncementsSection />
+      {/*<AnnouncementsSection fallback={<BlogSection posts={blogPosts} />} />*/}
 
       {/* Community Section */}
       <CommunitySection items={communityItems} />

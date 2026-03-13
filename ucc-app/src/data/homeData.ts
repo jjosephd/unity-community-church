@@ -122,10 +122,6 @@ export const communityItems: CommunityItem[] = [
     description:
       'Empowering the next generation through engaging programs, mentorship, and faith-building activities for teens and young adults.',
     image: '/images/youth_img.png',
-    stats: {
-      label: 'Active Members',
-      value: '150+',
-    },
   },
   {
     id: '2',
@@ -133,10 +129,6 @@ export const communityItems: CommunityItem[] = [
     description:
       "Making a tangible difference in Powhatan through food drives, homeless ministry, and local partnerships that demonstrate Christ's love.",
     image: '/images/outreach.png',
-    stats: {
-      label: 'Families Served',
-      value: '500+',
-    },
   },
 ];
 
