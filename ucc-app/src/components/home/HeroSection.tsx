@@ -1,28 +1,73 @@
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { ArrowForward } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import { memo, useState, useEffect } from 'react';
+import { memo, useState, useEffect, useMemo } from 'react';
+import { useSanityData } from '../../hooks/useSanityData';
+import { HOMEPAGE_SLIDESHOW_QUERY } from '../../lib/sanityQueries';
+import { urlFor } from '../../lib/sanityImageUrl';
 
-const heroImages = ['/images/ucc1.png', '/images/ucc2.png', '/images/ucc3.jpg'];
+/** Shape returned by the HOMEPAGE_SLIDESHOW_QUERY. */
+interface SlideshowImage {
+  url: string;
+  alt: string;
+  _key: string;
+  assetRef: string;
+}
+
+interface SlideshowData {
+  images: SlideshowImage[] | null;
+}
 
 /**
  * Hero Section Component
  * Features:
  * - 2-column layout (text left, image carousel right)
- * - Auto-rotating image carousel
+ * - Auto-rotating image carousel from Sanity CMS
  * - Responsive (stacks on mobile)
  * - Smooth transitions
+ * - Carousel hidden when no images uploaded in Sanity
  */
 export const HeroSection = memo(() => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const { data: slideshowData } = useSanityData<SlideshowData>(
+    'homepageSlideshow',
+    HOMEPAGE_SLIDESHOW_QUERY,
+  );
+
+  const images = useMemo(
+    () => slideshowData?.images ?? [],
+    [slideshowData?.images],
+  );
+  const hasImages = images.length > 0;
+
+  /**
+   * Build optimised WebP URLs via the Sanity image pipeline.
+   * Falls back to the raw CDN URL if urlFor fails (e.g. bad ref).
+   */
+  const optimizedUrls = useMemo(
+    () =>
+      images.map((img) => {
+        try {
+          return urlFor({ _ref: img.assetRef, _type: 'reference' })
+            .width(800)
+            .format('webp')
+            .quality(80)
+            .url();
+        } catch {
+          return img.url;
+        }
+      }),
+    [images],
+  );
 
   // Auto-rotate images every 4 seconds
   useEffect(() => {
+    if (!hasImages || images.length <= 1) return;
     const interval = setInterval(() => {
-      setActiveIndex((current) => (current + 1) % heroImages.length);
+      setActiveIndex((current) => (current + 1) % images.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [hasImages, images.length]);
 
   return (
     <Box
@@ -169,80 +214,84 @@ export const HeroSection = memo(() => {
             </Stack>
           </Box>
 
-          {/* Right Column - Image Carousel */}
-          <Box
-            sx={{
-              flex: 1,
-              order: { xs: 1, md: 2 },
-              width: '100%',
-              maxWidth: { xs: '100%', md: '50%' },
-            }}
-          >
+          {/* Right Column - Image Carousel (only if Sanity images exist) */}
+          {hasImages && (
             <Box
               sx={{
-                position: 'relative',
+                flex: 1,
+                order: { xs: 1, md: 2 },
                 width: '100%',
-                paddingTop: { xs: '100%', md: '110%' }, // Taller ratio to fit images
-                borderRadius: 4,
-                overflow: 'hidden',
-                boxShadow: '0 30px 60px rgba(90, 12, 119, 0.15)',
+                maxWidth: { xs: '100%', md: '50%' },
               }}
             >
-              {/* Images */}
-              {heroImages.map((image, index) => (
-                <Box
-                  key={image}
-                  component="img"
-                  src={image}
-                  alt={`Unity Community Church ${index + 1}`}
-                  sx={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center',
-                    opacity: index === activeIndex ? 1 : 0,
-                    transition: 'opacity 0.8s ease-in-out',
-                  }}
-                />
-              ))}
-
-              {/* Indicator Dots */}
               <Box
                 sx={{
-                  position: 'absolute',
-                  bottom: 16,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  display: 'flex',
-                  gap: 1,
+                  position: 'relative',
+                  width: '100%',
+                  paddingTop: { xs: '100%', md: '110%' },
+                  borderRadius: 4,
+                  overflow: 'hidden',
+                  boxShadow: '0 30px 60px rgba(90, 12, 119, 0.15)',
                 }}
               >
-                {heroImages.map((_, index) => (
+                {/* Images */}
+                {images.map((image, index) => (
                   <Box
-                    key={index}
-                    onClick={() => setActiveIndex(index)}
+                    key={image._key}
+                    component="img"
+                    src={optimizedUrls[index]}
+                    alt={image.alt}
                     sx={{
-                      width: index === activeIndex ? 24 : 8,
-                      height: 8,
-                      borderRadius: 4,
-                      backgroundColor:
-                        index === activeIndex
-                          ? 'white'
-                          : 'rgba(255, 255, 255, 0.5)',
-                      cursor: 'pointer',
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                      },
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      opacity: index === activeIndex ? 1 : 0,
+                      transition: 'opacity 0.8s ease-in-out',
                     }}
                   />
                 ))}
+
+                {/* Indicator Dots */}
+                {images.length > 1 && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      bottom: 16,
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      display: 'flex',
+                      gap: 1,
+                    }}
+                  >
+                    {images.map((img, index) => (
+                      <Box
+                        key={img._key}
+                        onClick={() => setActiveIndex(index)}
+                        sx={{
+                          width: index === activeIndex ? 24 : 8,
+                          height: 8,
+                          borderRadius: 4,
+                          backgroundColor:
+                            index === activeIndex
+                              ? 'white'
+                              : 'rgba(255, 255, 255, 0.5)',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          '&:hover': {
+                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                          },
+                        }}
+                      />
+                    ))}
+                  </Box>
+                )}
               </Box>
             </Box>
-          </Box>
+          )}
         </Box>
       </Container>
     </Box>

@@ -100,24 +100,8 @@ export const LEADERSHIP_GROUPS_QUERY = `
   }
 `;
 
-/**
- * Fetches the singleton homepage document by its fixed ID.
- */
-export const HOME_PAGE_QUERY = `
-  *[_id == "homePage"][0] {
-    "carouselItems": carouselItems[] {
-      "id": _key,
-      title,
-      subtitle,
-      "image": image.asset->url,
-      "cta": {
-        "text": ctaText,
-        "link": ctaLink
-      }
-    },
-    praiseTeamVideoUrl
-  }
-`;
+
+
 
 /**
  * Fetches the singleton aboutPage document by its fixed ID.
@@ -125,5 +109,24 @@ export const HOME_PAGE_QUERY = `
 export const ABOUT_PAGE_QUERY = `
   *[_id == "aboutPage"][0] {
     "slideshowImages": slideshowImages[].asset->url
+  }
+`;
+
+/**
+ * Fetches the singleton homepageSlideshow document.
+ *
+ * Returns images with direct URLs, alt text, and asset references
+ * so the frontend can use the urlFor() builder for responsive sizing.
+ * Also includes the praise-team video URL for the homepage video section.
+ */
+export const HOMEPAGE_SLIDESHOW_QUERY = `
+  *[_id == "homepageSlideshow"][0] {
+    "images": images[] {
+      "url": asset->url,
+      "alt": alt,
+      "_key": _key,
+      "assetRef": asset._ref
+    },
+    praiseTeamVideoUrl
   }
 `;

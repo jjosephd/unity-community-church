@@ -5,7 +5,6 @@
 
 import type {
   AboutCard,
-  CarouselSlide,
   BlogPost,
   CommunityItem,
   ContactInfo,
@@ -46,38 +45,6 @@ export const aboutCards: AboutCard[] = [
   },
 ];
 
-export const carouselSlides: CarouselSlide[] = [
-  {
-    id: '1',
-    title: 'Welcome Home',
-    subtitle: 'Experience the love of Christ in a warm, welcoming community',
-    image: '/images/carousel1.png',
-    cta: {
-      text: 'Plan Your Visit',
-      link: '/visit',
-    },
-  },
-  {
-    id: '2',
-    title: 'Sunday Services',
-    subtitle: 'Join us every Sunday at 9:00 AM & 11:00 AM',
-    image: '/images/carousel2.jpg',
-    cta: {
-      text: 'Service Times',
-      link: '/events',
-    },
-  },
-  {
-    id: '3',
-    title: 'Get Involved',
-    subtitle: 'Discover ministries and opportunities to serve',
-    image: '/images/carousel3.jpg',
-    cta: {
-      text: 'Explore Ministries',
-      link: '/ministries',
-    },
-  },
-];
 
 export const blogPosts: BlogPost[] = [
   {

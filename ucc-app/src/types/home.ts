@@ -10,16 +10,6 @@ export interface AboutCard {
   icon: string;
 }
 
-export interface CarouselSlide {
-  id: string;
-  title: string;
-  subtitle: string;
-  image: string;
-  cta?: {
-    text: string;
-    link: string;
-  };
-}
 
 export interface BlogPost {
   id: string;
