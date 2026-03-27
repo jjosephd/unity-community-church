@@ -130,3 +130,58 @@ export const HOMEPAGE_SLIDESHOW_QUERY = `
     praiseTeamVideoUrl
   }
 `;
+
+/**
+ * Fetches the singleton communityImpact document.
+ * Returns an array of impact cards with flattened image URLs.
+ */
+export const COMMUNITY_IMPACT_QUERY = `
+  *[_id == "communityImpact"][0] {
+    "items": items[] {
+      title,
+      description,
+      "image": image.asset->url,
+      "_key": _key
+    }
+  }
+`;
+
+/**
+ * Fetches all ministries — name, slug, and cover image only.
+ * Used for listing / navigation purposes.
+ */
+export const MINISTRIES_LIST_QUERY = `
+  *[_type == "ministry"] | order(name asc) {
+    _id,
+    name,
+    slug,
+    "coverImage": coverImage.asset->url,
+    description
+  }
+`;
+
+/**
+ * Fetches a single ministry by its slug.
+ * Returns full gallery data including featured image and gallery images.
+ */
+export const MINISTRY_BY_SLUG_QUERY = `
+  *[_type == "ministry" && slug == $slug][0] {
+    _id,
+    name,
+    slug,
+    description,
+    "coverImage": coverImage.asset->url,
+    "featuredImage": featuredImage {
+      "url": asset->url,
+      "alt": alt,
+      "assetRef": asset._ref
+    },
+    "gallery": gallery[] {
+      "url": asset->url,
+      "alt": alt,
+      "_key": _key,
+      "assetRef": asset._ref
+    }
+  }
+`;
+

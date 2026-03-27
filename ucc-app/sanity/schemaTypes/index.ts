@@ -22,6 +22,7 @@ import { leadershipGroup } from './leadershipGroup';
 import { aboutPage } from './aboutPage';
 import { ministry } from './ministry';
 import { homepageSlideshow } from './homepageSlideshow';
+import { communityImpact } from './communityImpact';
 
 export const schemaTypes = [
   sermon,
@@ -34,4 +35,5 @@ export const schemaTypes = [
   aboutPage,
   ministry,
   homepageSlideshow,
+  communityImpact,
 ];

@@ -11,6 +11,8 @@
  * Portable Text `body` is extracted as a plain-text excerpt (first text block).
  * Full rich-text rendering is deferred to a future detail page.
  *
+ * Edge-to-edge / bleed layout — no bordered cards.
+ *
  * @see docs/CMS_TASKS.md — Task 3.3
  */
 
@@ -19,8 +21,6 @@ import {
   Box,
   Container,
   Typography,
-  Card,
-  CardContent,
   Grid,
   Skeleton,
 } from '@mui/material';
@@ -49,60 +49,41 @@ function extractExcerpt(body: unknown[]): string {
 
 /* ── Sub-components ────────────────────────────────────────────── */
 
-/** Shimmer placeholder card shown while data loads. */
+/** Shimmer placeholder shown while data loads. */
 function AnnouncementSkeleton() {
   return (
-    <Card
+    <Box
       sx={{
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        borderRadius: 3,
-        overflow: 'hidden',
-        border: '1px solid',
-        borderColor: 'divider',
       }}
     >
-      <CardContent sx={{ p: 3, flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }}>
         <Skeleton variant="text" width="60%" height={32} sx={{ mb: 1 }} />
         <Skeleton variant="text" width="100%" />
         <Skeleton variant="text" width="90%" />
         <Skeleton variant="text" width="40%" sx={{ mt: 2 }} />
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   );
 }
 
-/** Single announcement card. */
+/** Single announcement entry. */
 const AnnouncementCard = memo(
   ({ announcement }: { announcement: Announcement }) => {
     const excerpt = extractExcerpt(announcement.body);
 
     return (
-      <Card
+      <Box
         data-testid={`announcement-${announcement._id}`}
         sx={{
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          borderRadius: 3,
-          overflow: 'hidden',
-          backgroundColor: 'background.paper',
-          border: '1px solid',
-          borderColor: 'divider',
-          transition:
-            'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-          contain: 'layout style paint',
-          '&:hover': {
-            transform: 'translate3d(0, -6px, 0)',
-            boxShadow: '0 12px 40px rgba(90, 12, 119, 0.12)',
-            borderColor: 'primary.light',
-          },
         }}
       >
-        <CardContent
-          sx={{ flexGrow: 1, p: 3, display: 'flex', flexDirection: 'column' }}
-        >
+        <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
           <Typography
             variant="h6"
             component="h3"
@@ -146,8 +127,7 @@ const AnnouncementCard = memo(
               alignItems: 'center',
               gap: 0.5,
               pt: 2,
-              borderTop: '1px solid',
-              borderColor: 'divider',
+              mt: 'auto',
               color: 'text.secondary',
             }}
           >
@@ -156,8 +136,8 @@ const AnnouncementCard = memo(
               {formatLocalDate(announcement.publishDate, 'MMM d, yyyy')}
             </Typography>
           </Box>
-        </CardContent>
-      </Card>
+        </Box>
+      </Box>
     );
   },
 );

@@ -13,13 +13,22 @@ export const ministry = defineType({
     }),
     defineField({
       name: 'slug',
-      title: 'Slug',
-      type: 'slug',
+      title: 'Ministry Page Route (Slug)',
+      type: 'string',
+      description: 'Select the route this ministry content will appear on.',
       options: {
-        source: 'name',
-        maxLength: 96,
+        list: [
+          { title: 'Youth Ministry', value: 'youth' },
+          { title: "Children's Ministry", value: 'children' },
+          { title: 'Worship Team', value: 'worship' },
+          { title: 'Kingdom Komers', value: 'kingdom-komers' },
+          { title: 'Project 133', value: 'project-133' },
+          { title: 'Daughters of The King', value: 'daughters-of-the-king' },
+          { title: 'Men That Bend', value: 'men-that-bend' },
+        ],
+        layout: 'dropdown',
       },
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().error('A route selection is required'),
     }),
     defineField({
       name: 'description',
@@ -34,6 +43,45 @@ export const ministry = defineType({
       options: {
         hotspot: true,
       },
+    }),
+    defineField({
+      name: 'featuredImage',
+      title: 'Featured Image',
+      type: 'image',
+      options: { hotspot: true },
+      description:
+        'Main hero image displayed prominently at the top of the ministry gallery page.',
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          description: 'Short description for accessibility.',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'gallery',
+      title: 'Photo Gallery',
+      description:
+        'Upload photos for this ministry (up to 20). These appear in the gallery section below the featured image.',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt Text',
+              type: 'string',
+              description: 'Short description for accessibility.',
+            }),
+          ],
+        },
+      ],
+      validation: (Rule) =>
+        Rule.max(20).error('Maximum 20 gallery images allowed.'),
     }),
     defineField({
       name: 'detailedContent',
@@ -55,3 +103,4 @@ export const ministry = defineType({
     },
   },
 });
+

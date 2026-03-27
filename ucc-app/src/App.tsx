@@ -13,6 +13,7 @@ import { GivingPage } from './pages/GivingPage';
 import { ConnectPage } from './pages/ConnectPage';
 import { ImpactStoriesPage } from './pages/ImpactStoriesPage';
 import { OutreachPage } from './pages/OutreachPage';
+import { MinistryGalleryPage } from './pages/MinistryGalleryPage';
 
 /** Shared query client — lives at module scope so it survives re-renders. */
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ function App() {
             <Route path="/give/online" element={<GivingPage />} />
             <Route path="/give/impact" element={<ImpactStoriesPage />} />
             <Route path="/ministries/outreach" element={<OutreachPage />} />
+            <Route path="/ministries/:slug" element={<MinistryGalleryPage />} />
             <Route path="/connect" element={<ConnectPage />} />
           </Routes>
         </ThemeProvider>

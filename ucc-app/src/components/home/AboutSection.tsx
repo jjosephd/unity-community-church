@@ -1,12 +1,4 @@
-import {
-  Box,
-  Container,
-  Typography,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-} from '@mui/material';
+import { Box, Container, Typography, Grid } from '@mui/material';
 import {
   Church as ChurchIcon,
   MenuBook as BookIcon,
@@ -29,11 +21,10 @@ const iconMap = {
 
 /**
  * About Us Section Component
- * Features:
- * - 4-column responsive grid (1 col mobile, 2 col tablet, 4 col desktop)
- * - Image cards with icons
- * - Smooth hover animations
- * - Glassmorphism effects
+ * Edge-to-edge / bleed layout:
+ * - Full-bleed imagery with no rounded corners
+ * - Typographic hierarchy and whitespace define boundaries
+ * - Icon overlays on images
  */
 export const AboutSection = memo(({ cards }: AboutSectionProps) => {
   return (
@@ -84,43 +75,26 @@ export const AboutSection = memo(({ cards }: AboutSectionProps) => {
 
             return (
               <Grid size={{ xs: 12, sm: 6, lg: 3 }} key={card.id}>
-                <Card
+                <Box
                   data-testid={`about-card-${index}`}
                   sx={{
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
-                    borderRadius: 3,
                     overflow: 'hidden',
-                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                    border: '1px solid rgba(90, 12, 119, 0.08)',
-                    boxShadow: '0 4px 20px rgba(90, 12, 119, 0.08)',
-                    transition:
-                      'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                    contain: 'layout style paint',
-                    '&:hover': {
-                      transform: 'translate3d(0, -8px, 0)',
-                      boxShadow: '0 12px 40px rgba(90, 12, 119, 0.15)',
-                      willChange: 'transform, box-shadow',
-                      '& .card-icon': {
-                        transform: 'scale(1.1) rotate(5deg)',
-                        color: 'primary.main',
-                      },
-                    },
                   }}
                 >
-                  {/* Card Image */}
+                  {/* Full-bleed Image */}
                   <Box
                     sx={{
                       position: 'relative',
-                      paddingTop: '60%',
+                      paddingTop: '65%',
                       overflow: 'hidden',
-                      backgroundColor: 'rgba(90, 12, 119, 0.05)',
                     }}
                   >
-                    <CardMedia
+                    <Box
                       component="img"
-                      image={card.image}
+                      src={card.image}
                       alt={card.title}
                       sx={{
                         position: 'absolute',
@@ -129,46 +103,40 @@ export const AboutSection = memo(({ cards }: AboutSectionProps) => {
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
+                        display: 'block',
                         transition:
-                          'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                          'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                        '&:hover': {
+                          transform: 'scale(1.03)',
+                        },
                       }}
                     />
                     {/* Icon Overlay */}
                     <Box
-                      className="card-icon"
                       sx={{
                         position: 'absolute',
                         top: 16,
                         right: 16,
-                        width: 56,
-                        height: 56,
+                        width: 48,
+                        height: 48,
                         borderRadius: '50%',
-                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        backdropFilter: 'blur(8px)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: 'text.secondary',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-                        transition:
-                          'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+                        color: 'primary.main',
                       }}
                     >
-                      <IconComponent
-                        sx={{
-                          fontSize: 28,
-                          color: 'inherit',
-                          transition:
-                            'color 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                        }}
-                      />
+                      <IconComponent sx={{ fontSize: 24 }} />
                     </Box>
                   </Box>
 
-                  {/* Card Content */}
-                  <CardContent
+                  {/* Content — whitespace replaces card padding */}
+                  <Box
                     sx={{
                       flexGrow: 1,
-                      p: 3,
+                      pt: 2.5,
                       display: 'flex',
                       flexDirection: 'column',
                     }}
@@ -179,7 +147,7 @@ export const AboutSection = memo(({ cards }: AboutSectionProps) => {
                       sx={{
                         fontWeight: 700,
                         color: 'primary.main',
-                        mb: 1.5,
+                        mb: 1,
                         fontSize: '1.25rem',
                       }}
                     >
@@ -195,8 +163,8 @@ export const AboutSection = memo(({ cards }: AboutSectionProps) => {
                     >
                       {card.description}
                     </Typography>
-                  </CardContent>
-                </Card>
+                  </Box>
+                </Box>
               </Grid>
             );
           })}

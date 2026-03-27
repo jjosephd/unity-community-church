@@ -11,7 +11,7 @@ export const ConnectHero = memo(() => {
       component="section"
       data-testid="connect-hero"
       sx={{
-        py: { xs: 8, md: 12 },
+        py: { xs: 10, md: 16 },
         textAlign: 'center',
         backgroundColor: 'background.default',
       }}
@@ -40,9 +40,9 @@ export const ConnectHero = memo(() => {
           sx={{
             fontSize: { xs: '1rem', md: '1.25rem' },
             color: 'text.secondary',
-            maxWidth: 600,
+            maxWidth: 640,
             mx: 'auto',
-            lineHeight: 1.6,
+            lineHeight: 1.7,
           }}
         >
           We'd love to hear from you. Reach out, visit us, or learn more about

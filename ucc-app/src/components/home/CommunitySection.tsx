@@ -2,9 +2,6 @@ import {
   Box,
   Container,
   Typography,
-  Card,
-  CardContent,
-  CardMedia,
   Chip,
   Grid,
 } from '@mui/material';
@@ -18,11 +15,10 @@ interface CommunitySectionProps {
 
 /**
  * Community Section Component
- * Features:
- * - 2-column responsive grid
- * - Full viewport height
- * - Stats display
- * - Glassmorphism cards
+ * Edge-to-edge / bleed layout:
+ * - Full-bleed imagery
+ * - Stats overlay on images
+ * - Whitespace-defined content boundaries
  */
 export const CommunitySection = memo(({ items }: CommunitySectionProps) => {
   return (
@@ -72,48 +68,28 @@ export const CommunitySection = memo(({ items }: CommunitySectionProps) => {
         <Grid container spacing={4}>
           {items.map((item, index) => (
             <Grid size={{ xs: 12, md: 6 }} key={item.id}>
-              <Card
+              <Box
                 data-testid={`community-item-${index}`}
                 sx={{
                   height: '100%',
                   minHeight: { xs: 'auto', md: '500px' },
                   display: 'flex',
                   flexDirection: 'column',
-                  borderRadius: 4,
                   overflow: 'hidden',
-                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                  border: '1px solid rgba(90, 12, 119, 0.08)',
-                  boxShadow: '0 8px 32px rgba(90, 12, 119, 0.1)',
-                  transition:
-                    'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                  contain: 'layout style paint',
-                  '&:hover': {
-                    transform: 'translate3d(0, -12px, 0)',
-                    boxShadow: '0 16px 48px rgba(90, 12, 119, 0.18)',
-                    willChange: 'transform, box-shadow',
-                    '& .community-image': {
-                      transform: 'scale(1.08)',
-                    },
-                    '& .stats-chip': {
-                      transform: 'scale(1.05)',
-                    },
-                  },
                 }}
               >
-                {/* Image */}
+                {/* Full-bleed Image */}
                 <Box
                   sx={{
                     position: 'relative',
                     paddingTop: '56.25%', // 16:9 aspect ratio
                     overflow: 'hidden',
-                    backgroundColor: 'rgba(90, 12, 119, 0.05)',
                   }}
                 >
-                  <CardMedia
+                  <Box
                     component="img"
-                    image={item.image}
+                    src={item.image}
                     alt={item.title}
-                    className="community-image"
                     sx={{
                       position: 'absolute',
                       top: 0,
@@ -121,7 +97,12 @@ export const CommunitySection = memo(({ items }: CommunitySectionProps) => {
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                      display: 'block',
+                      transition:
+                        'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                      '&:hover': {
+                        transform: 'scale(1.03)',
+                      },
                     }}
                   />
 
@@ -145,7 +126,6 @@ export const CommunitySection = memo(({ items }: CommunitySectionProps) => {
                           </Box>
                         </Box>
                       }
-                      className="stats-chip"
                       sx={{
                         position: 'absolute',
                         bottom: 16,
@@ -158,9 +138,6 @@ export const CommunitySection = memo(({ items }: CommunitySectionProps) => {
                         px: 2,
                         py: 2.5,
                         height: 'auto',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                        transition:
-                          'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                         '& .MuiChip-icon': {
                           color: 'primary.main',
                         },
@@ -170,10 +147,10 @@ export const CommunitySection = memo(({ items }: CommunitySectionProps) => {
                 </Box>
 
                 {/* Content */}
-                <CardContent
+                <Box
                   sx={{
                     flexGrow: 1,
-                    p: 4,
+                    pt: 3,
                     display: 'flex',
                     flexDirection: 'column',
                   }}
@@ -200,8 +177,8 @@ export const CommunitySection = memo(({ items }: CommunitySectionProps) => {
                   >
                     {item.description}
                   </Typography>
-                </CardContent>
-              </Card>
+                </Box>
+              </Box>
             </Grid>
           ))}
         </Grid>

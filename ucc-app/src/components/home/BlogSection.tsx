@@ -2,9 +2,6 @@ import {
   Box,
   Container,
   Typography,
-  Card,
-  CardContent,
-  CardMedia,
   Chip,
   Button,
   Grid,
@@ -20,11 +17,10 @@ interface BlogSectionProps {
 
 /**
  * Blog Section Component
- * Features:
- * - Clean, simplified design
- * - 3-column responsive grid
- * - Category chips
- * - Smooth hover effects
+ * Edge-to-edge / bleed layout:
+ * - Full-bleed imagery
+ * - Category chips on images
+ * - Whitespace-defined content boundaries
  */
 export const BlogSection = memo(({ posts }: BlogSectionProps) => {
   return (
@@ -91,7 +87,7 @@ export const BlogSection = memo(({ posts }: BlogSectionProps) => {
         <Grid container spacing={4}>
           {posts.map((post, index) => (
             <Grid size={{ xs: 12, md: 4 }} key={post.id}>
-              <Card
+              <Box
                 component={Link}
                 to={`/blog/${post.slug}`}
                 data-testid={`blog-post-${index}`}
@@ -100,39 +96,22 @@ export const BlogSection = memo(({ posts }: BlogSectionProps) => {
                   display: 'flex',
                   flexDirection: 'column',
                   textDecoration: 'none',
-                  borderRadius: 3,
                   overflow: 'hidden',
-                  backgroundColor: 'background.paper',
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  transition:
-                    'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-                  contain: 'layout style paint',
-                  '&:hover': {
-                    transform: 'translate3d(0, -6px, 0)',
-                    boxShadow: '0 12px 40px rgba(90, 12, 119, 0.12)',
-                    borderColor: 'primary.light',
-                    willChange: 'transform, box-shadow',
-                    '& .blog-image': {
-                      transform: 'scale(1.05)',
-                    },
-                  },
+                  color: 'inherit',
                 }}
               >
-                {/* Post Image */}
+                {/* Full-bleed Post Image */}
                 <Box
                   sx={{
                     position: 'relative',
                     paddingTop: '60%',
                     overflow: 'hidden',
-                    backgroundColor: 'rgba(90, 12, 119, 0.05)',
                   }}
                 >
-                  <CardMedia
+                  <Box
                     component="img"
-                    image={post.image}
+                    src={post.image}
                     alt={post.title}
-                    className="blog-image"
                     sx={{
                       position: 'absolute',
                       top: 0,
@@ -140,7 +119,12 @@ export const BlogSection = memo(({ posts }: BlogSectionProps) => {
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                      display: 'block',
+                      transition:
+                        'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                      '&:hover': {
+                        transform: 'scale(1.03)',
+                      },
                     }}
                   />
                   <Chip
@@ -159,10 +143,10 @@ export const BlogSection = memo(({ posts }: BlogSectionProps) => {
                 </Box>
 
                 {/* Post Content */}
-                <CardContent
+                <Box
                   sx={{
                     flexGrow: 1,
-                    p: 3,
+                    pt: 2.5,
                     display: 'flex',
                     flexDirection: 'column',
                   }}
@@ -208,8 +192,7 @@ export const BlogSection = memo(({ posts }: BlogSectionProps) => {
                       alignItems: 'center',
                       gap: 2,
                       pt: 2,
-                      borderTop: '1px solid',
-                      borderColor: 'divider',
+                      mt: 'auto',
                       fontSize: '0.875rem',
                       color: 'text.secondary',
                     }}
@@ -233,8 +216,8 @@ export const BlogSection = memo(({ posts }: BlogSectionProps) => {
                       </Typography>
                     </Box>
                   </Box>
-                </CardContent>
-              </Card>
+                </Box>
+              </Box>
             </Grid>
           ))}
         </Grid>

@@ -20,13 +20,13 @@ export const LocationFooter = memo(
         component="footer"
         data-testid="location-footer"
         sx={{
-          py: { xs: 4, md: 2 },
+          py: { xs: 5, md: 3 },
           backgroundColor: 'primary.main',
           color: 'white',
         }}
       >
         <Container maxWidth="md">
-          <Stack spacing={0} alignItems="center" textAlign="center">
+          <Stack spacing={1} alignItems="center" textAlign="center">
             <Box
               component="img"
               src={'/images/logo/logo_purple.png'}
@@ -40,7 +40,7 @@ export const LocationFooter = memo(
 
             {/* Address */}
             <Stack direction="row" spacing={1.5} alignItems="center">
-              <LocationOn sx={{ fontSize: 28 }} />
+              <LocationOn sx={{ fontSize: 30 }} />
               <Typography
                 component={mapUrl ? 'a' : 'span'}
                 href={mapUrl}

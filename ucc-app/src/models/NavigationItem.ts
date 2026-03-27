@@ -124,9 +124,6 @@ export class NavigationMenuBuilder {
             new NavigationItem('Worship Team', '/ministries/worship', {
               testId: 'nav-ministries-worship',
             }),
-            new NavigationItem('Community Outreach', '/ministries/outreach', {
-              testId: 'nav-ministries-outreach',
-            }),
             new NavigationItem('Kingdom Komers', '/ministries/kingdom-komers', {
               testId: 'nav-ministries-kingdom-komers',
             }),
@@ -142,6 +139,9 @@ export class NavigationMenuBuilder {
             ),
             new NavigationItem('Men That Bend', '/ministries/men-that-bend', {
               testId: 'nav-ministries-men-that-bend',
+            }),
+            new NavigationItem('Community Outreach', '/ministries/outreach', {
+              testId: 'nav-ministries-outreach',
             }),
           ],
         }),

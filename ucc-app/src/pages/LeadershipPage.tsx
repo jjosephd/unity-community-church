@@ -3,8 +3,6 @@ import {
   Container,
   Typography,
   Grid,
-  Card,
-  CardContent,
   Avatar,
   Divider,
   CircularProgress,
@@ -76,25 +74,14 @@ const LeadershipSection = ({ group }: { group: LeadershipGroup }) => {
         <Grid container spacing={4}>
           {(group.members || []).map((member, index) => (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
-              <Card
-                elevation={0}
+              <Box
                 sx={{
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   textAlign: 'center',
-                  bgcolor: 'transparent',
-                  border: '1px solid',
-                  borderColor: 'divider',
-                  borderRadius: 4,
-                  p: 3,
-                  transition: 'transform 0.2s',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                    borderColor: 'primary.main',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
-                  },
+                  py: 3,
                 }}
               >
                 <Avatar
@@ -104,12 +91,9 @@ const LeadershipSection = ({ group }: { group: LeadershipGroup }) => {
                     width: 120,
                     height: 120,
                     mb: 2,
-                    border: '4px solid',
-                    borderColor: 'background.paper',
-                    boxShadow: '0 5px 15px rgba(0,0,0,0.1)',
                   }}
                 />
-                <CardContent sx={{ p: 0 }}>
+                <Box>
                   <Typography
                     variant="h6"
                     component="h3"
@@ -130,8 +114,8 @@ const LeadershipSection = ({ group }: { group: LeadershipGroup }) => {
                       {member.bio}
                     </Typography>
                   )}
-                </CardContent>
-              </Card>
+                </Box>
+              </Box>
             </Grid>
           ))}
         </Grid>

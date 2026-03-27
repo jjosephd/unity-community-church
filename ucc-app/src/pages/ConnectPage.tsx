@@ -1,12 +1,22 @@
 import { Box, Chip } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import {
   ConnectHero,
   AlternatingGrid,
   LocationFooter,
   type GridItem,
 } from '../components/connect';
+import { useSanityData } from '../hooks/useSanityData';
+import { SITE_SETTINGS_QUERY } from '../lib/sanityQueries';
+import type { SiteSettings } from '../types/sanity';
+
+/* ── Hardcoded fallbacks (used until Sanity data loads) ── */
+const FALLBACK = {
+  address: '3910 Old Buckingham Road, Powhatan, VA 23139',
+  phone: '(804) 256-4411',
+  email: 'info@unitypow.org',
+};
 
 /**
  * Connect page content data
@@ -45,19 +55,27 @@ const connectGridItems: GridItem[] = [
   },
 ];
 
-const churchInfo = {
-  address: '3910 Old Buckingham Road, Powhatan, VA 23139',
-  phone: '(804) 256-4411',
-  email: 'info@unitypow.org',
-  mapUrl:
-    'https://maps.google.com/?q=3910+Old+Buckingham+Road+Powhatan+VA+23139',
-};
-
 /**
  * Connect Page
- * Composes hero, alternating grid, and location footer
+ * Composes hero, alternating grid, and location footer.
+ * Church address / phone / email are pulled from Sanity siteSettings.
  */
 export const ConnectPage = memo(() => {
+  const { data: settings } = useSanityData<SiteSettings>(
+    'siteSettings',
+    SITE_SETTINGS_QUERY,
+  );
+
+  const churchInfo = useMemo(() => {
+    const address = settings?.address || FALLBACK.address;
+    return {
+      address,
+      phone: settings?.phone || FALLBACK.phone,
+      email: settings?.email || FALLBACK.email,
+      mapUrl: `https://maps.google.com/?q=${encodeURIComponent(address)}`,
+    };
+  }, [settings]);
+
   return (
     <Box component="main" data-testid="connect-page">
       <ConnectHero />

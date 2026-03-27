@@ -2,9 +2,6 @@ import {
   Box,
   Container,
   Typography,
-  Card,
-  CardContent,
-  CardMedia,
   Skeleton,
   Select,
   MenuItem,
@@ -54,25 +51,18 @@ function getEmbedUrl(videoUrl: string): string | null {
 /** Shimmer placeholder card shown while data loads. */
 function SermonSkeleton() {
   return (
-    <Card
-      sx={{
-        borderRadius: 3,
-        overflow: 'hidden',
-        border: '1px solid',
-        borderColor: 'divider',
-      }}
-    >
+    <Box sx={{ overflow: 'hidden' }}>
       <Skeleton
         variant="rectangular"
         sx={{ width: '100%', paddingTop: '56.25%' }} // 16:9 aspect ratio
         animation="wave"
       />
-      <CardContent>
+      <Box sx={{ pt: 2 }}>
         <Skeleton width="80%" height={28} />
         <Skeleton width="50%" height={20} sx={{ mt: 1 }} />
         <Skeleton width="40%" height={20} sx={{ mt: 0.5 }} />
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   );
 }
 
@@ -85,18 +75,13 @@ function SermonCard({
   onSelect: (s: Sermon) => void;
 }) {
   return (
-    <Card
+    <Box
       onClick={() => onSelect(sermon)}
       sx={{
         cursor: 'pointer',
-        borderRadius: 3,
         overflow: 'hidden',
-        border: '1px solid',
-        borderColor: 'divider',
-        transition: 'transform 0.2s, box-shadow 0.2s',
-        '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: '0 8px 24px rgba(90, 12, 119, 0.12)',
+        '&:hover .sermon-image': {
+          transform: 'scale(1.03)',
         },
       }}
     >
@@ -104,13 +89,14 @@ function SermonCard({
         sx={{
           position: 'relative',
           width: '100%',
-          aspectRatio: '16 / 9', // 🔥 consistent shape
+          aspectRatio: '16 / 9',
           overflow: 'hidden',
         }}
       >
-        <CardMedia
+        <Box
           component="img"
-          image={
+          className="sermon-image"
+          src={
             sermon.thumbnail
               ? urlFor(sermon.thumbnail)
                   .width(1200)
@@ -124,10 +110,12 @@ function SermonCard({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            display: 'block',
+            transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         />
       </Box>
-      <CardContent>
+      <Box sx={{ pt: 2 }}>
         <Typography
           variant="h6"
           component="h2"
@@ -148,8 +136,8 @@ function SermonCard({
             fontWeight: 500,
           }}
         />
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   );
 }
 

@@ -10,7 +10,7 @@ import { schemaTypes } from './schemaTypes';
  *   *[_id == "siteSettings"][0]
  */
 const SINGLETON_ID = 'siteSettings';
-const SINGLETON_TYPES = new Set(['siteSettings', 'aboutPage', 'homepageSlideshow']);
+const SINGLETON_TYPES = new Set(['siteSettings', 'aboutPage', 'homepageSlideshow', 'communityImpact']);
 
 /**
  * Custom desk structure that enforces the Site Settings singleton pattern:
@@ -53,6 +53,15 @@ const structure = (S: StructureBuilder) =>
             .schemaType('homepageSlideshow')
             .documentId('homepageSlideshow')
             .title('Homepage Slideshow'),
+        ),
+      S.listItem()
+        .title('Community Impact')
+        .id('communityImpact')
+        .child(
+          S.document()
+            .schemaType('communityImpact')
+            .documentId('communityImpact')
+            .title('Community Impact Cards'),
         ),
       S.divider(),
       // All other document types — standard list views

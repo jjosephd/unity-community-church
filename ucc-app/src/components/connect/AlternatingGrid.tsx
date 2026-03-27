@@ -12,8 +12,8 @@ interface AlternatingGridProps {
   items: GridItem[];
 }
 
-const IMAGE_HEIGHT = { xs: 200, md: 450 };
-const ROW_HEIGHT = { xs: 'auto', md: 300 };
+const IMAGE_HEIGHT = { xs: 250, md: 500 };
+const ROW_HEIGHT = { xs: 'auto', md: 350 };
 
 /**
  * Alternating Grid Component
@@ -68,8 +68,7 @@ export const AlternatingGrid = memo(({ items }: AlternatingGridProps) => {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                p: { xs: 3, md: 0 },
-                backgroundColor: 'background.paper',
+                p: { xs: 4, md: 0 },
               }}
             >
               <Typography
