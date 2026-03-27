@@ -1,14 +1,6 @@
-import {
-  Box,
-  Container,
-  Typography,
-  Skeleton,
-  IconButton,
-  Modal,
-  Fade,
-} from '@mui/material';
-import { Close, ChevronLeft, ChevronRight } from '@mui/icons-material';
-import { memo, useState, useEffect, useMemo, useCallback } from 'react';
+import { Box, Container, Typography, Skeleton, IconButton } from '@mui/material';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import { memo, useState, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSanityData } from '../hooks/useSanityData';
 import { MINISTRY_BY_SLUG_QUERY } from '../lib/sanityQueries';
@@ -48,148 +40,15 @@ const optimizedUrl = (img: GalleryImage, width: number) => {
   }
 };
 
-/* ── Sub-components ── */
-
-/** Full-screen lightbox with prev/next navigation. */
-const Lightbox = memo(
-  ({
-    images,
-    index,
-    onClose,
-    onPrev,
-    onNext,
-  }: {
-    images: GalleryImage[];
-    index: number;
-    onClose: () => void;
-    onPrev: () => void;
-    onNext: () => void;
-  }) => {
-    // Keyboard navigation
-    useEffect(() => {
-      const handler = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') onClose();
-        if (e.key === 'ArrowLeft') onPrev();
-        if (e.key === 'ArrowRight') onNext();
-      };
-      window.addEventListener('keydown', handler);
-      return () => window.removeEventListener('keydown', handler);
-    }, [onClose, onPrev, onNext]);
-
-    const img = images[index];
-    if (!img) return null;
-
-    return (
-      <Modal open onClose={onClose} closeAfterTransition>
-        <Fade in>
-          <Box
-            sx={{
-              position: 'fixed',
-              inset: 0,
-              bgcolor: 'rgba(0,0,0,0.92)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 1300,
-            }}
-            onClick={onClose}
-          >
-            {/* Close */}
-            <IconButton
-              onClick={onClose}
-              sx={{
-                position: 'absolute',
-                top: 16,
-                right: 16,
-                color: 'white',
-                bgcolor: 'rgba(255,255,255,0.1)',
-                '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' },
-              }}
-            >
-              <Close />
-            </IconButton>
-
-            {/* Previous */}
-            {images.length > 1 && (
-              <IconButton
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onPrev();
-                }}
-                sx={{
-                  position: 'absolute',
-                  left: { xs: 8, md: 24 },
-                  color: 'white',
-                  bgcolor: 'rgba(255,255,255,0.1)',
-                  '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' },
-                }}
-              >
-                <ChevronLeft fontSize="large" />
-              </IconButton>
-            )}
-
-            {/* Image */}
-            <Box
-              component="img"
-              src={optimizedUrl(img, 1400)}
-              alt={img.alt || 'Gallery image'}
-              onClick={(e: React.MouseEvent) => e.stopPropagation()}
-              sx={{
-                maxWidth: '90vw',
-                maxHeight: '85vh',
-                objectFit: 'contain',
-                borderRadius: 2,
-                boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
-              }}
-            />
-
-            {/* Next */}
-            {images.length > 1 && (
-              <IconButton
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onNext();
-                }}
-                sx={{
-                  position: 'absolute',
-                  right: { xs: 8, md: 24 },
-                  color: 'white',
-                  bgcolor: 'rgba(255,255,255,0.1)',
-                  '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' },
-                }}
-              >
-                <ChevronRight fontSize="large" />
-              </IconButton>
-            )}
-
-            {/* Counter */}
-            <Typography
-              sx={{
-                position: 'absolute',
-                bottom: 20,
-                color: 'rgba(255,255,255,0.7)',
-                fontSize: '0.9rem',
-              }}
-            >
-              {index + 1} / {images.length}
-            </Typography>
-          </Box>
-        </Fade>
-      </Modal>
-    );
-  },
-);
-Lightbox.displayName = 'Lightbox';
-
 /* ── Main Page ── */
 
 /**
  * Ministry Gallery Page
- *
- * Renders a ministry's photo gallery driven by Sanity CMS:
- *   - Hero section with featured image (or coverImage fallback)
- *   - Responsive masonry-style grid of gallery images
- *   - Lightbox with keyboard navigation
+ * 
+ * Layout:
+ * - Hero: Traditional top-level hero component.
+ * - Standalone: Large active dynamic image display.
+ * - Carousel: 3D cascading slide-deck of the gallery.
  */
 export const MinistryGalleryPage = memo(() => {
   const { slug } = useParams<{ slug: string }>();
@@ -199,61 +58,30 @@ export const MinistryGalleryPage = memo(() => {
     { slug },
   );
 
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  /** Combine featured + gallery into a single flat list for the lightbox. */
-  const allImages = useMemo(() => {
-    const imgs: GalleryImage[] = [];
-    if (ministry?.featuredImage) imgs.push(ministry.featuredImage);
-    if (ministry?.gallery) imgs.push(...ministry.gallery);
-    return imgs;
-  }, [ministry]);
+  const galleryImages = useMemo(() => ministry?.gallery ?? [], [ministry]);
 
-  const openLightbox = useCallback((i: number) => setLightboxIndex(i), []);
-  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
-  const prevImage = useCallback(
-    () =>
-      setLightboxIndex((i) =>
-        i !== null ? (i - 1 + allImages.length) % allImages.length : null,
-      ),
-    [allImages.length],
-  );
-  const nextImage = useCallback(
-    () =>
-      setLightboxIndex((i) =>
-        i !== null ? (i + 1) % allImages.length : null,
-      ),
-    [allImages.length],
-  );
+  const prevImage = useCallback(() => {
+    setActiveIndex((i) =>
+      galleryImages.length > 0 ? (i - 1 + galleryImages.length) % galleryImages.length : 0
+    );
+  }, [galleryImages.length]);
+
+  const nextImage = useCallback(() => {
+    setActiveIndex((i) =>
+      galleryImages.length > 0 ? (i + 1) % galleryImages.length : 0
+    );
+  }, [galleryImages.length]);
 
   /* ── Loading state ── */
   if (isLoading) {
     return (
       <Box component="main" sx={{ pt: 8 }}>
-        <Skeleton
-          variant="rectangular"
-          sx={{ width: '100%', height: { xs: '40vh', md: '55vh' } }}
-        />
+        <Skeleton variant="rectangular" sx={{ width: '100%', height: { xs: '40vh', md: '55vh' } }} />
         <Container maxWidth="lg" sx={{ py: 6 }}>
-          <Skeleton width="40%" height={48} sx={{ mb: 2 }} />
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: {
-                xs: 'repeat(2, 1fr)',
-                md: 'repeat(3, 1fr)',
-              },
-              gap: 2,
-            }}
-          >
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Skeleton
-                key={i}
-                variant="rectangular"
-                sx={{ borderRadius: 2, paddingTop: '75%' }}
-              />
-            ))}
-          </Box>
+          <Skeleton variant="rectangular" sx={{ width: '100%', height: '50vh', borderRadius: 4, mb: 4 }} />
+          <Skeleton variant="rectangular" sx={{ width: '100%', height: '30vh', borderRadius: 4 }} />
         </Container>
       </Box>
     );
@@ -268,7 +96,7 @@ export const MinistryGalleryPage = memo(() => {
             Ministry Not Found
           </Typography>
           <Typography color="text.secondary">
-            We couldn't find this ministry. It may not have been set up yet in our system.
+            We couldn't find this ministry. It may not have been set up yet.
           </Typography>
         </Container>
       </Box>
@@ -279,17 +107,14 @@ export const MinistryGalleryPage = memo(() => {
     ? { url: ministry.coverImage, alt: ministry.name, _key: 'cover', assetRef: '' }
     : null);
 
-  const galleryImages = ministry.gallery ?? [];
-
   return (
     <Box component="main" data-testid="ministry-gallery-page">
-      {/* ── Hero Section ── */}
+      {/* ── 1. Hero Section ── */}
       <Box
         sx={{
           position: 'relative',
           height: { xs: '45vh', md: '60vh' },
           overflow: 'hidden',
-          cursor: heroImage ? 'pointer' : 'default',
           '&::after': {
             content: '""',
             position: 'absolute',
@@ -301,7 +126,6 @@ export const MinistryGalleryPage = memo(() => {
             pointerEvents: 'none',
           },
         }}
-        onClick={() => heroImage && openLightbox(0)}
       >
         {heroImage ? (
           <Box
@@ -313,8 +137,6 @@ export const MinistryGalleryPage = memo(() => {
               height: '100%',
               objectFit: 'cover',
               objectPosition: 'center',
-              transition: 'transform 0.4s ease',
-              '&:hover': { transform: 'scale(1.02)' },
             }}
           />
         ) : (
@@ -328,7 +150,6 @@ export const MinistryGalleryPage = memo(() => {
           />
         )}
 
-        {/* Title overlay */}
         <Box
           sx={{
             position: 'absolute',
@@ -370,111 +191,208 @@ export const MinistryGalleryPage = memo(() => {
         </Box>
       </Box>
 
-      {/* ── Gallery Grid ── */}
-      {galleryImages.length > 0 && (
-        <Box sx={{ bgcolor: 'background.default', py: { xs: 4, md: 8 } }}>
+      {/* ── Gallery Section ── */}
+      {galleryImages.length > 0 ? (
+        <Box sx={{ bgcolor: 'background.default', pt: { xs: 6, md: 8 }, pb: { xs: 8, md: 12 }, overflow: 'hidden' }}>
           <Container maxWidth="lg">
+            
+            {/* ── 2. Standalone Dynamic Image ── */}
             <Typography
-              variant="h4"
+              variant="h3"
               component="h2"
               sx={{
-                fontWeight: 700,
+                fontWeight: 800,
                 color: 'primary.main',
                 mb: 4,
-                fontSize: { xs: '1.5rem', md: '2rem' },
+                textAlign: 'center',
+                fontSize: { xs: '2rem', md: '2.5rem' },
               }}
             >
-              Photo Gallery
+              Gallery
             </Typography>
 
             <Box
               sx={{
-                display: 'grid',
-                gridTemplateColumns: {
-                  xs: 'repeat(2, 1fr)',
-                  sm: 'repeat(3, 1fr)',
-                  lg: 'repeat(4, 1fr)',
-                },
-                gap: { xs: 1.5, md: 2.5 },
+                width: '100%',
+                maxWidth: '900px',
+                mx: 'auto',
+                aspectRatio: '16/9',
+                mb: { xs: 6, md: 10 },
+                borderRadius: { xs: 3, md: 4 },
+                overflow: 'hidden',
+                boxShadow: '0 24px 48px rgba(90, 12, 119, 0.2)',
+                position: 'relative',
+                bgcolor: '#000',
               }}
             >
-              {galleryImages.map((img, i) => {
-                // Offset by 1 if featured image exists (it's index 0 in allImages)
-                const lightboxIdx = ministry.featuredImage ? i + 1 : i;
-                return (
-                  <Box
-                    key={img._key}
-                    onClick={() => openLightbox(lightboxIdx)}
-                    sx={{
-                      position: 'relative',
-                      paddingTop: '75%', // 4:3 aspect ratio
-                      borderRadius: 2,
-                      overflow: 'hidden',
-                      cursor: 'pointer',
-                      boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-                      transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-                      '&:hover': {
-                        transform: 'translateY(-4px)',
-                        boxShadow: '0 8px 24px rgba(90, 12, 119, 0.18)',
-                        '& .gallery-overlay': { opacity: 1 },
-                      },
-                    }}
-                  >
-                    <Box
-                      component="img"
-                      src={optimizedUrl(img, 600)}
-                      alt={img.alt || `${ministry.name} gallery`}
-                      loading="lazy"
-                      sx={{
-                        position: 'absolute',
-                        inset: 0,
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        transition: 'transform 0.4s ease',
-                      }}
-                    />
-                    {/* Hover overlay */}
-                    <Box
-                      className="gallery-overlay"
-                      sx={{
-                        position: 'absolute',
-                        inset: 0,
-                        background:
-                          'linear-gradient(transparent 50%, rgba(90, 12, 119, 0.35))',
-                        opacity: 0,
-                        transition: 'opacity 0.3s ease',
-                      }}
-                    />
-                  </Box>
-                );
-              })}
+              {galleryImages.map((img, i) => (
+                <Box
+                  key={`standalone-${img._key}`}
+                  component="img"
+                  src={optimizedUrl(img, 1200)}
+                  alt={img.alt || `${ministry.name} standalone image`}
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    opacity: i === activeIndex ? 1 : 0,
+                    transform: i === activeIndex ? 'scale(1)' : 'scale(1.05)',
+                    transition: 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                    pointerEvents: i === activeIndex ? 'auto' : 'none',
+                  }}
+                />
+              ))}
             </Box>
+
+            {/* ── 3. Cascading Carousel ── */}
+            {galleryImages.length > 1 && (
+              <Box
+                sx={{
+                  position: 'relative',
+                  height: { xs: '200px', md: '350px' },
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  perspective: '1200px',
+                }}
+              >
+                {/* Navigation Buttons */}
+                <IconButton
+                  onClick={prevImage}
+                  sx={{
+                    position: 'absolute',
+                    left: { xs: -10, sm: 20 },
+                    zIndex: 20,
+                    bgcolor: 'white',
+                    color: 'primary.main',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                    '&:hover': { bgcolor: 'primary.50' },
+                  }}
+                >
+                  <ChevronLeft fontSize="large" />
+                </IconButton>
+
+                <IconButton
+                  onClick={nextImage}
+                  sx={{
+                    position: 'absolute',
+                    right: { xs: -10, sm: 20 },
+                    zIndex: 20,
+                    bgcolor: 'white',
+                    color: 'primary.main',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                    '&:hover': { bgcolor: 'primary.50' },
+                  }}
+                >
+                  <ChevronRight fontSize="large" />
+                </IconButton>
+
+                {/* Coverflow Slides */}
+                <Box
+                  sx={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '800px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    transformStyle: 'preserve-3d',
+                  }}
+                >
+                  {galleryImages.map((img, i) => {
+                    // Calculate distance from active index (handles wrap-around for endless feeling if needed, but here simple offset)
+                    let offset = i - activeIndex;
+                    
+                    // Simple wrap-around logic for visual continuity if there are many images
+                    if (offset > galleryImages.length / 2) offset -= galleryImages.length;
+                    if (offset < -galleryImages.length / 2) offset += galleryImages.length;
+
+                    const absOffset = Math.abs(offset);
+                    const isActive = offset === 0;
+
+                    // Hide slides that are too far away
+                    if (absOffset > 3) return null;
+
+                    // CSS Math for Coverflow
+                    // translate X based on offset
+                    const translateX = offset * 45; // percentage of its own width approx
+                    // translate Z pushes it back
+                    const translateZ = isActive ? 0 : -absOffset * 100 - 50;
+                    // rotate Y tilts it away from center
+                    const rotateY = isActive ? 0 : offset > 0 ? -25 : 25;
+                    // scale
+                    const scale = isActive ? 1 : 1 - (absOffset * 0.1);
+                    // opacity
+                    const opacity = isActive ? 1 : 1 - (absOffset * 0.25);
+                    // zIndex
+                    const zIndex = 10 - absOffset;
+
+                    return (
+                      <Box
+                        key={`carousel-${img._key}`}
+                        onClick={() => setActiveIndex(i)}
+                        sx={{
+                          position: 'absolute',
+                          width: { xs: '60%', sm: '45%', md: '40%' },
+                          aspectRatio: '4/3',
+                          borderRadius: { xs: 2, md: 3 },
+                          overflow: 'hidden',
+                          boxShadow: isActive 
+                            ? '0 16px 32px rgba(90, 12, 119, 0.4)' 
+                            : '0 8px 16px rgba(0,0,0,0.2)',
+                          cursor: 'pointer',
+                          transition: 'all 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                          transform: `translateX(${translateX}%) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+                          opacity,
+                          zIndex,
+                        }}
+                      >
+                        <Box
+                          component="img"
+                          src={optimizedUrl(img, 600)}
+                          alt={img.alt || 'Gallery carousel thumbnail'}
+                          sx={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            pointerEvents: 'none', // lets click hit the wrapper
+                          }}
+                        />
+                        {/* Overlay to dim background slides */}
+                        {!isActive && (
+                          <Box
+                            sx={{
+                              position: 'absolute',
+                              inset: 0,
+                              background: 'rgba(0,0,0,0.3)',
+                              transition: 'background 0.6s ease',
+                            }}
+                          />
+                        )}
+                      </Box>
+                    );
+                  })}
+                </Box>
+              </Box>
+            )}
           </Container>
         </Box>
-      )}
-
-      {/* ── Empty gallery state ── */}
-      {galleryImages.length === 0 && !heroImage && (
-        <Container maxWidth="sm" sx={{ py: 10, textAlign: 'center' }}>
-          <Typography variant="h5" sx={{ fontWeight: 600, color: 'text.primary', mb: 2 }}>
-            Photos Coming Soon
-          </Typography>
-          <Typography color="text.secondary">
-            We're working on adding photos for {ministry.name}. Check back soon!
-          </Typography>
-        </Container>
-      )}
-
-      {/* ── Lightbox ── */}
-      {lightboxIndex !== null && (
-        <Lightbox
-          images={allImages}
-          index={lightboxIndex}
-          onClose={closeLightbox}
-          onPrev={prevImage}
-          onNext={nextImage}
-        />
+      ) : (
+        /* ── Empty gallery state ── */
+        !heroImage && (
+          <Container maxWidth="sm" sx={{ py: 10, textAlign: 'center' }}>
+            <Typography variant="h5" sx={{ fontWeight: 600, color: 'text.primary', mb: 2 }}>
+              Photos Coming Soon
+            </Typography>
+            <Typography color="text.secondary">
+              We're working on adding photos for {ministry.name}. Check back soon!
+            </Typography>
+          </Container>
+        )
       )}
     </Box>
   );
