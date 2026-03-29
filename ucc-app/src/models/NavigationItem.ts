@@ -115,15 +115,6 @@ export class NavigationMenuBuilder {
           testId: 'nav-ministries',
           ariaLabel: 'Navigate to Ministries page',
           children: [
-            new NavigationItem('Youth Ministry', '/ministries/youth', {
-              testId: 'nav-ministries-youth',
-            }),
-            new NavigationItem("Children's Ministry", '/ministries/children', {
-              testId: 'nav-ministries-children',
-            }),
-            new NavigationItem('Worship Team', '/ministries/worship', {
-              testId: 'nav-ministries-worship',
-            }),
             new NavigationItem('Kingdom Komers', '/ministries/kingdom-komers', {
               testId: 'nav-ministries-kingdom-komers',
             }),
