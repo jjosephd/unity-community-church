@@ -45,7 +45,6 @@ export const aboutCards: AboutCard[] = [
   },
 ];
 
-
 export const blogPosts: BlogPost[] = [
   {
     id: '1',
@@ -103,7 +102,7 @@ export const contactInfo: ContactInfo = {
   address:
     'Powhatan Village Building, 3910 Old Buckingham Road, Powhatan, VA 23139',
   phone: '(804) 256-4411',
-  email: 'info@unitycommunitychurch.org',
+  email: 'info@ucc4me.org',
   hours: [
     {
       day: 'Sunday',
@@ -116,7 +115,8 @@ export const contactInfo: ContactInfo = {
       details: '@ The Table',
       extraInfo: {
         label: 'View Warm-line & Address',
-        content: 'Phone: 605-313-6129 | Access: 328384# | Address: 3910 Old Buckingham Rd, Powhatan, VA',
+        content:
+          'Phone: 605-313-6129 | Access: 328384# | Address: 3910 Old Buckingham Rd, Powhatan, VA',
       },
     },
     {
