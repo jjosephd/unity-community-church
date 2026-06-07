@@ -47,6 +47,23 @@ export const EVENTS_QUERY = `
 `;
 
 /**
+ * Fetches all events, ordered by date ascending.
+ * Useful for calendar views that need to filter by month client-side.
+ */
+export const ALL_EVENTS_QUERY = `
+  *[_type == "event"] | order(date asc) {
+    _id,
+    title,
+    date,
+    time,
+    location,
+    description,
+    "image": image.asset->url,
+    isRecurring
+  }
+`;
+
+/**
  * Fetches active announcements — those with no expiry or a future expiry.
  *
  * Ordered by priority (highest first), then by publish date (newest first).

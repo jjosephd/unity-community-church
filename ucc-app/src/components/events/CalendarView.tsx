@@ -4,8 +4,10 @@ import {
   IconButton,
   Grid,
   Paper,
-  Card,
-  CardContent,
+  Drawer,
+  useTheme,
+  useMediaQuery,
+  Divider,
 } from '@mui/material';
 import {
   ChevronLeft as ChevronLeftIcon,
@@ -13,6 +15,8 @@ import {
   Event as EventIcon,
   LocationOn as LocationIcon,
   AccessTime as TimeIcon,
+  Close as CloseIcon,
+  Description as DescriptionIcon,
 } from '@mui/icons-material';
 import {
   format,
@@ -27,42 +31,48 @@ import {
   isToday,
   parseISO,
 } from 'date-fns';
-import { useQuery } from '@tanstack/react-query';
 import { useState, useMemo } from 'react';
-import { fetchGoogleCalendarEvents } from '../../lib/googleCalendar';
-import type { GoogleEvent } from '../../lib/googleCalendar';
+import { useSanityData } from '../../hooks/useSanityData';
+import { ALL_EVENTS_QUERY } from '../../lib/sanityQueries';
+import type { Event as SanityEvent } from '../../types/sanity';
 
 const DAYS_OF_WEEK = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export const CalendarView = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
+
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedEvent, setSelectedEvent] = useState<GoogleEvent | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<SanityEvent | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
 
-  // Fetch events for the current month
-  const {
-    data: events = [],
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: [
-      'googleCalendarEvents',
-      monthStart.toISOString(),
-      monthEnd.toISOString(),
-    ],
-    queryFn: () => fetchGoogleCalendarEvents(monthStart, monthEnd),
-  });
+  // Fetch all events from Sanity
+  const { data: allEvents = [] } = useSanityData<SanityEvent[]>(
+    'allEvents',
+    ALL_EVENTS_QUERY,
+  );
+
+  // Filter events for the current month view
+  const events = useMemo(() => {
+    return allEvents.filter((event) => {
+      const eventDate = parseISO(event.date);
+      // We check if the event falls within the visible calendar grid,
+      // which might include days from the previous/next month.
+      const calendarStart = startOfWeek(monthStart);
+      const calendarEnd = endOfWeek(monthEnd);
+      return eventDate >= calendarStart && eventDate <= calendarEnd;
+    });
+  }, [allEvents, monthStart, monthEnd]);
 
   const handlePrevMonth = () => {
     setCurrentDate(subMonths(currentDate, 1));
-    setSelectedEvent(null);
   };
 
   const handleNextMonth = () => {
     setCurrentDate(addMonths(currentDate, 1));
-    setSelectedEvent(null);
   };
 
   // Generate the days for the calendar grid
@@ -74,15 +84,11 @@ export const CalendarView = () => {
 
   // Map events to days
   const eventsByDay = useMemo(() => {
-    const map = new Map<string, GoogleEvent[]>();
+    const map = new Map<string, SanityEvent[]>();
     events.forEach((event) => {
-      const eventStart = event.start.dateTime
-        ? parseISO(event.start.dateTime)
-        : event.start.date
-          ? parseISO(event.start.date)
-          : null;
-      if (eventStart) {
-        const dateKey = format(eventStart, 'yyyy-MM-dd');
+      if (event.date) {
+        // Assume event.date is YYYY-MM-DD
+        const dateKey = event.date.split('T')[0];
         const existing = map.get(dateKey) || [];
         existing.push(event);
         map.set(dateKey, existing);
@@ -91,20 +97,24 @@ export const CalendarView = () => {
     return map;
   }, [events]);
 
-  const handleEventClick = (event: GoogleEvent) => {
+  const handleEventClick = (event: SanityEvent) => {
     setSelectedEvent(event);
+    setDrawerOpen(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setDrawerOpen(false);
   };
 
   return (
     <Box
       sx={{
         display: 'flex',
-        flexDirection: { xs: 'column', lg: 'row' },
-        gap: 4,
+        flexDirection: 'column',
       }}
     >
       {/* Calendar Grid */}
-      <Box sx={{ flex: 2 }}>
+      <Box sx={{ width: '100%' }}>
         <Paper
           elevation={0}
           sx={{
@@ -212,11 +222,11 @@ export const CalendarView = () => {
                     >
                       {dayEvents.slice(0, 3).map((evt) => (
                         <Box
-                          key={evt.id}
+                          key={evt._id}
                           onClick={() => handleEventClick(evt)}
                           sx={{
                             bgcolor:
-                              selectedEvent?.id === evt.id
+                              selectedEvent?._id === evt._id
                                 ? 'primary.dark'
                                 : 'primary.main',
                             color: 'white',
@@ -234,7 +244,7 @@ export const CalendarView = () => {
                             },
                           }}
                         >
-                          {evt.summary}
+                          {evt.title}
                         </Box>
                       ))}
                       {dayEvents.length > 3 && (
@@ -255,192 +265,168 @@ export const CalendarView = () => {
         </Paper>
       </Box>
 
-      {/* Event Details Sidebar */}
-      <Box sx={{ flex: 1, minWidth: { lg: 320 } }}>
-        <Typography
-          variant="h6"
-          sx={{
-            mb: 2,
-            color: 'text.secondary',
-            fontWeight: 600,
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-          }}
-        >
-          Event Details
-        </Typography>
-
-        {isLoading && (
-          <Typography color="text.secondary">
-            Loading calendar events...
-          </Typography>
-        )}
-
-        {error && (
-          <Typography color="error">
-            Error loading events. Please ensure API keys are set.
-          </Typography>
-        )}
-
-        {!isLoading && !selectedEvent && events.length > 0 && (
-          <Card
-            sx={{
-              bgcolor: 'rgba(255,255,255,0.5)',
-              borderRadius: 3,
-              border: '1px dashed rgba(0,0,0,0.1)',
-              boxShadow: 'none',
-            }}
-          >
-            <CardContent>
-              <Typography color="text.secondary" textAlign="center" py={4}>
-                Select an event from the calendar to view details.
-              </Typography>
-            </CardContent>
-          </Card>
-        )}
-
-        {!isLoading && events.length === 0 && !error && (
-          <Card
-            sx={{
-              bgcolor: 'rgba(255,255,255,0.5)',
-              borderRadius: 3,
-              border: '1px dashed rgba(0,0,0,0.1)',
-              boxShadow: 'none',
-            }}
-          >
-            <CardContent>
-              <Typography color="text.secondary" textAlign="center" py={4}>
-                No events scheduled for {format(currentDate, 'MMMM yyyy')}.
-              </Typography>
-            </CardContent>
-          </Card>
-        )}
-
+      {/* Event Details Drawer */}
+      <Drawer
+        anchor={isMobile ? 'bottom' : 'right'}
+        open={drawerOpen}
+        onClose={handleCloseDrawer}
+        PaperProps={{
+          sx: {
+            width: isMobile ? '100%' : 400,
+            maxWidth: '100%',
+            height: isMobile ? '80vh' : '100%',
+            borderTopLeftRadius: isMobile ? 24 : 0,
+            borderTopRightRadius: isMobile ? 24 : 0,
+            p: { xs: 2, sm: 4 },
+            bgcolor: 'background.paper',
+            backgroundImage: 'linear-gradient(to bottom, #ffffff, #fafafa)',
+          },
+        }}
+      >
         {selectedEvent && (
-          <Card
-            sx={{
-              borderRadius: 4,
-              bgcolor: 'white',
-              boxShadow: '0 10px 40px rgba(90, 12, 119, 0.1)',
-              border: '1px solid rgba(0,0,0,0.05)',
-              animation: 'fadeIn 0.3s ease-in-out',
-              '@keyframes fadeIn': {
-                '0%': { opacity: 0, transform: 'translateY(10px)' },
-                '100%': { opacity: 1, transform: 'translateY(0)' },
-              },
-            }}
-          >
-            <CardContent sx={{ p: 4 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                mb: 3,
+              }}
+            >
               <Typography
                 variant="h5"
-                sx={{ color: 'primary.main', fontWeight: 700, mb: 3 }}
+                sx={{
+                  color: 'primary.main',
+                  fontWeight: 700,
+                  pr: 2,
+                  fontFamily: '"Outfit", "Inter", sans-serif',
+                }}
               >
-                {selectedEvent.summary}
+                {selectedEvent.title}
               </Typography>
+              <IconButton
+                onClick={handleCloseDrawer}
+                sx={{
+                  bgcolor: 'rgba(0,0,0,0.04)',
+                  '&:hover': { bgcolor: 'rgba(0,0,0,0.08)' },
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Box>
 
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {/* Event Image */}
+            {selectedEvent.image && typeof selectedEvent.image === 'string' && (
+              <Box
+                component="img"
+                src={selectedEvent.image}
+                alt={selectedEvent.title}
+                sx={{
+                  width: '100%',
+                  height: 200,
+                  objectFit: 'cover',
+                  borderRadius: 3,
+                  mb: 4,
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+                }}
+              />
+            )}
+
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
                 <Box
-                  sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}
+                  sx={{
+                    p: 1.5,
+                    borderRadius: 2,
+                    bgcolor: 'rgba(90, 12, 119, 0.08)',
+                    display: 'flex',
+                  }}
                 >
-                  <EventIcon sx={{ color: 'primary.main', opacity: 0.8 }} />
-                  <Box>
-                    <Typography
-                      variant="subtitle2"
-                      fontWeight={600}
-                      color="text.secondary"
-                    >
-                      Date
-                    </Typography>
-                    <Typography variant="body1">
-                      {selectedEvent.start.dateTime
-                        ? format(
-                            parseISO(selectedEvent.start.dateTime),
-                            'EEEE, MMMM d, yyyy',
-                          )
-                        : selectedEvent.start.date
-                          ? format(
-                              parseISO(selectedEvent.start.date),
-                              'EEEE, MMMM d, yyyy',
-                            )
-                          : 'TBD'}
-                    </Typography>
-                  </Box>
+                  <EventIcon sx={{ color: 'primary.main' }} />
                 </Box>
-
-                {selectedEvent.start.dateTime && (
-                  <Box
-                    sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}
-                  >
-                    <TimeIcon sx={{ color: 'primary.main', opacity: 0.8 }} />
-                    <Box>
-                      <Typography
-                        variant="subtitle2"
-                        fontWeight={600}
-                        color="text.secondary"
-                      >
-                        Time
-                      </Typography>
-                      <Typography variant="body1">
-                        {format(
-                          parseISO(selectedEvent.start.dateTime),
-                          'h:mm a',
-                        )}
-                        {selectedEvent.end.dateTime &&
-                          ` - ${format(parseISO(selectedEvent.end.dateTime), 'h:mm a')}`}
-                      </Typography>
-                    </Box>
-                  </Box>
-                )}
-
-                {selectedEvent.location && (
-                  <Box
-                    sx={{ display: 'flex', gap: 1.5, alignItems: 'flex-start' }}
-                  >
-                    <LocationIcon
-                      sx={{ color: 'primary.main', opacity: 0.8 }}
-                    />
-                    <Box>
-                      <Typography
-                        variant="subtitle2"
-                        fontWeight={600}
-                        color="text.secondary"
-                      >
-                        Location
-                      </Typography>
-                      <Typography variant="body1">
-                        {selectedEvent.location}
-                      </Typography>
-                    </Box>
-                  </Box>
-                )}
+                <Box>
+                  <Typography variant="subtitle2" color="text.secondary" fontWeight={600}>
+                    Date
+                  </Typography>
+                  <Typography variant="body1" fontWeight={500}>
+                    {format(parseISO(selectedEvent.date), 'EEEE, MMMM d, yyyy')}
+                  </Typography>
+                </Box>
               </Box>
 
-              {selectedEvent.description && (
-                <Box
-                  sx={{ mt: 4, pt: 3, borderTop: '1px solid rgba(0,0,0,0.05)' }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    fontWeight={600}
-                    color="text.secondary"
-                    sx={{ mb: 1 }}
-                  >
-                    Description
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ lineHeight: 1.7 }}
-                    dangerouslySetInnerHTML={{
-                      __html: selectedEvent.description,
+              {selectedEvent.time && (
+                <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+                  <Box
+                    sx={{
+                      p: 1.5,
+                      borderRadius: 2,
+                      bgcolor: 'rgba(90, 12, 119, 0.08)',
+                      display: 'flex',
                     }}
-                  />
+                  >
+                    <TimeIcon sx={{ color: 'primary.main' }} />
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="text.secondary" fontWeight={600}>
+                      Time
+                    </Typography>
+                    <Typography variant="body1" fontWeight={500}>
+                      {selectedEvent.time}
+                    </Typography>
+                  </Box>
                 </Box>
               )}
-            </CardContent>
-          </Card>
+
+              {selectedEvent.location && (
+                <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+                  <Box
+                    sx={{
+                      p: 1.5,
+                      borderRadius: 2,
+                      bgcolor: 'rgba(90, 12, 119, 0.08)',
+                      display: 'flex',
+                    }}
+                  >
+                    <LocationIcon sx={{ color: 'primary.main' }} />
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="text.secondary" fontWeight={600}>
+                      Location
+                    </Typography>
+                    <Typography variant="body1" fontWeight={500}>
+                      {selectedEvent.location}
+                    </Typography>
+                  </Box>
+                </Box>
+              )}
+            </Box>
+
+            {selectedEvent.description && (
+              <>
+                <Divider sx={{ my: 4 }} />
+                <Box>
+                  <Box sx={{ display: 'flex', gap: 1.5, mb: 2, alignItems: 'center' }}>
+                    <DescriptionIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+                    <Typography variant="subtitle1" fontWeight={600} color="text.primary">
+                      About this event
+                    </Typography>
+                  </Box>
+                  <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    sx={{
+                      lineHeight: 1.8,
+                      whiteSpace: 'pre-wrap',
+                    }}
+                  >
+                    {selectedEvent.description}
+                  </Typography>
+                </Box>
+              </>
+            )}
+          </Box>
         )}
-      </Box>
+      </Drawer>
     </Box>
   );
 };
